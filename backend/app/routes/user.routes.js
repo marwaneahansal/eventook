@@ -1,21 +1,13 @@
-// module.exports = app => {
-//   const usersController = require('../Controller/user.controller');
-
-//   let router = require('express').Router();
-
-
-//   router.post('/',  usersController.create);
-
-//   app.use('/api/users', router)
-// }
-
 
 const usersController = require('../Controller/user.controller');
+const { body } = require('express-validator');
 
 let router = require('express').Router();
 
 
-router.post('/',  usersController.create);
+router.post('/register', body('email').isEmail(), body('name').isString(), body('password').isLength({ min: 6 }) ,usersController.register);
+router.post('/login', body('email').isEmail(), body('password').isLength({ min: 6 }), usersController.login);
+router.get('/user',  usersController.getLoggedInUser);
 
 
 module.exports = router
