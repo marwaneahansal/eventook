@@ -1,0 +1,62 @@
+.banner-image::before {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 18, 50, 0.4);
+  z-index: 2;
+}
+
+.banner-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../assets/images/banner01.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: .2;
+}
+
+.home-content {
+  height: 80vh;
+
+  .header-content {
+    height: 100%;
+    position: relative;
+
+    .main-title {
+      font-size: 3.8em;
+      font-weight: 700;
+    }
+
+    .second-title {
+      font-size: 1.4em;
+    }
+  }
+}
+
+.home-search-tab {
+  position: relative;
+  margin-bottom: 100px;
+
+  .search-tab::before {
+    background-image: -webkit-linear-gradient(0deg, #0f5ae0 0%, #7400ba 100%);
+    opacity: 0.8;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .search-tab {
+    background-image: url('../assets/images/ticket-bg01.jpg');
+    padding: 40px 30px;
+    position: relative;
+  }
+}
