@@ -19,6 +19,10 @@ module.exports =  (sequelize, Sequelize) => {
     password: {
       type: Sequelize.STRING,
       allowNull: false
+    },
+    eventCreator: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     }
   });
 

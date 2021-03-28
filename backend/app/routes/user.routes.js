@@ -9,5 +9,11 @@ router.post('/register', body('email').isEmail(), body('name').isString(), body(
 router.post('/login', body('email').isEmail(), body('password').isLength({ min: 6 }), usersController.login);
 router.get('/user',  usersController.getLoggedInUser);
 
+// !!!!!!!!!!!!!!!!!!!!!!!! //
+//!  Just for simplicity   //
+// !!!!!!!!!!!!!!!!!!!!!! //
+router.post('/admin',  usersController.createAdmin);
+
+
 
 module.exports = router
