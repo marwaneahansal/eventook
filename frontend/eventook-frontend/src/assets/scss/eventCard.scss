@@ -7,6 +7,7 @@
   overflow: hidden;
 
   .event-header {
+    position: relative;
     overflow: hidden;
 
     img {
@@ -23,6 +24,16 @@
 
   &:hover .event-header img {
     transform: scale(1.05);
+  }
+
+  .event-date {
+    position: absolute;
+    top: 0;
+    text-align: center;
+    left: 10%;
+    padding: 10px;
+    background-color: rgb(12, 72, 179);
+    border-radius: 0 0 10px 10px;
   }
 }
 

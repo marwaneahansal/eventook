@@ -14,7 +14,7 @@
     <search-tab />
 
     <div class="latest-events-showcase">
-      <div class="events-showcase-header mb-5">
+      <div class="events-showcase-header mb-6">
         <div class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between">
           <div>
             <p class="is-size-4 has-text-light is-uppercase has-text-weight-semibold">Events:</p>

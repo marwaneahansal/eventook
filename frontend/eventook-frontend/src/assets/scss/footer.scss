@@ -1,0 +1,36 @@
+.footer-wrapper {
+  margin-top: 8rem;
+  position: relative;
+  width: 100vw;
+  background-image: url('../assets/images/footer-bg.png');
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 10;
+  padding-top: 15%;
+  padding-bottom: 5%;
+
+
+  .footer-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    margin: auto 0;
+  }
+
+  // &::before {
+  //   background-color: #08184b;
+  //   position: absolute;
+  //   content: '';
+  //   bottom: 0;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   z-index: 9;
+  // }
+}
+
