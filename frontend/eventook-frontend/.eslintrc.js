@@ -24,5 +24,6 @@ module.exports = {
       }
     ],
     "no-tabs": ["error", { allowIndentationTabs: true }],
+    "max-len": "off"
   },
 };
