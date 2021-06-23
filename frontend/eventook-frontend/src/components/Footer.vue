@@ -1,14 +1,16 @@
-<template  functional>
+<template>
   <div class="footer-wrapper">
     <div class="footer-container">
       <div class="footer-nav is-flex is-align-items-center is-justify-content-space-between mb-5">
-        <p class="is-size-4 has-text-white has-text-weight-medium">EVENT <span class="has-text-primary">OOK</span></p>
+        <p class="is-size-4 has-text-white has-text-weight-medium" style="cursor: pointer" @click="$router.push({ name: 'Home'}).catch()">
+          EVENT<span class="has-text-primary">OOK</span>
+        </p>
 
         <div class="footer-nav-items is-flex is-flex-diriction-column is-align-items-center is-justify-content-space-evenly">
-          <p class="has-text-white has-text-weight-medium mr-3">Home</p>
-          <p class="has-text-white has-text-weight-medium mr-3">Events</p>
-          <p class="has-text-white has-text-weight-medium mr-3">About us</p>
-          <p class="has-text-white has-text-weight-medium">Contact</p>
+          <p class="has-text-white has-text-weight-medium mr-3" style="cursor: pointer" @click="$router.push({ name: 'Home'}).catch()">Home</p>
+          <p class="has-text-white has-text-weight-medium mr-3" style="cursor: pointer" @click="$router.push({ name: 'Events'}).catch()">Events</p>
+          <p class="has-text-white has-text-weight-medium mr-3" style="cursor: pointer" @click="$router.push({ name: 'Home'}).catch()">About us</p>
+          <p class="has-text-white has-text-weight-medium" style="cursor: pointer" @click="$router.push({ name: 'Home'}).catch()">Contact</p>
         </div>
       </div>
 
