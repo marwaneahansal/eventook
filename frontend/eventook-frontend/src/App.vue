@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <Navbar />
+      <Navbar  class="container"/>
     </div>
-    <router-view class="container"/>
+    <router-view/>
     <div id="footer">
       <Footer />
     </div>
@@ -25,7 +25,7 @@ export default {
 <style lang="scss">
 @import './assets/scss/main';
 
-#nav, .container {
+.container {
   width: 80%;
   margin: 0 auto;
 }

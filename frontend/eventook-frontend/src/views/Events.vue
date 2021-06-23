@@ -1,12 +1,11 @@
 <template>
-  <div class="home">
+  <div class="events">
     <div class="banner-image"></div>
-    <div class="home-content container">
+    <div class="event-content container">
       <div
         class="header-content is-flex is-flex-direction-column
           is-justify-content-center is-align-items-center">
-        <h1 class="is-uppercase main-title">Book your tickets for <br>your favourites
-          <span class="has-text-primary">events</span>
+        <h1 class="is-uppercase main-title">Get <span class="has-text-primary">events</span> tickets
         </h1>
       </div>
     </div>
@@ -20,15 +19,20 @@
             <p class="is-size-4 has-text-light is-uppercase has-text-weight-semibold">Events:</p>
             <div class="primary-line has-background-primary"></div>
           </div>
-          <a href="#" class="is-size-5 has-text-primary is-hover-light">View all</a>
         </div>
         <div class="line has-background-grey"></div>
       </div>
 
-      <div class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between">
-        <event-card class="mb-6 mr-6"/>
-        <event-card class="mb-6 mr-6"/>
-        <event-card class="mb-6"/>
+      <div class="events-wrapper">
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
+        <event-card class="event-card mb-6 mx-4"/>
       </div>
     </div>
   </div>
@@ -48,4 +52,5 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/scss/home';
+@import '../assets/scss/events';
 </style>

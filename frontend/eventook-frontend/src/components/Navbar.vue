@@ -12,7 +12,7 @@
 							<b-navbar-item href="/" class="has-text-white has-text-weight-medium">
 									Home
 							</b-navbar-item>
-							<b-navbar-item href="#" class="has-text-white has-text-weight-medium">
+							<b-navbar-item href="#" class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Events'})">
 									Events
 							</b-navbar-item>
 							<b-navbar-item href="#" class="has-text-white has-text-weight-medium">
