@@ -24,7 +24,7 @@
               <a href="https://www.github.com/marwaneahansal" target="_blank" class="has-text-primary">marwane ahansal</a>
                with
             </p>
-            <img src="../assets/images/heart.svg" alt="heart">
+            <box-icon type='solid' name='heart' color="red"></box-icon>
           </div>
         </div>
       </div>

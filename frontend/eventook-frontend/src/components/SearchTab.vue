@@ -1,6 +1,6 @@
 <template functional>
   <div class="home-search-tab container">
-      <div class="search-tab" data-background="../assets/images/ticket-bg01.jpg">
+      <div class="search-tab">
         <div class="search-tab-content is-flex is-flex-direction-column is-justify-content-center">
             <div class="search-tab-header">
                 <div class="search-ticket-header">

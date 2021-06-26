@@ -4,6 +4,8 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 
+import 'boxicons';
+
 Vue.config.productionTip = false;
 
 Vue.use(Buefy);

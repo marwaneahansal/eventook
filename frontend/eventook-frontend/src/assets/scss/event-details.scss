@@ -54,4 +54,88 @@
     -webkit-text-stroke-color: #dbe2fb;
   }
 
+
+  .event-description {
+    height: 90vh;
+
+    .event-description-text {
+      width: 40%;
+
+      h2 {
+        letter-spacing: 2px;
+      }
+      p {
+        line-height: 1.7;
+      }
+    }
+
+
+    .event-description-thumbnail {
+      height: 100%;
+
+      img {
+        height: 100% !important;
+        transition: all .5s ease-in-out;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+
+  .statistics-wrapper {
+    z-index: 1;
+    position: relative;
+    padding: 60px 0;
+    background-image: url('../assets/images/statistics-bg01.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    &::before {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      content: "";
+      background: #001232;
+      opacity: .75;
+      z-index: -1;
+    }
+
+    .statistics p {
+      width: 40%;
+    }
+
+  }
+
+  .event-stats {
+    z-index: 5;
+    margin-top: -6rem;
+    width: 100%;
+    padding: 60px 40px;
+    background-color: #032055;
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 50px;
+    row-gap: 40px;
+
+
+    .event-stats--card {
+      padding: 10px 15px;
+      background-color: #08378e;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-radius: 7px;
+
+      box-icon {
+        margin-right: 15px;
+      }
+    }
+  }
+
 }
