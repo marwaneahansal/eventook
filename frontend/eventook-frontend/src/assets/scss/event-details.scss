@@ -1,0 +1,57 @@
+.event-details {
+
+  .banner-image::before {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 18, 50, 0.4);
+    z-index: 2;
+  }
+
+  .banner-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/images/event-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: .2;
+  }
+
+  .event-details-content {
+    height: 90vh;
+    position: relative;
+
+    .header-content {
+      height: 70%;
+      position: relative;
+
+      .main-title {
+        font-size: 3.8em;
+        font-weight: 700;
+      }
+
+      .second-title {
+        font-size: 1.4em;
+      }
+    }
+  }
+
+
+  .days-left {
+    position: absolute;
+    width: 100%;
+    font-size: 6rem;
+    opacity: .7;
+    bottom: 0;
+    color: #dbe2fb;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #dbe2fb;
+  }
+
+}

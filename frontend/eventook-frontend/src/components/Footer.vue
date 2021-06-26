@@ -14,10 +14,16 @@
         </div>
       </div>
 
+      <div class="line has-background-grey mb-5"></div>
+
       <div class="footer-copy">
         <div class="footer-nav is-flex is-align-items-center is-justify-content-space-between">
           <div class="is-flex is-align-items-center">
-            <p class="is-size-6 has-text-white has-text-weight-medium mr-1">Made by with</p>
+            <p class="is-size-6 has-text-white has-text-weight-medium mr-1">
+              Made by
+              <a href="https://www.github.com/marwaneahansal" target="_blank" class="has-text-primary">marwane ahansal</a>
+               with
+            </p>
             <img src="../assets/images/heart.svg" alt="heart">
           </div>
         </div>
