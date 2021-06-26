@@ -67,7 +67,7 @@
       </div>
 
       <div class="event-stats--card event-stats--card-1">
-        <box-icon name='calendar-event' color="#009881" size="lg"></box-icon>
+        <box-icon name='carousel' color="#009881" size="lg"></box-icon>
         <div>
           <p class="is-size-5">500</p>
           <p class="has-text-primary">Usefull Sessions</p>
@@ -75,7 +75,7 @@
       </div>
 
       <div class="event-stats--card event-stats--card-1">
-        <box-icon name='calendar-event' color="#009881" size="lg"></box-icon>
+        <box-icon name='user-voice' color="#009881" size="lg"></box-icon>
         <div>
           <p class="is-size-5">15</p>
           <p class="has-text-primary">Talented Speakers</p>
