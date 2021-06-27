@@ -95,6 +95,8 @@
     background-repeat: no-repeat;
 
     &::before {
+      top: 0;
+      left: 0;
       height: 100%;
       width: 100%;
       position: absolute;
@@ -135,6 +137,14 @@
       box-icon {
         margin-right: 15px;
       }
+    }
+  }
+
+  .cta {
+    margin-top: 8rem;
+    button {
+      display: block;
+      margin: 0 auto;
     }
   }
 

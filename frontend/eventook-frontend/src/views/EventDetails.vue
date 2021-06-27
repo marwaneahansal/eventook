@@ -8,7 +8,7 @@
         <h1 class="is-uppercase main-title">
           Best Web technologies - 2020
         </h1>
-        <button class="button is-primary is-large has-text-black mt-3 is-uppercase">Book tickets now</button>
+        <button class="button is-primary is-large has-text-black mt-3 is-uppercase has-text-weight-semibold">Book tickets now</button>
       </div>
       <div class="days-left is-flex is-align-items-center is-justify-content-space-between">
         <span>15d</span>
@@ -40,8 +40,7 @@
       </div>
     </div>
 
-    <div class="container event-stats">
-      <!-- color="#00d1b2" -->
+    <div class="container event-stats mb-6">
       <div class="event-stats--card event-stats--card-1">
         <box-icon name='calendar-event' color="#009881" size="lg"></box-icon>
         <div>
@@ -81,6 +80,11 @@
           <p class="has-text-primary">Talented Speakers</p>
         </div>
       </div>
+    </div>
+
+    <div class="container cta">
+      <h1 class="is-size-3 is-uppercase has-text-primary has-text-centered has-text-weight-semibold">Are you ready to attend?</h1>
+      <button class="button is-primary has-text-black mt-3 is-medium is-uppercase is-rounded has-text-weight-semibold">Book tickets</button>
     </div>
 
   </div>
