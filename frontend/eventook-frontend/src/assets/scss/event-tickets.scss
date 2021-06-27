@@ -1,0 +1,43 @@
+.event-tickets {
+
+  .event-tickets-banner {
+    position: absolute;
+    top: 0;
+    height: 70vh;
+    width: 100%;
+    background-image: url('../assets/images/banner07.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+
+    .event-tickets-banner-bg {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 18, 50, 0.5);
+      z-index: -1;
+    }
+  }
+
+  .event-tickets-content {
+    z-index: 10;
+  }
+
+  .event-info {
+    background-color: #0a1e5e;
+    width: 100%;
+    padding: 20px 0;
+    z-index: 20;
+    position: relative;
+    border-bottom: 1px solid #00348d;
+    border-top: solid 1px #00348d;
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 300px;
+    }
+  }
+}
