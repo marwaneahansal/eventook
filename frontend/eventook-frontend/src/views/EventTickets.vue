@@ -37,6 +37,40 @@
 
       </div>
     </div>
+
+    <div class="event-checkout is-flex columns container mt-6">
+      <div class="checkout-info column is-three-fifths mr-4 p-5">
+        <h2 class="is-size-5 has-text-weight-bold mb-5">Get Your Tickets</h2>
+
+        <div class="event-cards is-flex is-align-items-center is-justify-content-space-between mb-5">
+          <div class="event-card standard is-flex is-flex-direction-column is-align-items-center">
+            <p class="ticket-title mb-4 is-size-5 has-text-white">Standard Ticket</p>
+            <p class="ticket-price is-size-3 has-text-weight-bold">39$</p>
+            <div class="ticket-select is-flex is-align-items-center is-justify-content-center p-1">
+              <box-icon name='plus' color="#001232"></box-icon>
+            </div>
+          </div>
+
+          <div class="event-card premium is-flex is-flex-direction-column is-align-items-center">
+            <p class="ticket-title mb-4 is-size-5 has-text-white">Premium Ticket</p>
+            <p class="ticket-price is-size-3 has-text-weight-bold">69$</p>
+            <div class="ticket-select is-flex is-align-items-center is-justify-content-center p-1">
+              <box-icon name='plus' color="#001232"></box-icon>
+            </div>
+          </div>
+
+          <div class="event-card vip is-flex is-flex-direction-column is-align-items-center">
+            <p class="ticket-title mb-4 is-size-5 has-text-white">Standard Ticket</p>
+            <p class="ticket-price is-size-3 has-text-weight-bold">99$</p>
+            <div class="ticket-select is-flex is-align-items-center is-justify-content-center p-1">
+              <box-icon name='plus' color="#001232"></box-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height: 100px" class="column event-checkout-amount"></div>
+    </div>
   </div>
 </template>
 

@@ -31,13 +31,79 @@
     padding: 20px 0;
     z-index: 20;
     position: relative;
-    border-bottom: 1px solid #00348d;
-    border-top: solid 1px #00348d;
+    border-bottom: 2px solid #00348d;
+    border-top: solid 2px #00348d;
 
     .container {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       column-gap: 300px;
+    }
+  }
+
+
+  .event-checkout {
+    .event-checkout-amount, .checkout-info {
+      background-color: #0a1e5e;
+      border-radius: 8px;
+    }
+
+    .event-card {
+      background-color: #001232;
+      border-radius: 10px;
+      width: 30%;
+      padding: 4rem 1rem;
+
+      &::before {
+        content: "";
+        z-index: -1;
+        top: 0;
+        right: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: #0a1e5e, $alpha: .3);
+      }
+
+      &.standard {
+        position: relative;
+        background-image: url('../assets/images/tickets/ticket-bg-01.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 2;
+      }
+
+      &.premium {
+        position: relative;
+        background-image: url('../assets/images/tickets/ticket-bg-02.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 2;
+      }
+
+      &.vip {
+        position: relative;
+        background-image: url('../assets/images/tickets/ticket-bg-03.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 2;
+      }
+
+      .ticket-price {
+        color: #00dbbb;
+      }
+
+      .ticket-select {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        z-index: 2;
+        bottom: -12px;
+        cursor: pointer;
+      }
     }
   }
 }
