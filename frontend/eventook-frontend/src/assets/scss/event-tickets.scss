@@ -43,6 +43,11 @@
 
 
   .event-checkout {
+    .event-checkout-amount {
+      height: fit-content;
+      padding-bottom: 5rem !important;
+    }
+
     .event-checkout-amount, .checkout-info--tickets, .checkout-info--form {
       background-color: #0a1e5e;
       border-radius: 8px;
@@ -106,19 +111,32 @@
     }
 
     .checkout-input {
-      padding: 0 10px;
-      height: 40px;
-      background-color: #0a1e5e;
-      color: white;
-      outline: none;
-      border: none;
-      border-bottom: 2px solid #1d55bc;
-      color: #b8d4f7;
-      font-size: 16px;
 
-      &::placeholder {
-        color: #8493a8;
+      input {
+        background-color: transparent;
+        border: 1px solid #1d55bc;
+        color: #b8d4f7;
+
+        &::placeholder {
+          color: #8493a8;
+        }
       }
+    }
+
+    .payement-details {
+      input {
+        background-color: transparent;
+        border: 1px solid #1d55bc;
+        color: #b8d4f7;
+
+        &::placeholder {
+          color: #8493a8;
+        }
+      }
+    }
+
+    .border {
+      border-bottom: 1px dotted #b8d4f7;
     }
 
     .ticket-seats {
