@@ -25,6 +25,6 @@ module.exports = {
     ],
     "no-tabs": ["error", { allowIndentationTabs: true }],
     "max-len": "off",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
   },
 };

@@ -43,13 +43,12 @@
 
 
   .event-checkout {
-    .event-checkout-amount, .checkout-info {
+    .event-checkout-amount, .checkout-info--tickets, .checkout-info--form {
       background-color: #0a1e5e;
       border-radius: 8px;
     }
 
     .event-card {
-      background-color: #001232;
       border-radius: 10px;
       width: 30%;
       padding: 4rem 1rem;
@@ -105,5 +104,84 @@
         cursor: pointer;
       }
     }
+
+    .checkout-input {
+      padding: 0 10px;
+      height: 40px;
+      background-color: #0a1e5e;
+      color: white;
+      outline: none;
+      border: none;
+      border-bottom: 2px solid #1d55bc;
+      color: #b8d4f7;
+      font-size: 16px;
+
+      &::placeholder {
+        color: #8493a8;
+      }
+    }
+
+    .ticket-seats {
+
+      .ticket-seats--input {
+
+        position: relative;
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button
+        {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        input[type=number]
+        {
+          -moz-appearance: textfield;
+        }
+
+        input {
+          height: 42px;
+          float: left;
+          display: block;
+          margin: 0;
+          padding: 0 5px;
+          border: 1px solid #1d55bc;
+          text-align: center;
+          background-color: transparent;
+          color: #b8d4f7;
+          font-size: 16px;
+        }
+
+        input:focus {
+          outline: 0;
+        }
+
+        .ticket-seats-button {
+          text-align: center;
+          cursor: pointer;
+          padding: 6px 16px;
+          background-color: transparent;
+          border: 1px solid #1d55bc;
+          font-size: 16px;
+          color: #b8d4f7;
+          user-select: none;
+        }
+
+        .ticket-seats-up {
+          border-right: none;
+          height: 42px;
+          border-radius: 50% 0 0 50%;
+        }
+
+        .ticket-seats-down {
+          border-left: none;
+          height: 42px;
+          border-radius: 0 50% 50% 0;
+        }
+
+      }
+    }
+
   }
+
 }
