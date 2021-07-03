@@ -5,11 +5,11 @@ const db = require('../models');
 const { validationResult } = require('express-validator');
 
 
-const User = db.users;
+const User = db.User;
 
 // Register a new user
 exports.register = async (req, res) => {
-  
+
   try {
     const errors = validationResult(req);
     if(!errors.isEmpty()) return res.status(400).send({ success: false, errors: errors.mapped() });
@@ -19,10 +19,10 @@ exports.register = async (req, res) => {
     const tempUser = await User.findOne({ where: { email: req.body.email }});
 
     if(tempUser !== null) return res.status(400).send({ success: false, message: "Email already in use!" });
-    
+
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    
+
     const user = {
       name: req.body.name,
       email: req.body.email,
@@ -30,12 +30,12 @@ exports.register = async (req, res) => {
       eventCreator: req.body.eventCreator
     }
 
-    
+
     const savedUser = await User.create(user);
 
-    let token = jwt.sign({ id: savedUser.id }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
+    let token = jwt.sign({ uuid: savedUser.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
 
-    res.status(200).send({ 
+    res.status(200).send({
       success: true,
       user: {name: savedUser.name, email: savedUser.email, eventCreator: savedUser.eventCreator },
       token
@@ -55,12 +55,12 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ where: { email: req.body.email }});
 
     if(user === null) return res.status(400).send({ success: false, message: "Email OR password wrong!"});
-    
+
 
     let isValidPassword = await bcrypt.compare(req.body.password, user.password);
     if(!isValidPassword) return res.status(400).send({ success: false, message: "Email OR password wrong!"});
 
-    let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
+    let token = jwt.sign({ uuid: user.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
 
     res.status(200).send({ success: true, user: {name: user.name, email: user.email, eventCreator: user.eventCreator }, token});
 
@@ -74,9 +74,9 @@ exports.getLoggedInUser = async (req, res) => {
 
   try {
     let token = req.headers['authorization'];
-    
+
     if(!token) return res.status(401).send({ success: false, message: 'No token is provided. Try to login again!' });
-  
+
     let tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
 
 
