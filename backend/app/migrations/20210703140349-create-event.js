@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Events', {
-      uuid: {
+      uid: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
