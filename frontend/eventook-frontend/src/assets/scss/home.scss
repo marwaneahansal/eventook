@@ -55,4 +55,10 @@
     height: 2px;
     width: 100%;
   }
+
+  .coming-up-events {
+    display: grid;
+    column-gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

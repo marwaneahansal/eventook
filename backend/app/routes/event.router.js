@@ -7,7 +7,7 @@ let router = require('express').Router();
 
 router.get('/', eventsController.findAll);
 
-router.get('/approved', eventsController.findAllApproved);
+router.get('/showcase', eventsController.findLatestThree);
 
 router.get('/:eventId', eventsController.findOne);
 
@@ -16,7 +16,7 @@ router.put('/:eventId', eventsController.update);
 
 
 router.post(
-  '/', 
+  '/',
   body('title').isString(),
   body('country').isString(),
   body('city').isString(),

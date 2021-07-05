@@ -25,10 +25,11 @@
         <div class="line has-background-grey"></div>
       </div>
 
-      <div class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between">
-        <event-card class="mb-6 mr-6"/>
-        <event-card class="mb-6 mr-6"/>
-        <event-card class="mb-6"/>
+      <div class="coming-up-events mb-6" v-if="events">
+        <event-card
+          v-for="(event, index) in events" :key="index"
+          :event="event"
+        />
       </div>
     </div>
   </div>
@@ -38,11 +39,32 @@
 // @ is an alias to /src
 import SearchTab from '@/components/SearchTab';
 import EventCard from '@/components/EventCard';
+import axios from '@/axios';
 
 export default {
   name: 'Home',
 
+  data() {
+    return {
+      events: null,
+    };
+  },
+
   components: { SearchTab, EventCard },
+
+  methods: {
+    getEventsShowcase() {
+      axios.get('events/showcase')
+        .then((res) => {
+          this.events = res.data.events;
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+
+  created() {
+    this.getEventsShowcase();
+  },
 };
 </script>
 

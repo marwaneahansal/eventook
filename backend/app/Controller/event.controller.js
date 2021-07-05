@@ -55,11 +55,20 @@ exports.create = async (req, res) => {
 
 
 exports.findAll = async (req, res) => {
-  // TODO: pagination
   try {
-    const events = await Event.findAll();
+    const events = await Event.findAll({ where: { approved: true }});
 
     res.status(200).send({ success: false, events });
+  } catch (err) {
+    res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
+  }
+};
+
+exports.findLatestThree = async (req, res) => {
+  try {
+    const events = await Event.findAll({ where: { approved: true }, limit: 3, order: [ ['eventDateStart', 'ASC']]});
+
+    res.status(200).send({ success: true, events });
   } catch (err) {
     res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }
@@ -169,16 +178,5 @@ exports.approveEvent = async (req, res) => {
   }
 };
 
-
-exports.findAllApproved = async (req, res) => {
-  // TODO: pagination
-  try {
-    const events = await Event.findAll({ where: { approved: true }});
-
-    res.status(200).send({ success: true, events });
-  } catch (err) {
-    res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
-  }
-};
 
 

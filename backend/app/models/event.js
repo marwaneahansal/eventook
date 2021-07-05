@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
@@ -19,9 +19,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Event.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING
+    uid: {
+      primaryKey: true,
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4
+    },
+    title: Sequelize.STRING,
+    country: Sequelize.STRING,
+    city: Sequelize.STRING,
+    adresse: Sequelize.STRING,
+    eventDateStart: Sequelize.DATE,
+    eventDateEnd: Sequelize.DATE,
+    maxSeats: Sequelize.INTEGER,
+    description: Sequelize.TEXT,
+    coverImage: Sequelize.STRING,
+    mainImage: Sequelize.STRING,
+    images: Sequelize.JSON,
+    approved: Sequelize.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Event',
