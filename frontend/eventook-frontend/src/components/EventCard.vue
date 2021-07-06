@@ -1,5 +1,5 @@
 <template>
-  <div class="event-wrapper is-flex is-flex-direction-column">
+  <div class="event-wrapper is-flex is-flex-direction-column" @click="$router.push({ name: 'EventDetails', params: { id: event.uid }})">
     <div class="event-header">
       <img src="../assets/images/event02.jpg" alt="event">
       <div class="event-date">

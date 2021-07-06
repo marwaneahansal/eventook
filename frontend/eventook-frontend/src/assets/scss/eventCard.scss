@@ -26,6 +26,10 @@
     transform: scale(1.05);
   }
 
+  &:hover .event-title p {
+    color: #209cee;
+  }
+
   .event-date {
     position: absolute;
     top: 0;
