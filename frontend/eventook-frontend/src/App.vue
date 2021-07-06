@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <Navbar  class="container"/>
-    </div>
-    <router-view/>
-    <div id="footer">
-      <Footer />
+  <div>
+    <div id="app">
+      <div id="nav">
+        <Navbar  class="container"/>
+      </div>
+      <router-view/>
+      <div id="footer">
+        <Footer />
+      </div>
     </div>
   </div>
 </template>

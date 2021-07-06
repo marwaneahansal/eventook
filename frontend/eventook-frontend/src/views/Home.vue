@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <page-loader v-if="!isLoaded"></page-loader>
     <div class="banner-image"></div>
     <div class="home-content container">
       <div
@@ -39,6 +40,7 @@
 // @ is an alias to /src
 import SearchTab from '@/components/SearchTab';
 import EventCard from '@/components/EventCard';
+import PageLoader from '@/components/PageLoader';
 import axios from '@/axios';
 
 export default {
@@ -47,18 +49,24 @@ export default {
   data() {
     return {
       events: null,
+      isLoaded: false,
     };
   },
 
-  components: { SearchTab, EventCard },
+  components: { SearchTab, EventCard, PageLoader },
 
   methods: {
     getEventsShowcase() {
+      this.isLoaded = false;
       axios.get('events/showcase')
         .then((res) => {
+          this.isLoaded = true;
           this.events = res.data.events;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          this.isLoaded = true;
+          console.log(err);
+        });
     },
   },
 
