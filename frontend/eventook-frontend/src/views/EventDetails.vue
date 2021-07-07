@@ -24,7 +24,7 @@
         <div class="event-description-text">
           <h2 class="is-uppercase is-size-3 has-text-weight-bold has-text-primary">{{ event.title }}</h2>
           <p class="is-size-5 ">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, delectus ut maxime aliquid eum consequuntur modi nihil temporibus itaque earum reiciendis ab illo quibusdam nesciunt et labore! Ea, unde ipsam.
+            {{ event.description }}
           </p>
           <button class="button is-primary has-text-black mt-3 is-uppercase is-rounded">Book tickets</button>
         </div>
@@ -46,16 +46,16 @@
         <div class="event-stats--card event-stats--card-1">
           <box-icon name='calendar-event' color="#009881" size="lg"></box-icon>
           <div>
-            <p class="is-size-5">3 Days (Friday-Sunday)</p>
-            <p class="has-text-primary">70+ Workshops</p>
+            <p class="is-size-5">{{ eventDates.eventTotalDays }} Days</p>
+            <p class="has-text-primary">{{ eventDates.eventStartDay }}-{{ eventDates.eventEndDay }}</p>
           </div>
         </div>
 
         <div class="event-stats--card event-stats--card-1">
           <box-icon name='map-pin' color="#009881" size="lg"></box-icon>
           <div>
-            <p class="is-size-5">17 South Sherman Street</p>
-            <p class="has-text-primary">Astoria, NY 11106</p>
+            <p class="is-size-5">{{ event.adresse }}</p>
+            <p class="has-text-primary">{{ `${event.city}, ${event.country}` }}</p>
           </div>
         </div>
 
@@ -99,6 +99,7 @@ import {
   differenceInDays, differenceInHours,
   differenceInMinutes, differenceInSeconds,
   parseISO, addDays, addHours, addMinutes,
+  format,
 } from 'date-fns';
 import axios from '@/axios';
 
@@ -114,6 +115,16 @@ export default {
         seconds: '00',
       },
     };
+  },
+
+  computed: {
+    eventDates() {
+      return {
+        eventTotalDays: differenceInDays(parseISO(this.event.eventDateEnd), parseISO(this.event.eventDateStart)),
+        eventStartDay: format(parseISO(this.event.eventDateStart), 'EEEE'),
+        eventEndDay: format(parseISO(this.event.eventDateEnd), 'EEEE'),
+      };
+    },
   },
 
   watch: {
