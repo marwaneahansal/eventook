@@ -180,24 +180,19 @@ export default {
         minutes: '00',
         seconds: '00',
       },
-      tickets: [
+      tickets: null,
+      ticketsTypes: [
         {
-          id: 1,
           type: 'standard',
           name: 'Standard Ticket',
-          price: 39,
         },
         {
-          id: 2,
           type: 'premium',
           name: 'Premium Ticket',
-          price: 69,
         },
         {
-          id: 3,
           type: 'vip',
           name: 'VIP Ticket',
-          price: 99,
         },
       ],
       selectedTicket: 2,
@@ -238,6 +233,14 @@ export default {
       axios.get(`events/${this.$route.params.id}`)
         .then((res) => {
           this.event = res.data.event;
+          this.tickets = this.event.EventTickets.map((ticket, index) => (
+            {
+              id: index + 1,
+              price: ticket.price,
+              name: this.ticketsTypes[index].name,
+              type: this.ticketsTypes[index].type,
+            }
+          ));
           this.runCountDown(this.event.eventDateStart);
           this.isLoaded = true;
         })

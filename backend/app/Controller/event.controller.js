@@ -6,6 +6,7 @@ const { validationResult } = require('express-validator');
 
 const Event = db.Event;
 const User = db.User;
+const EventTickets = db.EventTickets;
 
 exports.create = async (req, res) => {
   try {
@@ -77,7 +78,7 @@ exports.findLatestThree = async (req, res) => {
 
 exports.findOne = async (req, res) => {
   try {
-    const event = await Event.findByPk(req.params.eventId);
+    const event = await Event.findOne({ where: { uid: req.params.eventId }, include: EventTickets });
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 

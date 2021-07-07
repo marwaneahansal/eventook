@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, {
         foreignKey: 'Organizer',
       });
+
+      this.hasMany(models.EventTickets, {
+        foreignKey: 'eventUid'
+      });
     }
   };
   Event.init({
