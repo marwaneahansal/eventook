@@ -10,7 +10,7 @@
           <h1 class="is-uppercase main-title">
             {{ event.title }}
           </h1>
-          <button class="button is-primary is-large has-text-black mt-3 is-uppercase has-text-weight-semibold">Book tickets now</button>
+          <button class="button is-primary is-large has-text-black mt-3 is-uppercase has-text-weight-semibold" @click="bookTickets">Book tickets now</button>
         </div>
         <div class="days-left is-flex is-align-items-center is-justify-content-space-between">
           <span>{{ eventStartCountDown.days }}d</span>
@@ -26,7 +26,7 @@
           <p class="is-size-5 ">
             {{ event.description }}
           </p>
-          <button class="button is-primary has-text-black mt-3 is-uppercase is-rounded">Book tickets</button>
+          <button class="button is-primary has-text-black mt-3 is-uppercase is-rounded" @click="bookTickets">Book tickets</button>
         </div>
         <div class="event-description-thumbnail">
           <img src="../assets/images/event02.jpg" alt="event thumbnail">
@@ -86,7 +86,7 @@
 
       <div class="container cta">
         <h1 class="is-size-3 is-uppercase has-text-primary has-text-centered has-text-weight-semibold">Are you ready to attend?</h1>
-        <button class="button is-primary has-text-black mt-3 is-medium is-uppercase is-rounded has-text-weight-semibold">Book tickets</button>
+        <button class="button is-primary has-text-black mt-3 is-medium is-uppercase is-rounded has-text-weight-semibold" @click="bookTickets">Book tickets</button>
       </div>
 
     </div>
@@ -165,6 +165,9 @@ export default {
           this.eventStartCountDown.seconds = differenceInSeconds(parseISO(eventStartDate), now);
         }, 1000);
       }
+    },
+    bookTickets() {
+      this.$router.push({ name: 'EventTickets', params: { id: this.$route.params.id } });
     },
   },
 

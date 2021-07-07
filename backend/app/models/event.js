@@ -10,11 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasOne(models.User, {
-        foreignKey: 'id',
-        as: 'Organizer',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
+      this.belongsTo(models.User, {
+        foreignKey: 'Organizer',
       });
     }
   };
@@ -36,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     mainImage: Sequelize.STRING,
     images: Sequelize.JSON,
     approved: Sequelize.BOOLEAN,
+    Organizer: Sequelize.UUID
   }, {
     sequelize,
     modelName: 'Event',

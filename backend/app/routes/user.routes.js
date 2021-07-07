@@ -15,5 +15,4 @@ router.get('/user',  usersController.getLoggedInUser);
 router.post('/admin',  usersController.createAdmin);
 
 
-
 module.exports = router
