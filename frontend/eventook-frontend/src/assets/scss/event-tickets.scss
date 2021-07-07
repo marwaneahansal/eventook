@@ -186,15 +186,15 @@
         }
 
         .ticket-seats-up {
-          border-right: none;
-          height: 42px;
-          border-radius: 50% 0 0 50%;
-        }
-
-        .ticket-seats-down {
           border-left: none;
           height: 42px;
           border-radius: 0 50% 50% 0;
+        }
+
+        .ticket-seats-down {
+          border-right: none;
+          height: 42px;
+          border-radius: 50% 0 0 50%;
         }
 
       }
