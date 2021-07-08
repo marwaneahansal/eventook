@@ -77,14 +77,16 @@
           <div class="checkout-info--form px-4 py-5">
             <h2 class="is-size-5 has-text-weight-bold mb-5">Share Your Contact Details</h2>
 
-            <div class="checkout-form-contact-details is-flex is-align-items-center is-justify-content-space-between mb-4">
+            <div class="checkout-form-contact-details is-flex is-align-items-flex-start is-justify-content-space-between mb-4">
               <div class="checkout-input mr-2 is-flex-grow-1">
                 <label for="full-name">Full Name</label>
-                <input class="input is-flex-grow-1 my-2" type="text" placeholder="John Doe" id="full-name">
+                <input class="input is-flex-grow-1 my-2" type="text" placeholder="John Doe" id="full-name" v-model="fullName">
+                <p class="has-text-danger" v-if="formErrors.fullName">{{ formErrors.fullName }}</p>
               </div>
               <div class="checkout-input ml-2 is-flex-grow-1">
                 <label for="email">Email</label>
-                <input class="input is-flex-grow-1 my-2" type="email" placeholder="johndoe@email.com" id="email">
+                <input class="input is-flex-grow-1 my-2" type="email" placeholder="johndoe@email.com" id="email" v-model="email">
+                <p class="has-text-danger" v-if="formErrors.email">{{ formErrors.email }}</p>
               </div>
             </div>
 
@@ -96,18 +98,21 @@
 
               <div class="payement-details--card-number mb-4">
                 <label for="card-number">Card Number</label>
-                <input class="payement-input my-2 input" type="text" placeholder="1234 5678 9012 3456" id="card-number">
+                <input class="payement-input my-2 input" type="text" placeholder="1234-5678-9012-3456" id="card-number" v-model="cardNumber">
+                <p class="has-text-danger" v-if="formErrors.cardNumber">{{ formErrors.cardNumber }}</p>
               </div>
 
-              <div class="is-flex is-align-items-center is-justify-content-space-between">
+              <div class="is-flex is-align-items-flex-start is-justify-content-space-between">
                 <div class="payement-details--expiry-date is-flex-grow-1 mr-2">
                   <label for="expiry-date">Expiry Date</label>
-                  <input class="payement-input my-2 input" type="text" placeholder="01/22" id="expiry-date">
+                  <input class="payement-input my-2 input" type="text" placeholder="01/22" id="expiry-date" v-model="expiryDate">
+                  <p class="has-text-danger" v-if="formErrors.expiryDate">{{ formErrors.expiryDate }}</p>
                 </div>
 
                 <div class="payement-details--expiry-date is-flex-grow-1 ml-2">
                   <label for="cvv">CVV</label>
-                  <input class="payement-input my-2 input" type="text" placeholder="***" id="cvv" maxlength="3">
+                  <input class="payement-input my-2 input" type="text" placeholder="***" id="cvv" maxlength="3" v-model="cvv">
+                  <p class="has-text-danger" v-if="formErrors.cvv">{{ formErrors.cvv }}</p>
                 </div>
               </div>
             </div>
@@ -150,7 +155,18 @@
           </div>
 
           <div class="is-flex is-justify-content-center my-5">
-            <button class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold" :disabled="!isFormValidated">Proceed Now</button>
+            <button
+              @click="bookTicket"
+              class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold">
+              Proceed Now
+            </button>
+          </div>
+
+          <p class="has-text-centred" v-if="formErrors.selectedTicket">{{ formErrors.selectedTicket }}</p>
+
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center mt-6" v-if="ticketsBooked">
+            <p class="is-size-4 has-text-primary has-text-weight-bold">Purchase Completed!</p>
+            <p class="is-size-4 has-text-primary has-text-weight-bold">Thank you for your booking</p>
           </div>
         </div>
       </div>
@@ -171,7 +187,15 @@ import axios from '@/axios';
 export default {
   data() {
     return {
+      fullName: null,
+      email: null,
+      cardNumber: null,
+      expiryDate: null,
+      cvv: null,
       seatsNumber: 1,
+
+      formErrors: {},
+
       isLoaded: false,
       event: null,
       eventStartCountDown: {
@@ -197,6 +221,8 @@ export default {
       ],
       selectedTicket: 2,
       vat: 20,
+
+      ticketsBooked: false,
     };
   },
 
@@ -216,12 +242,26 @@ export default {
 
       return 0;
     },
-    isFormValidated() {
-      return [1, 2, 3].includes(this.selectedTicket);
-    },
   },
 
   methods: {
+    validateForm() {
+      const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (![1, 2, 3].includes(this.selectedTicket)) this.formErrors.selectedTicket = 'Event Ticket is required';
+
+      if (!this.fullName) this.formErrors.fullName = 'Full Name is required';
+
+      if (!this.cardNumber) this.formErrors.cardNumber = 'Card Number is required';
+
+      if (!this.expiryDate) this.formErrors.expiryDate = 'Card Expiry date is required';
+
+      if (!this.cvv) this.formErrors.cvv = 'Card CVV is required';
+
+      if (!this.email) this.formErrors.email = 'Email is required';
+
+      if (this.email && !emailRegExp.test(this.email.toLowerCase())) this.formErrors.email = 'Please type a valid email';
+    },
     addSeatsNumber() {
       if (this.seatsNumber < 99) this.seatsNumber += 1;
     },
@@ -236,6 +276,7 @@ export default {
           this.tickets = this.event.EventTickets.map((ticket, index) => (
             {
               id: index + 1,
+              ticketId: ticket.id,
               price: ticket.price,
               name: this.ticketsTypes[index].name,
               type: this.ticketsTypes[index].type,
@@ -266,6 +307,32 @@ export default {
         }, 1000);
       }
     },
+    bookTicket() {
+      this.formErrors = {};
+      this.validateForm();
+
+      if (Object.keys(this.formErrors).length === 0) {
+        this.isLoaded = false;
+        const eventTicketId = this.tickets.find((ticket) => ticket.id === this.selectedTicket).ticketId;
+        axios.post(`events/booking/${this.$route.params.id}`, {
+          eventTicketId,
+          fullName: this.fullName,
+          email: this.email,
+          seats: this.seatsNumber,
+        }).then((res) => {
+          this.isLoaded = true;
+          if (res.data.success === true)
+          {
+            this.ticketsBooked = true;
+            this.selectedTicket = 2;
+            this.seatsNumber = 1;
+          }
+        }).catch((err) => {
+          this.isLoaded = true;
+          console.log(err);
+        });
+      }
+    },
   },
 
   created() {
@@ -276,4 +343,5 @@ export default {
 
 <style lang="scss">
 @import '../assets/scss/event-tickets.scss';
+
 </style>
