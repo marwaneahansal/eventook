@@ -321,8 +321,7 @@ export default {
           seats: this.seatsNumber,
         }).then((res) => {
           this.isLoaded = true;
-          if (res.data.success === true)
-          {
+          if (res.data.success === true) {
             this.ticketsBooked = true;
             this.selectedTicket = 2;
             this.seatsNumber = 1;
