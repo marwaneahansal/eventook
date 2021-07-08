@@ -11,9 +11,7 @@ router.get('/showcase', eventsController.findLatestThree);
 
 router.get('/:eventId', eventsController.findOne);
 
-
 router.put('/:eventId', eventsController.update);
-
 
 router.post(
   '/',
@@ -30,16 +28,17 @@ router.post(
   body('images').isObject(),
   eventsController.create);
 
-
 router.delete('/:eventId', eventsController.delete);
-
 
 router.put('/approve/:eventId', eventsController.approveEvent);
 
-
-
-
-
-
+router.post(
+  '/booking/:eventUid',
+  body('eventTicketId').isString(),
+  body('fullName').isString(),
+  body('email').isEmail(),
+  body('seats').isInt(),
+  eventsController.bookTicket
+);
 
 module.exports = router

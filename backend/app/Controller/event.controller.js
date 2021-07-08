@@ -1,12 +1,13 @@
 const db = require('../models');
 const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 
 
 
 const Event = db.Event;
 const User = db.User;
 const EventTickets = db.EventTickets;
+const EventBookings = db.EventBookings;
 
 exports.create = async (req, res) => {
   try {
@@ -174,6 +175,47 @@ exports.approveEvent = async (req, res) => {
 
     await event.update({ approved: true });
     res.status(200).send({ success: true, message: "Event approved successully!", event });
+  } catch (err) {
+    res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
+  }
+};
+
+
+exports.bookTicket = async (req, res) => {
+  try {
+
+    const event = await Event.findByPk(req.params.eventUid);
+
+    if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
+
+    const eventTicket = await EventTickets.findOne({ where: { id: req.body.eventTicketId ,eventUid: event.uid } });
+
+    if(eventTicket === null) return res.status(404).send({ success: false, message: 'Ticket does not belongs to this event!' });
+
+    const booking = await EventBookings.create(
+        {
+          fullName: req.body.fullName,
+          email: req.body.email,
+          eventUid: req.params.eventUid,
+          eventTicketId: req.body.eventTicketId,
+          seats: req.body.seats,
+          // VAT
+          price: (eventTicket.price * parseInt(req.body.seats)) + 20
+        }
+    );
+
+    res.status(200).send(
+      {
+        success: true,
+        booking: {
+          fullName: booking.fullName,
+          email: booking.email,
+          seats: booking.seats,
+          price: booking.price,
+          title: event.title
+        }
+      });
+
   } catch (err) {
     res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }
