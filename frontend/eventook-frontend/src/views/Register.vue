@@ -1,45 +1,116 @@
 <template>
-  <div id="register">
-    <div class="register-wrapper">
-      <div class="register--form px-4 py-5">
-        <h2 class="is-size-4 has-text-weight-bold mb-6 has-text-centered">Welcome aboard 👨‍✈️!</h2>
+  <div>
+    <page-loader v-if="!isLoaded"></page-loader>
+    <div id="register">
+      <div class="register-wrapper">
+        <div class="register--form px-4 py-5">
+          <h2 class="is-size-4 has-text-weight-bold has-text-centered">Welcome aboard 👨‍✈️!</h2>
+          <p class="is-size-5 has-text-danger has-text-centered mt-2" v-if="registerError">{{ registerError }}</p>
 
-        <div class="is-flex is-flex-direction-column is-align-items-center mb-6 px-4">
-          <div class="register-input">
-            <label for="full-name">Full Name</label>
-            <input class="input my-2" type="full-name" placeholder="John Doe" id="full-name">
-            <!-- <p class="has-text-danger" v-if="formErrors.fullName">{{ formErrors.fullName }}</p> -->
+          <div class="is-flex is-flex-direction-column is-align-items-center my-6 px-4">
+            <div class="register-input">
+              <label for="full-name">Full Name</label>
+              <input class="input my-2" type="full-name" placeholder="John Doe" id="full-name" v-model="fullName">
+              <p class="has-text-danger" v-if="formErrors.fullName">{{ formErrors.fullName }}</p>
+            </div>
+
+            <div class="register-input">
+              <label for="email">Email</label>
+              <input class="input my-2" type="email" placeholder="johndoe@email.com" id="email" v-model="email">
+              <p class="has-text-danger" v-if="formErrors.email">{{ formErrors.email }}</p>
+            </div>
+
+            <div class="register-input">
+              <label for="password">Password</label>
+              <input class="input my-2" type="password" placeholder="********************" id="password" v-model="password">
+              <p class="has-text-danger" v-if="formErrors.password">{{ formErrors.password }}</p>
+            </div>
+
+            <div class="register-input">
+              <label for="confirm-password">Confirm Password</label>
+              <input class="input my-2" type="password" placeholder="********************" id="confirm-password" v-model="confirmPassword">
+              <p class="has-text-danger" v-if="formErrors.confirmPassword">{{ formErrors.confirmPassword }}</p>
+            </div>
+
+            <button class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold is-align-self-center mt-5" @click="register">Register</button>
+
+            <p class="mt-3">Already <span class="has-text-primary">EVENTOOK</span> memeber! <a @click="$router.push({ name: 'Login' })" class="has-text-info has-text-weight-semibold">Login to your account</a> </p>
           </div>
-
-          <div class="register-input">
-            <label for="email">Email</label>
-            <input class="input my-2" type="email" placeholder="johndoe@email.com" id="email">
-            <!-- <p class="has-text-danger" v-if="formErrors.fullName">{{ formErrors.fullName }}</p> -->
-          </div>
-
-          <div class="register-input">
-            <label for="password">Password</label>
-            <input class="input my-2" type="password" placeholder="********************" id="password">
-            <!-- <p class="has-text-danger" v-if="formErrors.email">{{ formErrors.email }}</p> -->
-          </div>
-
-          <div class="register-input">
-            <label for="confirm-password">Confirm Password</label>
-            <input class="input my-2" type="confirm-password" placeholder="********************" id="confirm-password">
-            <!-- <p class="has-text-danger" v-if="formErrors.email">{{ formErrors.email }}</p> -->
-          </div>
-
-          <button class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold is-align-self-center mt-5">Register</button>
-
-          <p class="mt-3">Already <span class="has-text-primary">EVENTOOK</span> memeber! <a @click="$router.push({ name: 'Login' })" class="has-text-info has-text-weight-semibold">Login to your account</a> </p>
         </div>
-      </div>
-      <div class="register--illustration is-flex is-justify-content-center">
-        <img src="../assets/images/register.svg" alt="register illustration">
+        <div class="register--illustration is-flex is-justify-content-center">
+          <img src="../assets/images/register.svg" alt="register illustration">
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import PageLoader from '@/components/PageLoader';
+import axios from '@/axios';
+
+export default {
+  data() {
+    return {
+      fullName: null,
+      email: null,
+      password: null,
+      confirmPassword: null,
+
+      isLoaded: true,
+
+      formErrors: {},
+
+      registerError: null,
+    };
+  },
+
+  components: { PageLoader },
+
+  methods: {
+    validateForm() {
+      const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (!this.fullName) this.formErrors.fullName = 'Full Name is required';
+
+      if (!this.email) this.formErrors.email = 'Email is required';
+
+      if (this.email && !emailRegExp.test(this.email.toLowerCase())) this.formErrors.email = 'Please type a valid email';
+
+      if (!this.password) this.formErrors.password = 'Password is required';
+
+      if (!this.confirmPassword) this.formErrors.confirmPassword = 'You need to confirm your password';
+
+      if (this.password && this.confirmPassword && this.password !== this.confirmPassword) this.formErrors.confirmPassword = 'Password and Password confirmation needs to be the same';
+    },
+    register() {
+      this.registerError = null;
+      this.formErrors = {};
+      this.validateForm();
+
+      if (Object.keys(this.formErrors).length === 0) {
+        this.isLoaded = false;
+        axios.post('/users/register', {
+          name: this.fullName,
+          email: this.email,
+          password: this.password,
+          isEventOrganizer: true,
+        })
+          .then((res) => {
+            this.isLoaded = true;
+            if (res.data.user) {
+              console.log('Yeaaaah. register accepted!!');
+            } else if (res.data.success === false && res.data.message) this.registerError = res.data.message;
+            else console.log(res);
+          }).catch((err) => {
+            this.isLoaded = true;
+            console.log(err);
+          });
+      }
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 #register {

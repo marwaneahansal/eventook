@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
 
     const tempUser = await User.findOne({ where: { email: req.body.email }});
 
-    if(tempUser !== null) return res.status(400).send({ success: false, message: "Email already in use!" });
+    if(tempUser !== null) return res.status(200).send({ success: false, message: "Email already in use!" });
 
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -27,7 +27,7 @@ exports.register = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
-      eventCreator: req.body.eventCreator
+      isEventOrganizer: req.body.isEventOrganizer
     }
 
 
@@ -37,7 +37,7 @@ exports.register = async (req, res) => {
 
     res.status(200).send({
       success: true,
-      user: {name: savedUser.name, email: savedUser.email, eventCreator: savedUser.eventCreator },
+      user: {name: savedUser.name, email: savedUser.email, 	isEventOrganizer: savedUser.	isEventOrganizer },
       token
     });
   } catch(err) {
@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
 
     let token = jwt.sign({ uuid: user.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
 
-    res.status(200).send({ success: true, user: {name: user.name, email: user.email, eventCreator: user.eventCreator }, token});
+    res.status(200).send({ success: true, user: {name: user.name, email: user.email, isEventOrganizer: user.isEventOrganizer }, token});
 
   } catch(err) {
     res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
