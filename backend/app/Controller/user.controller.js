@@ -54,11 +54,11 @@ exports.login = async (req, res) => {
 
     const user = await User.findOne({ where: { email: req.body.email }});
 
-    if(user === null) return res.status(400).send({ success: false, message: "Email OR password wrong!"});
+    if(user === null) return res.status(200).send({ success: false, message: "Email OR password wrong!"});
 
 
     let isValidPassword = await bcrypt.compare(req.body.password, user.password);
-    if(!isValidPassword) return res.status(400).send({ success: false, message: "Email OR password wrong!"});
+    if(!isValidPassword) return res.status(200).send({ success: false, message: "Email OR password wrong!"});
 
     let token = jwt.sign({ uuid: user.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
 
