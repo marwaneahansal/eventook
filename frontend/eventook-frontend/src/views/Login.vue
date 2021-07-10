@@ -4,8 +4,8 @@
       <div class="login--illustration is-flex is-justify-content-center">
         <img src="../assets/images/login.svg" alt="login illustration">
       </div>
-      <div class="login--form px-4 py-5">
-        <h2 class="is-size-4 has-text-weight-bold mb-6 has-text-centered">Welcome Back!</h2>
+      <div class="login--form px-4 py-5 is-flex is-flex-direction-column is-justify-content-center">
+        <h2 class="is-size-4 has-text-weight-bold mb-6 has-text-centered">Welcome Back 👨‍✈️!</h2>
 
         <div class="is-flex is-flex-direction-column is-align-items-center mb-6">
           <div class="login-input">
@@ -20,6 +20,8 @@
           </div>
 
           <button class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold is-align-self-center mt-5">Login</button>
+
+          <p class="mt-3">Don't have an account yet! <a @click="$router.push({ name: 'Register'})" class="has-text-info has-text-weight-semibold">Register Now</a> </p>
         </div>
       </div>
     </div>
@@ -28,7 +30,7 @@
 
 <style lang="scss" scoped>
 #login {
-  height: 100vh;
+  // height: 100vh;
   width: 80%;
   margin: 0 auto;
   padding-top: 4rem;
@@ -36,7 +38,7 @@
   .login-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 60%;
+    // grid-template-rows: 60%;
     margin: 0 auto;
   }
 
