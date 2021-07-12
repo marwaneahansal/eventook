@@ -1,6 +1,9 @@
 <template>
   <div>
     <page-loader v-if="!isLoaded"></page-loader>
+
+    <notification title="Hello" message="hahahah"/>
+
     <div id="login">
       <div class="login-wrapper">
         <div class="login--illustration is-flex is-justify-content-center">
@@ -34,6 +37,7 @@
 
 <script>
 import PageLoader from '@/components/PageLoader';
+import Notification from '@/components/Notification';
 import axios from '@/axios';
 
 export default {
@@ -50,7 +54,7 @@ export default {
     };
   },
 
-  components: { PageLoader },
+  components: { PageLoader, Notification },
 
   methods: {
     validateForm() {
