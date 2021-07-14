@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <page-loader v-if="!isLoaded"></page-loader>
     <div class="banner-image"></div>
     <div class="home-content container">
       <div
@@ -40,7 +39,6 @@
 // @ is an alias to /src
 import SearchTab from '@/components/SearchTab';
 import EventCard from '@/components/EventCard';
-import PageLoader from '@/components/PageLoader';
 import axios from '@/axios';
 
 export default {
@@ -49,23 +47,27 @@ export default {
   data() {
     return {
       events: null,
-      isLoaded: false,
     };
   },
 
-  components: { SearchTab, EventCard, PageLoader },
+  components: { SearchTab, EventCard },
 
   methods: {
     getEventsShowcase() {
-      this.isLoaded = false;
+      const loadingComponent = this.$buefy.loading.open();
       axios.get('events/showcase')
         .then((res) => {
-          this.isLoaded = true;
+          loadingComponent.close();
           this.events = res.data.events;
         })
         .catch((err) => {
-          this.isLoaded = true;
-          console.log(err);
+          loadingComponent.close();
+          this.$buefy.notification.open({
+            duration: 5000,
+            message: err.message,
+            position: 'is-bottom-right',
+            type: 'is-danger',
+          });
         });
     },
   },
