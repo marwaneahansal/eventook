@@ -3,6 +3,7 @@
     <div class="register-wrapper">
       <div class="register--form px-4 py-5">
         <h2 class="is-size-4 has-text-weight-bold has-text-centered">Welcome aboard 👨‍✈️!</h2>
+        <p class="has-text-centered">Register to be able to create events</p>
         <p class="is-size-5 has-text-danger has-text-centered mt-2" v-if="registerError">{{ registerError }}</p>
 
         <div class="is-flex is-flex-direction-column is-align-items-center my-6 px-4">
@@ -28,6 +29,12 @@
             <label for="confirm-password">Confirm Password</label>
             <input class="input my-2" type="password" placeholder="********************" id="confirm-password" v-model="confirmPassword">
             <p class="has-text-danger" v-if="formErrors.confirmPassword">{{ formErrors.confirmPassword }}</p>
+          </div>
+
+          <div class="register-input mt-3">
+            <b-field>
+              <b-checkbox :value="true" type="is-info" disabled>Register as an event organizer</b-checkbox>
+            </b-field>
           </div>
 
           <button class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold is-align-self-center mt-5" @click="register">Register</button>
@@ -158,7 +165,14 @@ export default {
         }
       }
     }
+  }
 
+  .checkbox:hover {
+    color: #c6c1b9 !important;
+  }
+
+  .b-checkbox.checkbox[disabled] {
+    opacity: 0.9;
   }
 
 }

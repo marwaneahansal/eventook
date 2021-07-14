@@ -9,19 +9,19 @@
 							</b-navbar-item>
 					</template>
 					<template #end>
-							<b-navbar-item href="/" class="has-text-white has-text-weight-medium">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Home'})">
 									Home
 							</b-navbar-item>
-							<b-navbar-item href="#" class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Events'})">
+							<b-navbar-item class="has-text-white has-text-weight-medium">
 									Events
 							</b-navbar-item>
-							<b-navbar-item href="#" class="has-text-white has-text-weight-medium">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'About'})">
 									About us
 							</b-navbar-item>
-							<b-navbar-item href="#" class="has-text-white has-text-weight-medium">
+							<b-navbar-item class="has-text-white has-text-weight-medium">
 									Contact
 							</b-navbar-item>
-							<b-navbar-item href="#">
+							<b-navbar-item @click="$router.push({ name: 'Register'})">
 									<a class="button is-primary">
 										<strong class="is-uppercase">Join us</strong>
 									</a>

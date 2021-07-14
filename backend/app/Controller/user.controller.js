@@ -57,10 +57,12 @@ exports.login = async (req, res) => {
     if(user === null) return res.status(200).send({ success: false, message: "Email OR password wrong!"});
 
 
-    let isValidPassword = await bcrypt.compare(req.body.password, user.password);
+    const isValidPassword = await bcrypt.compare(req.body.password, user.password);
     if(!isValidPassword) return res.status(200).send({ success: false, message: "Email OR password wrong!"});
 
-    let token = jwt.sign({ uuid: user.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
+    if(!user.isEventOrganizer) return res.status(200).send({ success: false, message: "Login is for events organizers for now!"});
+
+    const token = jwt.sign({ uuid: user.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
 
     res.status(200).send({ success: true, user: {name: user.name, email: user.email, isEventOrganizer: user.isEventOrganizer }, token});
 
