@@ -1,6 +1,7 @@
 
 const eventsController = require('../Controller/event.controller');
 const { body } = require('express-validator');
+const authenticationHandler = require('../middelwares/authentication.middelware');
 
 
 let router = require('express').Router();
@@ -11,7 +12,9 @@ router.get('/showcase', eventsController.findLatestThree);
 
 router.get('/:eventId', eventsController.findOne);
 
-router.put('/:eventId', eventsController.update);
+router.get('/dashboard/events', authenticationHandler, eventsController.findOrganizerEvents);
+
+router.put('/:eventId', authenticationHandler, eventsController.update);
 
 router.post(
   '/',
@@ -26,11 +29,12 @@ router.post(
   body('coverImage').isObject(),
   body('mainImage').isObject(),
   body('images').isObject(),
+  authenticationHandler,
   eventsController.create);
 
-router.delete('/:eventId', eventsController.delete);
+router.delete('/:eventId', authenticationHandler, eventsController.delete);
 
-router.put('/approve/:eventId', eventsController.approveEvent);
+router.put('/approve/:eventId', authenticationHandler, eventsController.approveEvent);
 
 router.post(
   '/booking/:eventUid',

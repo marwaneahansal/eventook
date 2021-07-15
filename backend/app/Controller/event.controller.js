@@ -90,6 +90,17 @@ exports.findOne = async (req, res) => {
 };
 
 
+exports.findOrganizerEvents = async (req, res) => {
+  try  {
+    const { Events } = await User.findOne({ where: { uuid: req.session.user.uuid }, include: Event });
+
+    res.status(200).send({ success: true, Events });
+  } catch (err) {
+    res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
+  }
+};
+
+
 exports.update = async (req, res) => {
   try {
     let token = req.headers['authorization'];

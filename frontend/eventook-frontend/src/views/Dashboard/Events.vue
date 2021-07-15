@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import axios from '@/axios';
+
 export default {
   data() {
     return {
@@ -60,6 +62,12 @@ export default {
         },
       ],
     };
+  },
+
+  created() {
+    axios.get('events/dashboard/events')
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   },
 };
 </script>
