@@ -3,7 +3,7 @@
     <div class="sidebar">
       <side-bar @logout="logout"></side-bar>
     </div>
-    <div class="full_page__content py-6 px-4">
+    <div class="full_page__content py-6 px-4" v-if="userName">
       <h1 class="is-size-4">Welcome <span class="has-text-weight-bold is-uppercase">{{ userName }}</span></h1>
       <router-view class="router-view"/>
     </div>
@@ -38,7 +38,7 @@ export default {
 
   computed: {
     userName() {
-      return this.$store.state.loggedInUser.name || 'user name';
+      return this.$store.state.loggedInUser?.name || null;
     },
   },
 };
@@ -53,5 +53,8 @@ export default {
   .router-view {
     flex: 1;
   }
+}
+.full_page__content {
+  flex: 1;
 }
 </style>

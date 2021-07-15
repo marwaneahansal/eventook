@@ -14,17 +14,17 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'linebreak-style': 0,
-    "indent": ["error", 2],
-    "import/extensions": [
-      "error",
-      "ignorePackages",
+    indent: ['error', 2],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
       {
-        "js": "never",
-        "vue": "never",
-      }
+        js: 'never',
+        vue: 'never',
+      },
     ],
-    "no-tabs": ["error", { allowIndentationTabs: true }],
-    "max-len": "off",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    'no-tabs': ['error', { allowIndentationTabs: true }],
+    'max-len': 'off',
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
 };

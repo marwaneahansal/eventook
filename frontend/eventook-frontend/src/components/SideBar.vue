@@ -22,7 +22,7 @@
           </h1>
           <b-menu>
             <b-menu-list label="Menu">
-              <b-menu-item icon="calendar-multiple" label="Events" disabled></b-menu-item>
+              <b-menu-item icon="calendar-multiple" label="Events" @click="$router.push({ name: 'DashboardEvents'}).catch(() => {})"></b-menu-item>
               <b-menu-item icon="account" label="My Account" disabled></b-menu-item>
             </b-menu-list>
             <b-menu-list label="Actions">
@@ -54,10 +54,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../assets/scss/_variables.scss';
+
 .b-sidebar {
   margin-right: 3rem;
   .sidebar-content {
-    background-color: #011840 !important;
+    background-color: $light-background !important;
 
     .menu-list a {
       color: #ffffff !important;
@@ -74,6 +76,11 @@ export default {
 
     .logo {
       user-select: none;
+    }
+
+    .menu-list a.is-active {
+      background-color: #3f51b5 !important;
+      color: #fff !important;
     }
   }
 }

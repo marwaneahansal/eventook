@@ -1,5 +1,17 @@
+@import "~bulma/sass/utilities/_all";
+
 $main-background: #001232;
 
 $light-background: #032258;
 
 $main-color: #dbe2fb;
+
+$table-background-color: $light-background;
+
+$table-color: $white;
+
+$table-head-cell-color: $main-color;
+
+$table-row-active-background-color: $info-dark;
+
+$table-row-hover-background-color: $info;

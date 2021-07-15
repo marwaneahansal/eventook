@@ -72,7 +72,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (event.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "full-page" */ '../layouts/FullPage.vue'),
+    component: () => import(/* webpackChunkName: "dashboard" */ '../layouts/Dashboard.vue'),
     children: [
       {
         path: '/dashboard/events',
@@ -80,7 +80,7 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (event.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+        component: () => import(/* webpackChunkName: "dashboard-events" */ '../views/Dashboard/Events.vue'),
         meta: {
           authRequired: true,
         },
