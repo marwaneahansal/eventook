@@ -1,73 +1,74 @@
 <template>
-  <div class="mt-6">
-    <h3>Events Organized by you:</h3>
-    <b-table
-      class="mt-4"
-      type="is-dark"
-      :data="data"
-      :columns="columns"
-      :selected.sync="selected"
-      mobile-cards
-      hoverable>
-    </b-table>
+  <div class="mt-6 dashboard-events">
+    <div class="dashboard-events__title  mb-5">
+      <h3 class="is-size-4 has-text-light has-text-weight-semibold">Events Organized by you:</h3>
+      <div class="primary-line has-background-primary"></div>
+    </div>
+
+    <div class="dashboard-events__events">
+      <event-card
+        v-for="(event, index) in events" :key="index"
+        :event="event"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from '@/axios';
+import EventCard from '@/components/EventCard';
 
 export default {
   data() {
     return {
-      data: [
-        {
-          id: 1, first_name: 'Jesse', last_name: 'Simmons', date: '2016-10-15 13:43:27', gender: 'Male',
-        },
-        {
-          id: 2, first_name: 'John', last_name: 'Jacobs', date: '2016-12-15 06:00:53', gender: 'Male',
-        },
-        {
-          id: 3, first_name: 'Tina', last_name: 'Gilbert', date: '2016-04-26 06:26:28', gender: 'Female',
-        },
-        {
-          id: 4, first_name: 'Clarence', last_name: 'Flores', date: '2016-04-10 10:28:46', gender: 'Male',
-        },
-        {
-          id: 5, first_name: 'Anne', last_name: 'Lee', date: '2016-12-06 14:38:38', gender: 'Female',
-        },
-      ],
-      selected: null,
-      columns: [
-        {
-          field: 'id',
-          label: 'ID',
-          width: '40',
-          numeric: true,
-        },
-        {
-          field: 'first_name',
-          label: 'First Name',
-        },
-        {
-          field: 'last_name',
-          label: 'Last Name',
-        },
-        {
-          field: 'date',
-          label: 'Date',
-        },
-        {
-          field: 'gender',
-          label: 'Gender',
-        },
-      ],
+      events: null,
     };
   },
 
+  components: { EventCard },
+
+  methods: {
+    getEvents() {
+      const loadingComponent = this.$buefy.loading.open();
+      axios.get('events/dashboard/events')
+        .then((res) => {
+          this.events = res.data.Events;
+          loadingComponent.close();
+        }).catch((err) => {
+          loadingComponent.close();
+          this.$buefy.notification.open({
+            duration: 5000,
+            message: err.message,
+            position: 'is-bottom-right',
+            type: 'is-danger',
+          });
+        });
+    },
+  },
+
   created() {
-    axios.get('events/dashboard/events')
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    this.getEvents();
   },
 };
 </script>
+
+<style lang="scss">
+.dashboard-events__title {
+  width: fit-content;
+
+  .primary-line {
+    height: 4px;
+    border-radius: 5px;
+    width: 100%;
+    z-index: 10;
+  }
+}
+
+.dashboard-events__events {
+  display: grid;
+  column-gap: 3rem;
+  row-gap: 2rem;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(3, 1fr);
+}
+</style>

@@ -22,6 +22,7 @@
           </h1>
           <b-menu>
             <b-menu-list label="Menu">
+              <b-menu-item icon="home" label="Dashboard" disabled></b-menu-item>
               <b-menu-item icon="calendar-multiple" label="Events" @click="$router.push({ name: 'DashboardEvents'}).catch(() => {})"></b-menu-item>
               <b-menu-item icon="account" label="My Account" disabled></b-menu-item>
             </b-menu-list>
@@ -57,7 +58,6 @@ export default {
 @import '../assets/scss/_variables.scss';
 
 .b-sidebar {
-  margin-right: 3rem;
   .sidebar-content {
     background-color: $light-background !important;
 
@@ -90,10 +90,12 @@ export default {
     flex-direction: column;
     width: 100%;
     min-height: 100vh;
+    height: 100%;
     .sidebar-layout {
-        display: flex;
-        flex-direction: row;
-        min-height: 100vh;
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+      height: 100%;
     }
 }
 @media screen and (max-width: 1023px) {
