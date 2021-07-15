@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -80,6 +81,9 @@ const routes = [
         // this generates a separate chunk (event.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+        meta: {
+          authRequired: true,
+        },
       },
     ],
   },
@@ -92,6 +96,17 @@ const router = new VueRouter({
     if (savedPosition) return { x: savedPosition.x, y: savedPosition.y };
     return { x: 0, y: 0 };
   },
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.authRequired) {
+    store.dispatch('getLoggedInuser').then((res) => {
+      if (res.data.user) next();
+      else next({ name: 'Login' });
+    }).catch(() => router.push({ name: 'Login' }));
+  }
+
+  return next();
 });
 
 export default router;

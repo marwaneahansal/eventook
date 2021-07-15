@@ -26,7 +26,7 @@
               <b-menu-item icon="account" label="My Account" disabled></b-menu-item>
             </b-menu-list>
             <b-menu-list label="Actions">
-              <b-menu-item icon="logout-variant" label="Logout" disabled></b-menu-item>
+              <b-menu-item icon="logout-variant" label="Logout" @click="$emit('logout')"></b-menu-item>
             </b-menu-list>
           </b-menu>
         </div>

@@ -8,6 +8,7 @@ let router = require('express').Router();
 router.post('/register', body('email').isEmail(), body('name').isString(), body('password').isLength({ min: 6 }) ,usersController.register);
 router.post('/login', body('email').isEmail(), body('password').isLength({ min: 6 }), usersController.login);
 router.get('/user',  usersController.getLoggedInUser);
+router.get('/logout',  usersController.logout);
 
 // !!!!!!!!!!!!!!!!!!!!!!!! //
 //!  Just for simplicity   //

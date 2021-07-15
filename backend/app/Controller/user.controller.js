@@ -64,6 +64,8 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ uuid: user.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
 
+    req.session.user = { uuid: user.uuid, email: user.email, name: user.name, isEventOrganizer: user.isEventOrganizer };
+
     res.status(200).send({ success: true, user: {name: user.name, email: user.email, isEventOrganizer: user.isEventOrganizer }, token});
 
   } catch(err) {
@@ -72,23 +74,21 @@ exports.login = async (req, res) => {
 }
 
 
-exports.getLoggedInUser = async (req, res) => {
+exports.getLoggedInUser = (req, res) => {
+  if(req.session.user && req.cookies.user_sid) {
+    const user = req.session.user;
+    res.status(200).send({ success: true, user: { uuid: user.uuid, email: user.email, name: user.name, isEventOrganizer: user.isEventOrganizer }});
+  } else {
+    res.status(401).send({ success: false, message: 'Unauthorized' });
+  }
+}
 
-  try {
-    let token = req.headers['authorization'];
-
-    if(!token) return res.status(401).send({ success: false, message: 'No token is provided. Try to login again!' });
-
-    let tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
-
-
-    const {id, name, email, eventCreator} = await User.findByPk(tokenDecoded.id);
-
-
-    res.status(200).send({ success: true, user: {id, name, email, eventCreator}});
-
-  } catch(err) {
-    res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
+exports.logout = (req, res) => {
+  if (req.session.user && req.cookies.user_sid) {
+    res.clearCookie("user_sid");
+    res.status(200).send({ success: true });
+  } else {
+    res.status(401).send({ success: false, message: 'Unauthorized' });
   }
 }
 

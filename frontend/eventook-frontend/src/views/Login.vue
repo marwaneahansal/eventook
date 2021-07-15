@@ -69,11 +69,12 @@ export default {
             loadingComponent.close();
             if (res.data.user) {
               this.$buefy.notification.open({
-                duration: 5000,
+                duration: 3000,
                 message: 'Loooged In',
                 position: 'is-bottom-right',
                 type: 'is-success',
               });
+              this.$router.push({ name: 'Dashboard' });
             } else if (res.data.success === false && res.data.message) this.loginError = res.data.message;
             else {
               this.$buefy.notification.open({
