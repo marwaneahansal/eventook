@@ -8,8 +8,11 @@
     <div class="dashboard-events__events">
       <event-card
         v-for="(event, index) in events" :key="index"
-        :event="event"
-      />
+        :event="event">
+        <template v-slot:action-buttons>
+          <b-button icon-left="pencil-outline" class="is-size-5" type="is-link is-light" @click="editEvent(event.uid)">Edit</b-button>
+        </template>
+      </event-card>
     </div>
   </div>
 </template>
@@ -44,6 +47,9 @@ export default {
           });
         });
     },
+    editEvent(eventUid) {
+      this.$router.push({ name: 'DashboardEventsEdit', params: { eventUid } });
+    },
   },
 
   created() {
@@ -66,7 +72,7 @@ export default {
 
 .dashboard-events__events {
   display: grid;
-  column-gap: 3rem;
+  column-gap: 2rem;
   row-gap: 2rem;
   grid-auto-rows: 1fr;
   grid-template-columns: repeat(3, 1fr);

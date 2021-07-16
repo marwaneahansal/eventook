@@ -1,15 +1,18 @@
 <template>
-  <div class="event-wrapper is-flex is-flex-direction-column" @click="$router.push({ name: 'EventDetails', params: { id: event.uid }})">
-    <div class="event-header">
-      <img src="../assets/images/event02.jpg" alt="event">
-      <div class="event-date">
-        <p class="is-size-5 has-text-light">{{ formattedDate.date }}</p>
-        <p class="is-uppercase">{{ formattedDate.month }}</p>
+  <div class="event-wrapper is-flex is-flex-direction-column">
+    <div class="event-wrapper_container is-flex is-flex-direction-column is-flex-grow-1" @click="$router.push({ name: 'EventDetails', params: { id: event.uid }})">
+      <div class="event-header">
+        <img src="../assets/images/event02.jpg" alt="event">
+        <div class="event-date">
+          <p class="is-size-5 has-text-light">{{ formattedDate.date }}</p>
+          <p class="is-uppercase">{{ formattedDate.month }}</p>
+        </div>
+      </div>
+      <div class="event-title px-6 py-4 is-flex-grow-1 is-flex is-align-items-center">
+        <p class="is-size-5 has-text-weight-bold truncate">{{ event.title }}</p>
       </div>
     </div>
-    <div class="event-title px-6 py-2 is-flex-grow-1 is-flex is-align-items-center">
-      <p class="is-size-5 has-text-weight-bold">{{ event.title }}</p>
-    </div>
+    <slot name="action-buttons"></slot>
   </div>
 </template>
 

@@ -85,6 +85,17 @@ const routes = [
           authRequired: true,
         },
       },
+      {
+        path: '/dashboard/events/:eventUid',
+        name: 'DashboardEventsEdit',
+        // route level code-splitting
+        // this generates a separate chunk (event.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "event-edit" */ '../views/Dashboard/EventEdit.vue'),
+        meta: {
+          authRequired: true,
+        },
+      },
     ],
   },
 ];

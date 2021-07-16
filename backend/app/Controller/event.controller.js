@@ -103,27 +103,33 @@ exports.findOrganizerEvents = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    let token = req.headers['authorization'];
+    const userUuid = req.session.user.uuid;
+    const user = await User.findByPk(userUuid);
 
-    if(!token) return res.status(401).send({ success: false, message: 'No token is provided. Try to login again!' });
-
-    let tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findByPk(tokenDecoded.id);
+    console.log(user);
 
 
-    if(!user.eventCreator) return res.status(401).send({ success: false, message: 'Unauthorized' });
+    if(!user.isEventOrganizer) return res.status(401).send({ success: false, message: 'Unauthorized' });
 
 
     const event = await Event.findByPk(req.params.eventId);
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 
-    if(event.approved || event.UserId !== tokenDecoded.id) return res.status(404).send({ success: false, message: "You can't update this event!" });
+    if(event.approved || event.Organizer !== userUuid) return res.status(401).send({ success: false, message: "You can't update this event!" });
 
-    await event.update(req.body);
+    await event.update({
+      title: req.body.title,
+      country: req.body.country,
+      city: req.body.city,
+      adresse: req.body.adresse,
+      eventDateStart: req.body.eventDateStart,
+      eventDateEnd: req.body.eventDateEnd,
+      description: req.body.description,
+      maxSeats: req.body.maxSeats
+    });
 
-    res.status(200).send({ success: true, message: "Event updated successully!", event });
+    res.status(200).send({ success: true, message: "Event updated successfully!", event });
   } catch (err) {
     res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }

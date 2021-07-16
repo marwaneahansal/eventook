@@ -22,12 +22,14 @@
     background-color: $light-background;
   }
 
-  &:hover .event-header img {
-    transform: scale(1.05);
-  }
+  .event-wrapper_container {
+    &:hover .event-header img {
+      transform: scale(1.05);
+    }
 
-  &:hover .event-title p {
-    color: #209cee;
+    &:hover .event-title p {
+      color: #209cee;
+    }
   }
 
   .event-date {
@@ -38,6 +40,12 @@
     padding: 10px;
     background-color: rgb(12, 72, 179);
     border-radius: 0 0 10px 10px;
+  }
+
+  .truncate {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 
