@@ -2,6 +2,7 @@
 const eventsController = require('../Controller/event.controller');
 const { body } = require('express-validator');
 const authenticationHandler = require('../middelwares/authentication.middelware');
+const imageUpload = require('../middelwares/imageUpload.middelware');
 
 
 let router = require('express').Router();
@@ -14,7 +15,7 @@ router.get('/:eventId', eventsController.findOne);
 
 router.get('/dashboard/events', authenticationHandler, eventsController.findOrganizerEvents);
 
-router.put('/:eventId', authenticationHandler, eventsController.update);
+router.put('/:eventId', [authenticationHandler, imageUpload.single('mainImageFile')], eventsController.update);
 
 router.post(
   '/',

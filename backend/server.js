@@ -55,8 +55,8 @@ const eventRoutes = require('./app/routes/event.router');
 
 app.use('/api/users', userRoutes);
 
-const cpUpload = imageUpload.fields([{ name: 'coverImage', maxCount: 1}, { name: 'mainImage', maxCount: 1}, { name: 'images', maxCount: 4}]);
-app.use('/api/events', cpUpload, eventRoutes);
+// const cpUpload = imageUpload.fields([{ name: 'coverImage', maxCount: 1}, { name: 'mainImage', maxCount: 1}, { name: 'images', maxCount: 4}]);
+app.use('/api/events', eventRoutes);
 
 
 app.get('/', (req, res) => {

@@ -106,28 +106,32 @@ exports.update = async (req, res) => {
     const userUuid = req.session.user.uuid;
     const user = await User.findByPk(userUuid);
 
-    console.log(user);
-
-
     if(!user.isEventOrganizer) return res.status(401).send({ success: false, message: 'Unauthorized' });
-
 
     const event = await Event.findByPk(req.params.eventId);
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 
-    if(event.approved || event.Organizer !== userUuid) return res.status(401).send({ success: false, message: "You can't update this event!" });
+    if(event.approved) return res.status(401).send({ success: false, message: "You can't update this event because it's approved!" });
 
-    await event.update({
-      title: req.body.title,
-      country: req.body.country,
-      city: req.body.city,
-      adresse: req.body.adresse,
-      eventDateStart: req.body.eventDateStart,
-      eventDateEnd: req.body.eventDateEnd,
-      description: req.body.description,
-      maxSeats: req.body.maxSeats
-    });
+    if(event.Organizer !== userUuid) return res.status(401).send({ success: false, message: "You can't update this event" });
+
+    // await event.update({
+    //   title: req.body.title,
+    //   country: req.body.country,
+    //   city: req.body.city,
+    //   adresse: req.body.adresse,
+    //   eventDateStart: req.body.eventDateStart,
+    //   eventDateEnd: req.body.eventDateEnd,
+    //   description: req.body.description,
+    //   maxSeats: req.body.maxSeats
+    // });
+
+    // if(req.file && req.file.fieldname === 'mainImageFile') {
+    //   await event.update({
+    //     mainImage: req.file.filename
+    //   });
+    // }
 
     res.status(200).send({ success: true, message: "Event updated successfully!", event });
   } catch (err) {

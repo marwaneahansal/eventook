@@ -8,6 +8,7 @@ if(!fs.existsSync(uplodDir)) {
   fs.mkdirSync(uplodDir);
 }
 
+const mimeTypes = ['image/png', 'image/jpg', 'image/jpge'];
 
 let storage = Multer.diskStorage({
   destination: (req, file, cb) => {
@@ -15,11 +16,16 @@ let storage = Multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' +  file.originalname);
-  }
+  },
 });
 
 let upload =  Multer({
-  storage: storage 
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if(!mimeTypes.includes(file.mimetype)) return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+
+    cb(null, true);
+  }
 });
 
 

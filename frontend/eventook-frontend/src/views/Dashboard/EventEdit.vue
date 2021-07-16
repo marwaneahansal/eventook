@@ -59,14 +59,14 @@
         <b-field label="Maximum Seats" class="mr-2" style="width: 50%;">
           <b-numberinput type="is-info" v-model="editedEvent.maxSeats" placeholder="500" :min="1" controls-position="compact" controls-rounded></b-numberinput>
         </b-field>
-        <b-field class="file is-info is-align-self-flex-end"  :class="{'has-name': !!file2}" style="width: 50%;">
-          <b-upload v-model="file2" class="file-label" rounded>
+        <b-field class="file is-info is-align-self-flex-end"  :class="{'has-name': !!imageFile}" style="width: 50%;">
+          <b-upload v-model="imageFile" class="file-label" rounded>
             <span class="file-cta">
               <b-icon class="file-icon" icon="upload"></b-icon>
               <span class="file-label">Click to upload Event Cover</span>
             </span>
-            <span class="file-name" v-if="file2">
-              {{ file2.name }}
+            <span class="file-name" v-if="imageFile">
+              {{ imageFile.name }}
             </span>
           </b-upload>
         </b-field>
@@ -74,7 +74,7 @@
 
       <div class="is-flex is-flex-grow-1 is-align-items-center mt-5">
         <b-button type="is-primary" class="mr-4 has-text-black" @click="updateEvent">Save Changes</b-button>
-        <b-button type="is-warning" class="has-text-black">Reset</b-button>
+        <b-button type="is-warning" class="has-text-black" @click="resetEvent">Reset</b-button>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@ export default {
       showWeekNumber: false,
       enableSeconds: false,
       hourFormat: '12',
-      file2: null,
+      imageFile: null,
       eventDateStart: null,
       eventDateEnd: null,
     };
@@ -106,6 +106,10 @@ export default {
     'editedEvent.eventDateEnd': function () {
       this.eventDateEnd = new Date(this.editedEvent.eventDateEnd);
     },
+    // eslint-disable-next-line
+    'editedEvent.maxSeats': function () {
+      this.editedEvent.maxSeats = parseInt(this.editedEvent.maxSeats, 10);
+    },
   },
 
   methods: {
@@ -114,7 +118,7 @@ export default {
       axios.get(`events/${this.$route.params.eventUid}`)
         .then((res) => {
           this.event = res.data.event;
-          this.editedEvent = Object.assign(this.event);
+          this.editedEvent = { ...this.event };
           loadingComponent.close();
         }).catch((err) => {
           loadingComponent.close();
@@ -128,12 +132,23 @@ export default {
     },
     updateEvent() {
       const loadingComponent = this.$buefy.loading.open();
+      const formData = new FormData();
       const updatedEventReq = { ...this.editedEvent, eventDateStart: this.eventDateStart, eventDateEnd: this.eventDateEnd };
 
-      axios.put(`events/${this.$route.params.eventUid}`, updatedEventReq)
+      if (this.imageFile) formData.append('mainImageFile', this.imageFile);
+
+      Object.keys(updatedEventReq).forEach((key) => {
+        formData.append(key, updatedEventReq[key]);
+      });
+
+      axios.put(`events/${this.$route.params.eventUid}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
         .then((res) => {
           this.event = res.data.event;
-          this.editedEvent = Object.assign(this.event);
+          this.editedEvent = { ...this.event };
           loadingComponent.close();
           this.$buefy.notification.open({
             duration: 5000,
@@ -150,6 +165,9 @@ export default {
             type: 'is-danger',
           });
         });
+    },
+    resetEvent() {
+      this.editedEvent = { ...this.event };
     },
   },
 
