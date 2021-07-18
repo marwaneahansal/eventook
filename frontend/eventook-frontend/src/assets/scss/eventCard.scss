@@ -5,24 +5,33 @@
   position: relative;
   border-radius: 10px;
   overflow: hidden;
+  background-color: $light-background;
 
   .event-header {
     position: relative;
     overflow: hidden;
+    padding: 5px;
+    overflow: hidden;
 
     img {
+      border-radius: 10px;
       width: 100%;
       display: block;
-      transition: all .5s ease-in-out;
+      transition: transform .5s ease-in-out;
     }
   }
 
   .event-title {
     margin-top: 0px;
     background-color: $light-background;
+    p {
+      transition: color .5s ease-in-out;
+    }
   }
 
   .event-wrapper_container {
+
+
     &:hover .event-header img {
       transform: scale(1.05);
     }

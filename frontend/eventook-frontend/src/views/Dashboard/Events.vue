@@ -1,8 +1,7 @@
 <template>
-  <div class="mt-6 dashboard-events">
-    <div class="dashboard-events__title  mb-5">
-      <h3 class="is-size-4 has-text-light has-text-weight-semibold">Events Organized by you:</h3>
-      <div class="primary-line has-background-primary"></div>
+  <div class="dashboard-events">
+    <div class="dashboard-events__title mb-5">
+      <h3 class="is-size-4 has-text-light">Events Organized by you:</h3>
     </div>
 
     <div class="dashboard-events__events">
@@ -10,7 +9,7 @@
         v-for="(event, index) in events" :key="index"
         :event="event">
         <template v-slot:action-buttons>
-          <b-button icon-left="pencil-outline" class="is-size-5" type="is-link is-light" @click="editEvent(event.uid)">Edit</b-button>
+          <b-button icon-left="pencil-outline" class="is-size-5 edit-button" type="is-info is-light" @click="editEvent(event.uid)">Edit</b-button>
         </template>
       </event-card>
     </div>
@@ -59,15 +58,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/_variables.scss';
+
 .dashboard-events__title {
   width: fit-content;
-
-  .primary-line {
-    height: 4px;
-    border-radius: 5px;
-    width: 100%;
-    z-index: 10;
-  }
 }
 
 .dashboard-events__events {
@@ -76,5 +70,10 @@ export default {
   row-gap: 2rem;
   grid-auto-rows: 1fr;
   grid-template-columns: repeat(3, 1fr);
+
+  .edit-button {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
 }
 </style>

@@ -1,8 +1,7 @@
 <template>
   <div v-if="event">
     <div class="edit-events__title  mb-5">
-      <h3 class="is-size-4 has-text-light has-text-weight-semibold">Edit: {{ event.title }}</h3>
-      <div class="primary-line has-background-primary"></div>
+      <h3 class="is-size-4 has-text-light">Edit: {{ event.title }}</h3>
     </div>
     <div class="edit-events__form is-flex is-flex-direction-column">
       <div class="is-flex is-align-items-center mb-4">
@@ -180,13 +179,6 @@ export default {
 <style lang="scss">
 .edit-events__title {
   width: fit-content;
-
-  .primary-line {
-    height: 4px;
-    border-radius: 5px;
-    width: 100%;
-    z-index: 10;
-  }
 }
 
 label {

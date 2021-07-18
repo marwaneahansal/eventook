@@ -1,6 +1,6 @@
 @import "~bulma/sass/utilities/_all";
 @import "./variables";
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css');
 * {
     padding: 0;
@@ -13,7 +13,7 @@ body {
   color: $main-color !important;
   line-height: 28px;
   background: $main-background !important;
-  font-family: 'Nunito', sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 $custom-colors: null !default;
