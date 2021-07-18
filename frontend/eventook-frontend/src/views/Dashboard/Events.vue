@@ -8,6 +8,10 @@
       <event-card
         v-for="(event, index) in events" :key="index"
         :event="event">
+        <template v-slot:approve-state>
+          <b-tag :type="event.approved ? 'is-success' : 'is-warning'">{{ event.approved ? 'Approved' : 'Not Approved' }}</b-tag>
+        </template>
+
         <template v-slot:action-buttons>
           <div class="is-flex">
             <b-button icon-left="pencil-outline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="editEvent(event.uid)">Edit</b-button>
@@ -113,6 +117,10 @@ export default {
 
   .delete-button {
     border-radius: 0 0 4px 0 !important;
+  }
+
+  .tag {
+    width: fit-content;
   }
 }
 

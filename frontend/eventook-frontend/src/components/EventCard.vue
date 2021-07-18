@@ -8,8 +8,9 @@
           <p class="is-uppercase">{{ formattedDate.month }}</p>
         </div>
       </div>
-      <div class="event-title p-3 is-flex-grow-1 is-flex is-align-items-center">
+      <div class="event-title p-3 is-flex-grow-1 is-flex is-flex-direction-column">
         <p class="is-size-5 truncate">{{ event.title }}</p>
+        <slot name="approve-state"></slot>
       </div>
     </div>
     <slot name="action-buttons"></slot>
