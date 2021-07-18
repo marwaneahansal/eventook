@@ -42,7 +42,7 @@ module.exports = {
       },
       coverImage: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       mainImage: {
         type: Sequelize.STRING,
@@ -50,7 +50,7 @@ module.exports = {
       },
       images: {
         type: Sequelize.JSON,
-        allowNull: false
+        allowNull: true
       },
       approved: {
         type: Sequelize.BOOLEAN,

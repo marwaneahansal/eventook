@@ -23,13 +23,10 @@ router.post(
   body('country').isString(),
   body('city').isString(),
   body('adresse').isString(),
-  body('eventDateStart').isDate(),
-  body('eventDateEnd').isDate(),
+  body('eventDateStart').isString(),
+  body('eventDateEnd').isString(),
   body('maxSeats').isInt(),
   body('description').isString(),
-  body('coverImage').isObject(),
-  body('mainImage').isObject(),
-  body('images').isObject(),
   authenticationHandler,
   eventsController.create);
 

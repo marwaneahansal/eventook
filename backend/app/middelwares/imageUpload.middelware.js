@@ -8,7 +8,7 @@ if(!fs.existsSync(uplodDir)) {
   fs.mkdirSync(uplodDir);
 }
 
-const mimeTypes = ['image/png', 'image/jpg', 'image/jpge'];
+const mimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
 let storage = Multer.diskStorage({
   destination: (req, file, cb) => {

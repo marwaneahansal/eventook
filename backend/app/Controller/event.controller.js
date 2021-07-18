@@ -12,19 +12,14 @@ const EventBookings = db.EventBookings;
 exports.create = async (req, res) => {
   try {
     const errors = validationResult(req);
-    if(!errors.isEmpty()) res.status(400).send({ success: false, errors: errors.mapped() });
+    if(!errors.isEmpty()) res.status(400).send({ success: false, message: 'Validation Error',errors: errors.mapped() });
 
 
-    let token = req.headers['authorization'];
-
-    if(!token) return res.status(401).send({ success: false, message: 'No token is provided. Try to login again!' });
-
-    let tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findByPk(tokenDecoded.id);
+    const userUuid = req.session.user.uuid;
+    const user = await User.findByPk(userUuid);
 
 
-    if(!user.eventCreator) return res.status(401).send({ success: false, message: 'Unauthorized' });
+    if(!user.isEventOrganizer) return res.status(401).send({ success: false, message: 'Unauthorized' });
 
     const event = {
       title: req.body.title,
@@ -35,21 +30,14 @@ exports.create = async (req, res) => {
       eventDateEnd: req.body.eventDateEnd,
       maxSeats: req.body.maxSeats,
       description: req.body.description,
-      coverImage: req.files['coverImage'][0].filename,
-      mainImage: req.files['mainImage'][0].filename,
-      images: {
-        image_1: req.files['images'][0].filename ? req.files['images'][0].filename : null,
-        image_2: req.files['images'][1].filename ? req.files['images'][1].filename : null,
-        image_3: req.files['images'][2].filename ? req.files['images'][2].filename : null,
-        image_4: req.files['images'][3].filename ? req.files['images'][3].filename : null
-      },
-      UserId: user.id
+      mainImage: req.file.filename,
+      Organizer: user.uuid
     }
-
 
     const savedEvent = await Event.create(event);
 
-    res.status(200).send({ success: true, event: savedEvent });
+    res.status(200).send({ success: true, event: savedEvent, message: 'Event created successfully' });
+
   } catch(err) {
     res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }

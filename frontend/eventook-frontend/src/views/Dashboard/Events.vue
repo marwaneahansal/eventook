@@ -1,7 +1,8 @@
 <template>
   <div class="dashboard-events">
-    <div class="dashboard-events__title mb-5">
+    <div class="dashboard-events__title mb-6 is-flex is-align-items-center is-justify-content-space-between">
       <h3 class="is-size-4 has-text-light">Events Organized by you:</h3>
+      <b-button type="is-info" icon-left="plus" @click="newEvent">New Event</b-button>
     </div>
 
     <div class="dashboard-events__events">
@@ -53,6 +54,9 @@ export default {
           });
         });
     },
+    newEvent() {
+      this.$router.push({ name: 'DashboardAddEvents' });
+    },
     editEvent(eventUid) {
       this.$router.push({ name: 'DashboardEventsEdit', params: { eventUid } });
     },
@@ -99,10 +103,6 @@ export default {
 
 <style lang="scss">
 @import '../../assets/scss/_variables.scss';
-
-.dashboard-events__title {
-  width: fit-content;
-}
 
 .dashboard-events__events {
   display: grid;
