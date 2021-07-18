@@ -9,7 +9,10 @@
         v-for="(event, index) in events" :key="index"
         :event="event">
         <template v-slot:action-buttons>
-          <b-button icon-left="pencil-outline" class="is-size-5 edit-button" type="is-info is-light" @click="editEvent(event.uid)">Edit</b-button>
+          <div class="is-flex">
+            <b-button icon-left="pencil-outline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="editEvent(event.uid)">Edit</b-button>
+            <b-button icon-left="delete-outline" class="is-size-5 delete-button is-flex-grow-1" type="is-danger is-light" @click="deleteEventDialog(event.uid)">Delete</b-button>
+          </div>
         </template>
       </event-card>
     </div>
@@ -49,6 +52,39 @@ export default {
     editEvent(eventUid) {
       this.$router.push({ name: 'DashboardEventsEdit', params: { eventUid } });
     },
+    deleteEventDialog(eventUid) {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting event',
+        message: 'Are you sure you want to <b>delete</b> this event? This action cannot be undone.',
+        confirmText: 'Delete Event',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.deleteEvent(eventUid),
+      });
+    },
+    deleteEvent(eventUid) {
+      const loadingComponent = this.$buefy.loading.open();
+
+      axios.delete(`events/${eventUid}`)
+        .then((res) => {
+          loadingComponent.close();
+          this.events = res.data.Events;
+          this.$buefy.notification.open({
+            duration: 5000,
+            message: res.data.message,
+            position: 'is-bottom-right',
+            type: 'is-success',
+          });
+        }).catch((err) => {
+          loadingComponent.close();
+          this.$buefy.notification.open({
+            duration: 5000,
+            message: err.response.data.message || err.message,
+            position: 'is-bottom-right',
+            type: 'is-danger',
+          });
+        });
+    },
   },
 
   created() {
@@ -72,8 +108,33 @@ export default {
   grid-template-columns: repeat(3, 1fr);
 
   .edit-button {
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
+    border-radius: 0 0 0 4px !important;
+  }
+
+  .delete-button {
+    border-radius: 0 0 4px 0 !important;
+  }
+}
+
+.modal-card {
+  .modal-card-head, .modal-card-foot {
+    background: #001232 !important;
+
+    p {
+      color: #fff !important;
+    }
+  }
+
+  .modal-card-head {
+    border-bottom-color: #565656 !important;
+  }
+
+  .modal-card-foot {
+    border-top-color: #565656 !important;
+  }
+
+  .modal-card-body {
+    background-color: $light-background;
   }
 }
 </style>
