@@ -1,6 +1,7 @@
 const db = require('../models');
 const jwt = require('jsonwebtoken');
-const { validationResult, body } = require('express-validator');
+const { validationResult } = require('express-validator');
+const path = require("path");
 
 
 
@@ -227,6 +228,19 @@ exports.bookTicket = async (req, res) => {
     res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }
 };
+
+exports.getEventImages = async (req, res) => {
+  try {
+    const event = await Event.findOne({ where: { uid: req.params.eventUid } });
+
+    if(!event || (!event.approved && req.session.user.uuid !== event.Organizer)) return res.status(404);
+
+    res.sendFile(event.mainImage, { root: path.join('app/uploads') });
+
+  } catch (err) {
+    res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
+  }
+}
 
 
 

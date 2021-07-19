@@ -43,4 +43,6 @@ router.post(
   eventsController.bookTicket
 );
 
+router.get('/images/:eventUid', eventsController.getEventImages);
+
 module.exports = router

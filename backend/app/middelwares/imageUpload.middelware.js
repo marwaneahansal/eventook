@@ -2,7 +2,7 @@ const fs = require('fs');
 const Multer = require('multer');
 const path = require('path');
 
-const uplodDir =  path.join(__dirname, '../../../frontend/uploads');
+const uplodDir =  path.join(__dirname, '../uploads');
 
 if(!fs.existsSync(uplodDir)) {
   fs.mkdirSync(uplodDir);
@@ -25,7 +25,8 @@ let upload =  Multer({
     if(!mimeTypes.includes(file.mimetype)) return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
 
     cb(null, true);
-  }
+  },
+  limits: { fileSize: 2 * 1024 * 1024 }
 });
 
 

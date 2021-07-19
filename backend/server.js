@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
+// app.use("/images", express.static(path.join("app/assets")));
+
 app.use(
   session({
     key: "user_sid",
@@ -49,12 +51,12 @@ const imageUpload = require('./app/middelwares/imageUpload.middelware');
 const userRoutes = require('./app/routes/user.routes');
 const eventRoutes = require('./app/routes/event.router');
 
-
 app.use('/api/users', userRoutes);
 
 // const cpUpload = imageUpload.fields([{ name: 'coverImage', maxCount: 1}, { name: 'mainImageFile', maxCount: 1}, { name: 'images', maxCount: 4}]);
 const cpUpload = imageUpload.single('mainImageFile');
 app.use('/api/events', cpUpload, eventRoutes);
+
 
 
 app.get('/', (req, res) => {
