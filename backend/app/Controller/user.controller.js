@@ -79,7 +79,7 @@ exports.getLoggedInUser = (req, res) => {
     const user = req.session.user;
     res.status(200).send({ success: true, user: { uuid: user.uuid, email: user.email, name: user.name, isEventOrganizer: user.isEventOrganizer }});
   } else {
-    res.status(401).send({ success: false, message: 'Unauthorized' });
+    res.status(200).send({ success: false, user: null });
   }
 }
 

@@ -124,6 +124,24 @@ export default {
           });
       }
     },
+    isUserLoggedIn() {
+      this.$store.dispatch('getLoggedInuser')
+        .then((res) => {
+          if (res.data.user) {
+            this.$buefy.notification.open({
+              duration: 5000,
+              message: 'Already logged in!',
+              position: 'is-bottom-right',
+              type: 'is-warning',
+            });
+            this.$router.push({ name: 'Dashboard' });
+          }
+        }).catch(() => { });
+    },
+  },
+
+  created() {
+    this.isUserLoggedIn();
   },
 };
 </script>

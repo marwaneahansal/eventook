@@ -9,27 +9,67 @@
 							</b-navbar-item>
 					</template>
 					<template #end>
-							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Home'})">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Home'}).catch(() => { })">
 									Home
 							</b-navbar-item>
 							<b-navbar-item class="has-text-white has-text-weight-medium">
 									Events
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'About'})">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'About'}).catch(() => { })">
 									About us
 							</b-navbar-item>
 							<b-navbar-item class="has-text-white has-text-weight-medium">
 									Contact
 							</b-navbar-item>
-							<b-navbar-item @click="$router.push({ name: 'Register'})">
+							<div class="is-flex" v-if="!isLoggedIn">
+								<b-navbar-item @click="$router.push({ name: 'Login'}).catch(() => { })" class="has-text-white has-text-weight-medium">
+										Login
+								</b-navbar-item>
+								<b-navbar-item @click="$router.push({ name: 'Register'}).catch(() => { })">
 									<a class="button is-primary">
 										<strong class="is-uppercase">Join us</strong>
 									</a>
+								</b-navbar-item>
+							</div>
+							<b-navbar-item @click="$router.push({ name: 'Dashboard'}).catch(() => { })" v-else>
+								<a class="button is-primary">
+									<strong>Dashboard</strong>
+								</a>
 							</b-navbar-item>
 					</template>
 			</b-navbar>
 	</div>
 </template>
+
+<script>
+export default {
+
+  data() {
+    return {
+      isLoggedIn: false,
+    };
+  },
+
+  methods: {
+    isUserLoggedIn() {
+      this.$store.dispatch('getLoggedInuser')
+        .then((res) => {
+          if (res.data.user) this.isLoggedIn = true;
+          else this.isLoggedIn = false;
+        }).catch(() => {
+          this.isLoggedIn = false;
+          this.$router.push({ name: 'Login' }).catch(() => {});
+        });
+    },
+  },
+
+  created() {
+    this.isUserLoggedIn();
+  },
+
+};
+</script>
+
 <style lang="scss" scoped>
 @import "../assets/scss/_variables";
 
