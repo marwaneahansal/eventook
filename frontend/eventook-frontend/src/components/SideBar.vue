@@ -28,6 +28,7 @@
                 icon="calendar-multiple"
                 label="Events"
                 @click="$router.push({ name: 'DashboardEvents' }).catch(() => {})"
+                :class="{'is-active': $route.name === 'DashboardEvents'}"
               ></b-menu-item>
               <b-menu-item icon="account" label="My Account" disabled></b-menu-item>
             </b-menu-list>
@@ -60,6 +61,10 @@ export default {
       reduce: false,
     };
   },
+
+  created() {
+    console.log(this.$route);
+  },
 };
 </script>
 
@@ -87,8 +92,8 @@ export default {
       user-select: none;
     }
 
-    .menu-list a.is-active {
-      background-color: #3f51b5 !important;
+    li.is-active, a.is-active {
+      background-color: #0045b8 !important;
       color: #fff !important;
     }
   }

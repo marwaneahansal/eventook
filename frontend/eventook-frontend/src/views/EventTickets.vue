@@ -51,7 +51,7 @@
               class="event-card is-flex is-flex-direction-column is-align-items-center"
             >
               <p class="ticket-title mb-4 is-size-5 has-text-white">{{ ticket.name }}</p>
-              <p class="ticket-price is-size-3 has-text-weight-bold">{{ ticket.price }}$</p>
+              <p class="ticket-price is-size-4 has-text-weight-semibold">{{ ticket.price }}$</p>
               <div
                 @click="selectedTicket = ticket.id"
                 :class="{'has-background-primary': selectedTicket === ticket.id}"
