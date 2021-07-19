@@ -1,11 +1,11 @@
 <template>
-  <div class="dashboard-events">
+  <div class="dashboard-events" v-if="events" >
     <div class="dashboard-events__title mb-6 is-flex is-align-items-center is-justify-content-space-between">
       <h3 class="is-size-4 has-text-light">Events Organized by you:</h3>
       <b-button type="is-info" icon-left="plus" @click="newEvent">New Event</b-button>
     </div>
 
-    <div class="dashboard-events__events">
+    <div class="dashboard-events__events" v-if="events.length > 0">
       <event-card
         v-for="(event, index) in events" :key="index"
         :event="event">
@@ -20,6 +20,10 @@
           </div>
         </template>
       </event-card>
+    </div>
+    <div v-else class="emptyState is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
+      <img :src="require('@/assets/images/emptyState.svg')" alt="no events are created yet">
+      <p>No Events Yet</p>
     </div>
   </div>
 </template>
@@ -143,6 +147,12 @@ export default {
 
   .modal-card-body {
     background-color: $light-background;
+  }
+}
+
+.emptyState {
+  img {
+    width: 300px;
   }
 }
 </style>

@@ -58,7 +58,6 @@ export default {
           else this.isLoggedIn = false;
         }).catch(() => {
           this.isLoggedIn = false;
-          this.$router.push({ name: 'Login' }).catch(() => {});
         });
     },
   },

@@ -1,10 +1,12 @@
 <template>
-  <div class="event-details container">
-    <b-message type="is-danger" has-icon v-if="!event" style="margin-top: 4rem">
-      <p>This event does not exist on our database!</p>
-      <p>Check all <a href="/events">Events here</a></p>
-    </b-message>
-    <div v-else>
+  <div class="event-details">
+    <div class="container">
+      <b-message type="is-danger" has-icon style="margin-top: 4rem" v-if="isEventNotFound">
+        <p>This event does not exist on our database!</p>
+        <p>Check all <a href="/events">Events here</a></p>
+      </b-message>
+    </div>
+    <div v-if="event">
       <div class="banner-image"></div>
       <div class="event-details-header container mb-6">
         <div
@@ -115,6 +117,7 @@ export default {
         minutes: '00',
         seconds: '00',
       },
+      isEventNotFound: false,
     };
   },
 
@@ -151,6 +154,7 @@ export default {
             position: 'is-bottom-right',
             type: 'is-danger',
           });
+          if (err.response.status === 404) this.isEventNotFound = true;
         });
     },
     runCountDown(eventStartDate) {

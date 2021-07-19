@@ -72,6 +72,12 @@ exports.findOne = async (req, res) => {
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 
+    if(!event.approved) {
+      if(req.session.user && req.session.user.uuid !== event.Organizer) return res.status(404).send({ success: false, message: 'Event not found!' });
+
+      if(!req.session.user) return res.status(404).send({ success: false, message: 'Event not found!' });
+    }
+
     res.status(200).send({ success: true, event });
   } catch (err) {
     res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
