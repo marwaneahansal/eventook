@@ -1,6 +1,6 @@
 const db = require('../models');
 const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 const path = require("path");
 
 
@@ -32,10 +32,24 @@ exports.create = async (req, res) => {
       maxSeats: req.body.maxSeats,
       description: req.body.description,
       mainImage: req.file.filename,
-      Organizer: user.uuid
+      Organizer: user.uuid,
+      EventTickets: [
+        {
+          name: 'standard',
+          price: req.body.standardTicket
+        },
+        {
+          name: 'premium',
+          price: req.body.premiumTicket
+        },
+        {
+          name: 'vip',
+          price: req.body.vipTicket
+        }
+      ],
     }
 
-    const savedEvent = await Event.create(event);
+    const savedEvent = await Event.create(event, { include: [ EventTickets ] });
 
     res.status(200).send({ success: true, event: savedEvent, message: 'Event created successfully' });
 

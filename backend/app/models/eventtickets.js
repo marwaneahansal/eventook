@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   EventTickets.init({
     eventUid: Sequelize.UUID,
+    name: Sequelize.STRING,
     price: Sequelize.INTEGER,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE

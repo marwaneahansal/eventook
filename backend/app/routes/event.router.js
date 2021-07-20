@@ -27,6 +27,9 @@ router.post(
   body('eventDateEnd').isString(),
   body('maxSeats').isInt(),
   body('description').isString(),
+  body('standardTicket').isNumeric(),
+  body('premiumTicket').isNumeric(),
+  body('vipTicket').isNumeric(),
   authenticationHandler,
   eventsController.create);
 

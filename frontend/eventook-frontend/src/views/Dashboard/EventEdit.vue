@@ -48,13 +48,13 @@
         </b-field>
       </div>
 
-      <div class="is-flex is-align-items-center is-flex-grow-1 mb-4">
+      <div class="is-flex is-align-items-center is-flex-grow-1">
         <b-field label="Description" class="is-flex-grow-1 mr-4">
           <b-input maxlength="300" type="textarea" v-model="editedEvent.description"></b-input>
         </b-field>
       </div>
 
-      <div class="is-flex is-align-items-center mb-4">
+      <div class="is-flex is-align-items-center mb-6">
         <b-field label="Maximum Seats" class="mr-2" style="width: 50%;">
           <b-numberinput type="is-info" v-model="editedEvent.maxSeats" placeholder="500" :min="1" controls-position="compact" controls-rounded></b-numberinput>
         </b-field>
@@ -69,6 +69,24 @@
             </span>
           </b-upload>
         </b-field>
+      </div>
+
+      <div class="mt-5 event-tickets-price">
+        <p class="has-text-white mb-2 is-size-5">Tickets Prices: </p>
+        <div class="is-flex is-align-items-center is-justify-content-space-between mb-4">
+          <b-field label="Standard:" class="is-flex-grow-1 mr-4">
+            <b-numberinput type="is-info" placeholder="39" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <div class="ticket-price__dollar">$</div>
+          </b-field>
+          <b-field label="Premium:" class="is-flex-grow-1 mr-4">
+            <b-numberinput type="is-info" placeholder="69" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <div class="ticket-price__dollar">$</div>
+          </b-field>
+          <b-field label="VIP:" class="is-flex-grow-1 mr-4">
+            <b-numberinput type="is-info" placeholder="99" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <div class="ticket-price__dollar">$</div>
+          </b-field>
+        </div>
       </div>
 
       <div class="is-flex is-flex-grow-1 is-align-items-center mt-5">
@@ -177,12 +195,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/_variables.scss';
+
 .edit-events__title {
   width: fit-content;
 }
 
 label {
-  color: white !important;
+  color: $light !important;
+  font-weight: normal !important;
 }
 
 .edit-events__form {
@@ -203,5 +224,19 @@ label {
   .field:not(:last-child) {
     margin-bottom: 0 !important;
   }
+
+  .event-tickets-price {
+    .ticket-price__dollar {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      border-radius: 0 4px 4px 0;
+      border: 1px solid rgba(30, 86, 190, .5) !important;
+      border-left: none !important;
+      font-size: 1.2rem;
+    }
+  }
+
 }
 </style>

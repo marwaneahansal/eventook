@@ -61,10 +61,6 @@ export default {
       reduce: false,
     };
   },
-
-  created() {
-    console.log(this.$route);
-  },
 };
 </script>
 

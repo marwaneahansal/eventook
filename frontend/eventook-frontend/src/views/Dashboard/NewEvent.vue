@@ -50,13 +50,13 @@
         </b-field>
       </div>
 
-      <div class="is-flex is-align-flex-start  mb-4">
+      <div class="is-flex is-align-flex-start">
         <b-field label="Description" class=" mr-4">
           <b-input maxlength="300" type="textarea" v-model="description" required></b-input>
         </b-field>
       </div>
 
-      <div class="is-flex is-align-flex-start mb-4">
+      <div class="is-flex is-align-flex-start mb-6">
         <b-field label="Maximum Seats" class="mr-2" style="width: 50%;">
           <b-numberinput type="is-info" v-model="maxSeats" placeholder="500" :min="1" controls-position="compact" controls-rounded required></b-numberinput>
         </b-field>
@@ -72,6 +72,24 @@
           </b-upload>
         </b-field>
       </div>
+      <div class="mt-5 event-tickets-price">
+        <p class="has-text-white mb-2 is-size-5">Tickets Prices: </p>
+        <div class="is-flex is-align-items-center is-justify-content-space-between mb-4">
+          <b-field label="Standard:" class="is-flex-grow-1 mr-4">
+            <b-numberinput type="is-info" placeholder="39" v-model="standardTicket" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <div class="ticket-price__dollar">$</div>
+          </b-field>
+          <b-field label="Premium:" class="is-flex-grow-1 mr-4">
+            <b-numberinput type="is-info" placeholder="69" v-model="premiumTicket" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <div class="ticket-price__dollar">$</div>
+          </b-field>
+          <b-field label="VIP:" class="is-flex-grow-1 mr-4">
+            <b-numberinput type="is-info" placeholder="99" v-model="vipTicket" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <div class="ticket-price__dollar">$</div>
+          </b-field>
+        </div>
+      </div>
+
     </div>
 
     <div class="is-flex  is-align-items-center mt-5">
@@ -95,6 +113,9 @@ export default {
       description: null,
       maxSeats: null,
       imageFile: null,
+      standardTicket: null,
+      premiumTicket: null,
+      vipTicket: null,
 
       showWeekNumber: false,
       enableSeconds: false,
@@ -105,7 +126,7 @@ export default {
   computed: {
     isFormValid() {
       return this.title && this.country && this.city && this.adresse && this.eventDateStart && this.eventDateEnd && this.description
-        && this.maxSeats && this.imageFile;
+        && this.maxSeats && this.imageFile && this.standardTicket && this.premiumTicket && this.vipTicket;
     },
   },
 
@@ -132,6 +153,10 @@ export default {
       formData.append('description', this.description);
       formData.append('maxSeats', this.maxSeats);
       formData.append('mainImageFile', this.imageFile);
+      formData.append('standardTicket', this.standardTicket);
+      formData.append('premiumTicket', this.premiumTicket);
+      formData.append('vipTicket', this.vipTicket);
+
       axios.post('events', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -162,8 +187,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../assets/scss/_variables.scss';
+
 label {
-  color: white !important;
+  color: $light !important;
+  font-weight: normal !important;
 }
 
 .new-events__form {
@@ -188,6 +216,19 @@ label {
 
   .field:not(:last-child) {
     margin-bottom: 0 !important;
+  }
+
+  .event-tickets-price {
+    .ticket-price__dollar {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      border-radius: 0 4px 4px 0;
+      border: 1px solid rgba(30, 86, 190, .5) !important;
+      border-left: none !important;
+      font-size: 1.2rem;
+    }
   }
 }
 </style>
