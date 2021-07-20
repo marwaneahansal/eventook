@@ -75,15 +75,15 @@
         <p class="has-text-white mb-2 is-size-5">Tickets Prices: </p>
         <div class="is-flex is-align-items-center is-justify-content-space-between mb-4">
           <b-field label="Standard:" class="is-flex-grow-1 mr-4">
-            <b-numberinput type="is-info" placeholder="39" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <b-numberinput v-model="standardTicket" type="is-info" placeholder="39" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
             <div class="ticket-price__dollar">$</div>
           </b-field>
           <b-field label="Premium:" class="is-flex-grow-1 mr-4">
-            <b-numberinput type="is-info" placeholder="69" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <b-numberinput v-model="premiumTicket" type="is-info" placeholder="69" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
             <div class="ticket-price__dollar">$</div>
           </b-field>
           <b-field label="VIP:" class="is-flex-grow-1 mr-4">
-            <b-numberinput type="is-info" placeholder="99" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
+            <b-numberinput v-model="vipTicket" type="is-info" placeholder="99" :min="1" controls-position="compact" :controls="false" expanded ></b-numberinput>
             <div class="ticket-price__dollar">$</div>
           </b-field>
         </div>
@@ -111,6 +111,9 @@ export default {
       imageFile: null,
       eventDateStart: null,
       eventDateEnd: null,
+      standardTicket: null,
+      premiumTicket: null,
+      vipTicket: null,
     };
   },
 
@@ -136,6 +139,11 @@ export default {
         .then((res) => {
           this.event = res.data.event;
           this.editedEvent = { ...this.event };
+
+          this.standardTicket = this.event.EventTickets.find((ticket) => ticket.name === 'standard').price;
+          this.premiumTicket = this.event.EventTickets.find((ticket) => ticket.name === 'premium').price;
+          this.vipTicket = this.event.EventTickets.find((ticket) => ticket.name === 'vip').price;
+
           loadingComponent.close();
         }).catch((err) => {
           loadingComponent.close();
@@ -150,19 +158,34 @@ export default {
     updateEvent() {
       const loadingComponent = this.$buefy.loading.open();
       const formData = new FormData();
-      const updatedEventReq = { ...this.editedEvent, eventDateStart: this.eventDateStart, eventDateEnd: this.eventDateEnd };
+      const updatedEventReq = {
+        ...this.editedEvent,
+        eventDateStart: this.eventDateStart,
+        eventDateEnd: this.eventDateEnd,
+        standardTicket: this.standardTicket,
+        premiumTicket: this.premiumTicket,
+        vipTicket: this.vipTicket,
+      };
 
-      if (this.imageFile) formData.append('mainImageFile', this.imageFile);
+      let data = updatedEventReq;
+      let dataHeader = {};
 
-      Object.keys(updatedEventReq).forEach((key) => {
-        formData.append(key, updatedEventReq[key]);
-      });
+      if (this.imageFile) {
+        formData.append('mainImageFile', this.imageFile);
 
-      axios.put(`events/${this.$route.params.eventUid}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+        Object.keys(updatedEventReq).forEach((key) => {
+          formData.append(key, updatedEventReq[key]);
+        });
+
+        data = formData;
+        dataHeader = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      }
+
+      axios.put(`events/${this.$route.params.eventUid}`, data, dataHeader)
         .then((res) => {
           this.event = res.data.event;
           this.editedEvent = { ...this.event };

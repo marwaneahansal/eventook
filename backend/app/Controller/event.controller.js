@@ -101,7 +101,7 @@ exports.findOne = async (req, res) => {
 
 exports.findOrganizerEvents = async (req, res) => {
   try  {
-    const { Events } = await User.findOne({ where: { uuid: req.session.user.uuid }, include: Event });
+    const Events = await Event.findAll({ where: { Organizer: req.session.user.uuid }, order: [ ['eventDateStart', 'ASC' ] ] });
 
     res.status(200).send({ success: true, Events });
   } catch (err) {
@@ -125,6 +125,7 @@ exports.update = async (req, res) => {
 
     if(event.Organizer !== userUuid) return res.status(401).send({ success: false, message: "You can't update this event" });
 
+
     await event.update({
       title: req.body.title,
       country: req.body.country,
@@ -135,6 +136,15 @@ exports.update = async (req, res) => {
       description: req.body.description,
       maxSeats: req.body.maxSeats
     });
+
+    const standardTicket = await EventTickets.findOne({ where: { eventUid: event.uid, name: 'standard' } });
+    await standardTicket.update({ price: req.body.standardTicket });
+
+    const premiumTicket = await EventTickets.findOne({ where: { eventUid: event.uid, name: 'premium' } });
+    await premiumTicket.update({ price: req.body.premiumTicket });
+
+    const vipTicket = await EventTickets.findOne({ where: { eventUid: event.uid, name: 'vip' } });
+    await vipTicket.update({ price: req.body.vipTicket });
 
     if(req.file && req.file.fieldname === 'mainImageFile') {
       await event.update({
