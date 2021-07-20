@@ -48,4 +48,6 @@ router.post(
 
 router.get('/images/:eventUid', eventsController.getEventImages);
 
+router.get('/bookings/:eventUid', authenticationHandler,eventsController.getEventBookings);
+
 module.exports = router

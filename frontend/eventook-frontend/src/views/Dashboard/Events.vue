@@ -13,6 +13,10 @@
           <b-tag :type="event.approved ? 'is-success' : 'is-warning'">{{ event.approved ? 'Approved' : 'Not Approved' }}</b-tag>
         </template>
 
+        <template v-slot:view-bookings>
+          <button @click="$router.push({ name: 'DashboardEventBookings', params: { eventUid: event.uid } })" class="view-booking mb-2 px-3 button is-primary is-inverted is-outlined">View Bookings</button>
+        </template>
+
         <template v-slot:action-buttons>
           <div class="is-flex">
             <b-button icon-left="pencil-outline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="editEvent(event.uid)">Edit</b-button>
@@ -154,5 +158,12 @@ export default {
   img {
     width: 300px;
   }
+}
+
+.view-booking {
+  border: none;
+  width: fit-content;
+  background: transparent !important;
+  height: auto !important;
 }
 </style>

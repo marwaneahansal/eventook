@@ -277,4 +277,27 @@ exports.getEventImages = async (req, res) => {
 }
 
 
+exports.getEventBookings = async (req, res) => {
+  try {
+    const bookings = await Event.findOne(
+      {
+        where: { uid: req.params.eventUid, Organizer: req.session.user.uuid },
+        attributes: ['title', 'maxSeats'],
+        include: {
+          model: EventBookings,
+          attributes: ['fullName', 'email', 'seats', 'price'],
+          include: {
+            model: EventTickets,
+            attributes: ['name', 'price'],
+          }
+        }
+      }
+    );
+
+    res.status(200).send({ success: true ,event: bookings });
+  } catch (err) {
+    res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
+  }
+}
+
 

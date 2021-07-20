@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.EventTickets, {
         foreignKey: 'eventUid'
       });
+
+      this.hasMany(models.EventBookings, {
+        foreignKey: 'eventUid'
+      });
     }
   };
   Event.init({

@@ -17,6 +17,7 @@
         <slot name="approve-state"></slot>
       </div>
     </div>
+    <slot name="view-bookings"></slot>
     <slot name="action-buttons"></slot>
   </div>
 </template>
