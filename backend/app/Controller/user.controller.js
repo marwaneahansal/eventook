@@ -122,18 +122,30 @@ exports.createAdmin = async (req, res) => {
 
 exports.getDashboardStatistics = async (req, res) => {
   try {
-    const eventsApprovedCount = await Event.count({ where: { Organizer: '4958e7c4-2e7d-489d-aafb-9d98dbf25b66', approved: true }});
-    const eventsNotApprovedCount = await Event.count({ where: { Organizer: '4958e7c4-2e7d-489d-aafb-9d98dbf25b66', approved: false }});
+    const eventsApprovedCount = await Event.count({ where: { Organizer: req.session.user.uuid, approved: true }});
+    const eventsNotApprovedCount = await Event.count({ where: { Organizer: req.session.user.uuid, approved: false }});
     const ticketsBooked = await EventBookings.sum('seats',{ include: {
       model: Event,
       where: {
-        Organizer: '4958e7c4-2e7d-489d-aafb-9d98dbf25b66',
+        Organizer: req.session.user.uuid,
         approved: true
       }
     }});
     const totalEvents = eventsApprovedCount + eventsNotApprovedCount;
 
-    res.status(200).send({ success: true, statistics: { eventsApprovedCount, eventsNotApprovedCount, ticketsBooked, totalEvents } });
+    const lastEvents = await Event.findAll(
+      {
+        where: { Organizer: req.session.user.uuid, approved: true },
+        order: [ ['eventDateStart', 'ASC' ] ],
+        attributes: ['title'],
+        include: {
+          model: EventBookings,
+          attributes: ['seats']
+        }
+      }
+    );
+
+    res.status(200).send({ success: true, statistics: { eventsApprovedCount, eventsNotApprovedCount, ticketsBooked, totalEvents, lastEvents } });
   } catch (err) {
     res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }
