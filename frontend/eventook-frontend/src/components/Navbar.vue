@@ -12,7 +12,7 @@
 							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Home'}).catch(() => { })">
 									Home
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Events' }).catch(() => { })">
 									Events
 							</b-navbar-item>
 							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'About'}).catch(() => { })">

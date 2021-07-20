@@ -23,16 +23,11 @@
         <div class="line has-background-grey"></div>
       </div>
 
-      <div class="events-wrapper">
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
-        <event-card class="event-card mb-6 mx-4"/>
+      <div class="events-wrapper" v-if="events">
+        <event-card
+          v-for="(event, index) in events" :key="index"
+          :event="event"
+        />
       </div>
     </div>
   </div>
@@ -40,13 +35,43 @@
 
 <script>
 // @ is an alias to /src
+import axios from '@/axios';
 import SearchTab from '@/components/SearchTab';
 import EventCard from '@/components/EventCard';
 
 export default {
   name: 'Home',
 
+  data() {
+    return {
+      events: null,
+    };
+  },
+
   components: { SearchTab, EventCard },
+
+  methods: {
+    getAllEvents() {
+      const loadingComponent = this.$buefy.loading.open();
+      axios.get('events')
+        .then((res) => {
+          loadingComponent.close();
+          this.events = res.data.events;
+        }).catch((err) => {
+          loadingComponent.close();
+          this.$buefy.notification.open({
+            duration: 5000,
+            message: err.message,
+            position: 'is-bottom-right',
+            type: 'is-danger',
+          });
+        });
+    },
+  },
+
+  created() {
+    this.getAllEvents();
+  },
 };
 </script>
 

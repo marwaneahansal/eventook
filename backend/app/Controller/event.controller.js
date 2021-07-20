@@ -61,7 +61,7 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
-    const events = await Event.findAll({ where: { approved: true }});
+    const events = await Event.findAll({ where: { approved: true }, order: [ ['eventDateStart', 'ASC'] ] });
 
     res.status(200).send({ success: false, events });
   } catch (err) {

@@ -20,7 +20,7 @@
             <p class="is-size-4 has-text-light is-uppercase has-text-weight-semibold">Events:</p>
             <div class="primary-line has-background-primary"></div>
           </div>
-          <a href="#" class="is-size-5 has-text-primary is-hover-light">View all</a>
+          <a href="/events" class="is-size-5 has-text-primary is-hover-light">View all</a>
         </div>
         <div class="line has-background-grey"></div>
       </div>
