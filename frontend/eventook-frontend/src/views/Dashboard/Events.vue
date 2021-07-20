@@ -118,6 +118,7 @@ export default {
   row-gap: 2rem;
   grid-auto-rows: 1fr;
   grid-template-columns: repeat(3, 1fr);
+  min-height: 500px;
 
   .edit-button {
     border-radius: 0 0 0 4px !important;

@@ -6,6 +6,8 @@ const { validationResult } = require('express-validator');
 
 
 const User = db.User;
+const Event = db.Event;
+const EventBookings = db.EventBookings;
 
 // Register a new user
 exports.register = async (req, res) => {
@@ -113,6 +115,25 @@ exports.createAdmin = async (req, res) => {
 
     res.status(200).send({ success: true, user: {id, name, email, eventCreator }, token});
 
+  } catch (err) {
+    res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
+  }
+}
+
+exports.getDashboardStatistics = async (req, res) => {
+  try {
+    const eventsApprovedCount = await Event.count({ where: { Organizer: '4958e7c4-2e7d-489d-aafb-9d98dbf25b66', approved: true }});
+    const eventsNotApprovedCount = await Event.count({ where: { Organizer: '4958e7c4-2e7d-489d-aafb-9d98dbf25b66', approved: false }});
+    const ticketsBooked = await EventBookings.sum('seats',{ include: {
+      model: Event,
+      where: {
+        Organizer: '4958e7c4-2e7d-489d-aafb-9d98dbf25b66',
+        approved: true
+      }
+    }});
+    const totalEvents = eventsApprovedCount + eventsNotApprovedCount;
+
+    res.status(200).send({ success: true, statistics: { eventsApprovedCount, eventsNotApprovedCount, ticketsBooked, totalEvents } });
   } catch (err) {
     res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }

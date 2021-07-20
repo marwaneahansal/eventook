@@ -23,14 +23,20 @@
           </h1>
           <b-menu>
             <b-menu-list label="Menu">
-              <b-menu-item icon="home" label="Dashboard" disabled></b-menu-item>
+              <b-menu-item
+                icon="home-outline"
+                label="Dashboard"
+                @click="$router.push({ name: 'DashboardHome' }).catch(() => {})"
+                :class="{'is-active': $route.name === 'DashboardHome'}"
+              ></b-menu-item>
+
               <b-menu-item
                 icon="calendar-multiple"
                 label="Events"
                 @click="$router.push({ name: 'DashboardEvents' }).catch(() => {})"
                 :class="{'is-active': $route.name === 'DashboardEvents'}"
               ></b-menu-item>
-              <b-menu-item icon="account" label="My Account" disabled></b-menu-item>
+              <b-menu-item icon="account-outline" label="My Account" disabled></b-menu-item>
             </b-menu-list>
             <b-menu-list label="Actions">
               <b-menu-item

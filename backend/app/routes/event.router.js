@@ -17,19 +17,21 @@ router.get('/dashboard/events', authenticationHandler, eventsController.findOrga
 
 router.put('/:eventId', [authenticationHandler, imageUpload.single('mainImageFile')], eventsController.update);
 
+
+
+// body('title').isString(),
+// body('country').isString(),
+// body('city').isString(),
+// body('adresse').isString(),
+// body('eventDateStart').isString(),
+// body('eventDateEnd').isString(),
+// body('maxSeats').isInt(),
+// body('description').isString(),
+// body('standardTicket').isNumeric(),
+// body('premiumTicket').isNumeric(),
+// body('vipTicket').isNumeric(),
 router.post(
   '/',
-  body('title').isString(),
-  body('country').isString(),
-  body('city').isString(),
-  body('adresse').isString(),
-  body('eventDateStart').isString(),
-  body('eventDateEnd').isString(),
-  body('maxSeats').isInt(),
-  body('description').isString(),
-  body('standardTicket').isNumeric(),
-  body('premiumTicket').isNumeric(),
-  body('vipTicket').isNumeric(),
   [authenticationHandler, imageUpload.single('mainImageFile')],
   eventsController.create);
 

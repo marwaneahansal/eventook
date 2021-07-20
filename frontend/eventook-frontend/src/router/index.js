@@ -68,12 +68,23 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    redirect: '/dashboard/events',
+    redirect: '/dashboard/home',
     // route level code-splitting
     // this generates a separate chunk (event.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "dashboard" */ '../layouts/Dashboard.vue'),
     children: [
+      {
+        path: '/dashboard/home',
+        name: 'DashboardHome',
+        // route level code-splitting
+        // this generates a separate chunk (event.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '../views/Dashboard/Home.vue'),
+        meta: {
+          authRequired: true,
+        },
+      },
       {
         path: '/dashboard/events',
         name: 'DashboardEvents',
