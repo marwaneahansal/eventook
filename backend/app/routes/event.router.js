@@ -30,7 +30,7 @@ router.post(
   body('standardTicket').isNumeric(),
   body('premiumTicket').isNumeric(),
   body('vipTicket').isNumeric(),
-  authenticationHandler,
+  [authenticationHandler, imageUpload.single('mainImageFile')],
   eventsController.create);
 
 router.delete('/:eventId', authenticationHandler, eventsController.delete);

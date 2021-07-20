@@ -167,28 +167,28 @@ export default {
         vipTicket: this.vipTicket,
       };
 
-      let data = updatedEventReq;
-      let dataHeader = {};
-
       if (this.imageFile) {
         formData.append('mainImageFile', this.imageFile);
-
-        Object.keys(updatedEventReq).forEach((key) => {
-          formData.append(key, updatedEventReq[key]);
-        });
-
-        data = formData;
-        dataHeader = {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
       }
 
-      axios.put(`events/${this.$route.params.eventUid}`, data, dataHeader)
+      Object.keys(updatedEventReq).forEach((key) => {
+        formData.append(key, updatedEventReq[key]);
+      });
+
+      axios.put(`events/${this.$route.params.eventUid}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
         .then((res) => {
           this.event = res.data.event;
           this.editedEvent = { ...this.event };
+          this.imageFile = null;
+
+          this.standardTicket = this.event.EventTickets.find((ticket) => ticket.name === 'standard').price;
+          this.premiumTicket = this.event.EventTickets.find((ticket) => ticket.name === 'premium').price;
+          this.vipTicket = this.event.EventTickets.find((ticket) => ticket.name === 'vip').price;
+
           loadingComponent.close();
           this.$buefy.notification.open({
             duration: 5000,

@@ -117,13 +117,15 @@ exports.update = async (req, res) => {
 
     if(!user.isEventOrganizer) return res.status(401).send({ success: false, message: 'Unauthorized' });
 
-    const event = await Event.findByPk(req.params.eventId);
+    let event = await Event.findByPk(req.params.eventId);
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 
     if(event.approved) return res.status(401).send({ success: false, message: "You can't update this event because it's approved!" });
 
     if(event.Organizer !== userUuid) return res.status(401).send({ success: false, message: "You can't update this event" });
+
+    console.log(req.body.title);
 
 
     await event.update({
@@ -151,6 +153,8 @@ exports.update = async (req, res) => {
         mainImage: req.file.filename
       });
     }
+
+    event = await Event.findOne({ where: { uid: req.params.eventId }, include: EventTickets });
 
     res.status(200).send({ success: true, message: "Event updated successfully!", event });
   } catch (err) {
