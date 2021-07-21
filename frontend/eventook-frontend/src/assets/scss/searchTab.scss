@@ -5,6 +5,7 @@
 
   .search-tab {
     background-image: url('../assets/images/ticket-bg01.jpg');
+    border-radius: 10px;
     padding: 60px 30px;
     position: relative;
     z-index: 10;
@@ -14,9 +15,10 @@
   }
 
   .search-tab::before {
+    border-radius: 10px;
     width: 100%;
     background-image: linear-gradient(0deg, rgb(12, 72, 179) 0%, rgb(93, 0, 149) 100%);
-    opacity: .9;
+    opacity: .7;
     position: absolute;
     content: "";
     top: 0;

@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <search-tab />
+    <search-tab @search="setSearchQuery" initSearchQuery/>
 
     <div class="latest-events-showcase container">
       <div class="events-showcase-header mb-6">
@@ -69,6 +69,10 @@ export default {
             type: 'is-danger',
           });
         });
+    },
+    setSearchQuery(search = '') {
+      this.$store.commit('SET_EVENTS_SEARCH_QUERY', search);
+      this.$router.push({ name: 'Events' });
     },
   },
 

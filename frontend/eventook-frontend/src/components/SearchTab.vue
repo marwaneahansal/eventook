@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <div class="home-search-tab container">
       <div class="search-tab">
         <div class="search-tab-content is-flex is-flex-direction-column is-justify-content-center">
@@ -15,10 +15,10 @@
                       </h3>
                       <div class="is-flex is-flex-direction-row
                           is-justify-content-center is-align-items-center" style="width: 60%">
-                        <b-input type="text" placeholder="Search for Events" style="width: 100%">
+                        <b-input type="text" placeholder="Search for Events" style="width: 100%" v-model="searchQuery">
                         </b-input>
-                        <button class="button is-primary has-text-black">
-                          <span>Search</span>
+                        <button class="button is-primary has-text-black" @click="searchEvents">
+                          Search
                         </button>
                       </div>
                     </div>
@@ -29,6 +29,42 @@
       </div>
     </div>
 </template>
+
+<script>
+export default {
+
+  props: {
+    initSearchQuery: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  data() {
+    return {
+      searchQuery: '',
+    };
+  },
+
+  methods: {
+    searchEvents() {
+      this.$store.commit('SET_EVENTS_SEARCH_QUERY', this.searchQuery.trim());
+      this.$emit('search', this.searchQuery.trim());
+    },
+  },
+
+  created() {
+    if (this.initSearchQuery) this.searchQuery = '';
+    else this.searchQuery = this.$store.state.eventsSearchQuery;
+  },
+
+  destroyed() {
+    this.searchQuery = '';
+    this.$store.commit('SET_EVENTS_SEARCH_QUERY', '');
+  },
+
+};
+</script>
 
 <style lang="scss">
 @import '../assets/scss/searchTab';

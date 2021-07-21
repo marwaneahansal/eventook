@@ -7,10 +7,14 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     loggedInUser: null,
+    eventsSearchQuery: '',
   },
   mutations: {
     SET_LOGGED_IN_USER(state, user) {
       state.loggedInUser = user;
+    },
+    SET_EVENTS_SEARCH_QUERY(state, searchQuery) {
+      state.eventsSearchQuery = searchQuery.trim();
     },
   },
   actions: {
@@ -28,6 +32,18 @@ const store = new Vuex.Store({
           })
           .catch((err) => {
             commit('SET_LOGGED_IN_USER', null);
+            reject(err);
+          });
+      });
+    },
+    getAllEvents({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        axios.get(`events?search=${state.eventsSearchQuery}`)
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => {
+            commit('SET_EVENTS_SEARCH_QUERY', '');
             reject(err);
           });
       });

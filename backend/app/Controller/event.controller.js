@@ -2,6 +2,7 @@ const db = require('../models');
 const jwt = require('jsonwebtoken');
 const { validationResult, body } = require('express-validator');
 const path = require("path");
+const { Op } = require('sequelize');
 
 
 
@@ -61,7 +62,22 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
-    const events = await Event.findAll({ where: { approved: true }, order: [ ['eventDateStart', 'ASC'] ] });
+    let events = [];
+    if(req.query.search !== '') {
+      events = await Event.findAll(
+        {
+          where: {
+            approved: true,
+            title: {
+              [Op.like]: `%${req.query.search}%`
+            }
+          },
+          order: [ ['eventDateStart', 'ASC'] ]
+        }
+      );
+    } else {
+      events = await Event.findAll({ where: { approved: true }, order: [ ['eventDateStart', 'ASC'] ] });
+    }
 
     res.status(200).send({ success: false, events });
   } catch (err) {
@@ -124,9 +140,6 @@ exports.update = async (req, res) => {
     if(event.approved) return res.status(401).send({ success: false, message: "You can't update this event because it's approved!" });
 
     if(event.Organizer !== userUuid) return res.status(401).send({ success: false, message: "You can't update this event" });
-
-    console.log(req.body.title);
-
 
     await event.update({
       title: req.body.title,
