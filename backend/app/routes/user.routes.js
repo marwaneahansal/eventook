@@ -13,10 +13,4 @@ router.get('/logout',  usersController.logout);
 
 router.get('/dashboard', authenticationHandler, usersController.getDashboardStatistics);
 
-// !!!!!!!!!!!!!!!!!!!!!!!! //
-//!  Just for simplicity   //
-// !!!!!!!!!!!!!!!!!!!!!! //
-router.post('/admin',  usersController.createAdmin);
-
-
 module.exports = router

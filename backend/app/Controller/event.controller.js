@@ -115,9 +115,12 @@ exports.findOne = async (req, res) => {
 };
 
 
-exports.findOrganizerEvents = async (req, res) => {
+exports.findEventsByRole = async (req, res) => {
   try  {
-    const Events = await Event.findAll({ where: { Organizer: req.session.user.uuid }, order: [ ['eventDateStart', 'ASC' ] ] });
+    let Events;
+    if (req.session.user.isAdmin) Events = await Event.findAll({ order: [ ['eventDateStart', 'ASC' ] ] });
+
+    else Events = await Event.findAll({ where: { Organizer: req.session.user.uuid }, order: [ ['eventDateStart', 'ASC' ] ] });
 
     res.status(200).send({ success: true, Events });
   } catch (err) {
@@ -210,18 +213,9 @@ exports.approveEvent = async (req, res) => {
 
   try {
 
-    let token = req.headers['authorization'];
+    const user = req.session.user;
 
-    if(!token) return res.status(401).send({ success: false, message: 'No token is provided. Try to login again!' });
-
-    let tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findByPk(tokenDecoded.id);
-
-    // !!!!!!!!!!!!!!!!!!!!!!!! //
-    //!  Just for simplicity   //
-    // !!!!!!!!!!!!!!!!!!!!!! //
-    if(user.email !== "admin@admin.com") return res.status(401).send({ success: false, message: 'Unauthorized' });
+    if(!user.isAdmin) return res.status(401).send({ success: false, message: 'Unauthorized' });
 
 
     const event = await Event.findByPk(req.params.eventId);
@@ -229,7 +223,9 @@ exports.approveEvent = async (req, res) => {
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 
     await event.update({ approved: true });
-    res.status(200).send({ success: true, message: "Event approved successully!", event });
+
+    const events = await Event.findAll();
+    res.status(200).send({ success: true, message: "Event approved successully!", events });
   } catch (err) {
     res.status(500).send({ success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }
@@ -280,7 +276,7 @@ exports.getEventImages = async (req, res) => {
   try {
     const event = await Event.findOne({ where: { uid: req.params.eventUid } });
 
-    if(!event || (!event.approved && req.session.user.uuid !== event.Organizer)) return res.status(404);
+    if(!event || (!event.approved && (req.session.user.uuid !== event.Organizer && !req.session.user.isAdmin))) return res.status(404);
 
     res.sendFile(event.mainImage, { root: path.join('app/uploads') });
 
@@ -292,20 +288,30 @@ exports.getEventImages = async (req, res) => {
 
 exports.getEventBookings = async (req, res) => {
   try {
-    const bookings = await Event.findOne(
-      {
-        where: { uid: req.params.eventUid, Organizer: req.session.user.uuid },
-        attributes: ['title', 'maxSeats'],
-        include: {
-          model: EventBookings,
-          attributes: ['fullName', 'email', 'seats', 'price'],
-          include: {
-            model: EventTickets,
-            attributes: ['name', 'price'],
-          }
-        }
+    let bookings = null;
+    const attributes = ['title', 'maxSeats'];
+    const include = {
+      model: EventBookings,
+      attributes: ['fullName', 'email', 'seats', 'price'],
+      include: {
+        model: EventTickets,
+        attributes: ['name', 'price'],
       }
-    );
+    }
+
+    if(req.session.user.isAdmin) {
+      bookings = await Event.findOne({
+        where: { uid: req.params.eventUid },
+        attributes,
+        include
+      });
+    } else {
+      bookings = await Event.findOne({
+        where: { uid: req.params.eventUid, Organizer: req.session.user.uuid },
+        attributes,
+        include
+      });
+    }
 
     res.status(200).send({ success: true ,event: bookings });
   } catch (err) {

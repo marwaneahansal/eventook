@@ -13,7 +13,7 @@ router.get('/showcase', eventsController.findLatestThree);
 
 router.get('/:eventId', eventsController.findOne);
 
-router.get('/dashboard/events', authenticationHandler, eventsController.findOrganizerEvents);
+router.get('/dashboard/events', authenticationHandler, eventsController.findEventsByRole);
 
 router.put('/:eventId', [authenticationHandler, imageUpload.single('mainImageFile')], eventsController.update);
 

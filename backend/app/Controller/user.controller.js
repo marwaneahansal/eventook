@@ -29,18 +29,17 @@ exports.register = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
-      isEventOrganizer: req.body.isEventOrganizer
+      isEventOrganizer: user.isEventOrganizer,
+      isAdmin: user.isAdmin
     }
+    const role = req.session.user.isEventOrganizer ? 'eventOrganizer' : req.session.user.isAdmin ? 'admin': null;
 
 
     const savedUser = await User.create(user);
 
-    let token = jwt.sign({ uuid: savedUser.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
-
     res.status(200).send({
       success: true,
-      user: {name: savedUser.name, email: savedUser.email, 	isEventOrganizer: savedUser.	isEventOrganizer },
-      token
+      user: {name: savedUser.name, email: savedUser.email, 	role },
     });
   } catch(err) {
     res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
@@ -62,13 +61,12 @@ exports.login = async (req, res) => {
     const isValidPassword = await bcrypt.compare(req.body.password, user.password);
     if(!isValidPassword) return res.status(200).send({ success: false, message: "Email OR password wrong!"});
 
-    if(!user.isEventOrganizer) return res.status(200).send({ success: false, message: "Login is for events organizers for now!"});
+    if(!user.isEventOrganizer && !user.isAdmin) return res.status(200).send({ success: false, message: "Login is for events organizers for now!"});
 
-    const token = jwt.sign({ uuid: user.uuid }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
+    req.session.user = { uuid: user.uuid, email: user.email, name: user.name, isEventOrganizer: user.isEventOrganizer, isAdmin: user.isAdmin };
+    const role = req.session.user.isEventOrganizer ? 'eventOrganizer' : req.session.user.isAdmin ? 'admin': null;
 
-    req.session.user = { uuid: user.uuid, email: user.email, name: user.name, isEventOrganizer: user.isEventOrganizer };
-
-    res.status(200).send({ success: true, user: {name: user.name, email: user.email, isEventOrganizer: user.isEventOrganizer }, token});
+    res.status(200).send({ success: true, user: {name: user.name, email: user.email, role }});
 
   } catch(err) {
     res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
@@ -79,7 +77,8 @@ exports.login = async (req, res) => {
 exports.getLoggedInUser = (req, res) => {
   if(req.session.user && req.cookies.user_sid) {
     const user = req.session.user;
-    res.status(200).send({ success: true, user: { uuid: user.uuid, email: user.email, name: user.name, isEventOrganizer: user.isEventOrganizer }});
+    const role = req.session.user.isEventOrganizer ? 'eventOrganizer' : req.session.user.isAdmin ? 'admin': null;
+    res.status(200).send({ success: true, user: { uuid: user.uuid, email: user.email, name: user.name, role }});
   } else {
     res.status(200).send({ success: false, user: null });
   }
@@ -91,32 +90,6 @@ exports.logout = (req, res) => {
     res.status(200).send({ success: true });
   } else {
     res.status(401).send({ success: false, message: 'Unauthorized' });
-  }
-}
-
-
-exports.createAdmin = async (req, res) => {
-  // TODO: Do it with sequelize seeders
-  try {
-    const user = await User.findOne({ where: { email: "admin@admin.com" }});
-
-    if(user !== null) return res.status(500).send({success: false, message: "Admin Already created!"});
-
-    const admin = {
-      name: "Admin",
-      email: "admin@admin.com",
-      password: await bcrypt.hash("admin", 10),
-      eventCreator: true
-    }
-
-    const {id, name, email, eventCreator} = await User.create(admin);
-
-    let token = jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: 60*60*1000*24 });
-
-    res.status(200).send({ success: true, user: {id, name, email, eventCreator }, token});
-
-  } catch (err) {
-    res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});
   }
 }
 

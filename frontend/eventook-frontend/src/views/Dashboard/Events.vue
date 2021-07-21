@@ -1,8 +1,9 @@
 <template>
   <div class="dashboard-events" v-if="events" >
     <div class="dashboard-events__title mb-6 is-flex is-align-items-center is-justify-content-space-between">
-      <h3 class="is-size-4 has-text-light">Events Organized by you:</h3>
-      <b-button type="is-info" icon-left="plus" @click="newEvent">New Event</b-button>
+      <h3 class="is-size-4 has-text-light" v-if="userRole === 'eventOrganizer'">Events Organized by you:</h3>
+      <h3 class="is-size-4 has-text-light" v-if="userRole === 'admin'">All Events:</h3>
+      <b-button type="is-info" icon-left="plus" v-if="userRole === 'eventOrganizer'" @click="newEvent">New Event</b-button>
     </div>
 
     <div class="dashboard-events__events" v-if="events.length > 0">
@@ -18,9 +19,12 @@
         </template>
 
         <template v-slot:action-buttons>
-          <div class="is-flex">
+          <div class="is-flex" v-if="userRole === 'eventOrganizer'">
             <b-button icon-left="pencil-outline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="editEvent(event.uid)">Edit</b-button>
             <b-button icon-left="delete-outline" class="is-size-5 delete-button is-flex-grow-1" type="is-danger is-light" @click="deleteEventDialog(event.uid)">Delete</b-button>
+          </div>
+          <div class="is-flex">
+            <b-button icon-left="check-underline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="approveEventDialog(event.uid)">Approve Event</b-button>
           </div>
         </template>
       </event-card>
@@ -44,6 +48,12 @@ export default {
   },
 
   components: { EventCard },
+
+  computed: {
+    userRole() {
+      return this.$store.state.loggedInUser.role;
+    },
+  },
 
   methods: {
     getEvents() {
@@ -85,6 +95,39 @@ export default {
         .then((res) => {
           loadingComponent.close();
           this.events = res.data.Events;
+          this.$buefy.notification.open({
+            duration: 5000,
+            message: res.data.message,
+            position: 'is-bottom-right',
+            type: 'is-success',
+          });
+        }).catch((err) => {
+          loadingComponent.close();
+          this.$buefy.notification.open({
+            duration: 5000,
+            message: err.response.data.message || err.message,
+            position: 'is-bottom-right',
+            type: 'is-danger',
+          });
+        });
+    },
+    approveEventDialog(eventUid) {
+      this.$buefy.dialog.confirm({
+        title: 'Approving event',
+        message: 'Are you sure you want to <b>approve</b> this event? This action cannot be undone.',
+        confirmText: 'Approve Event',
+        type: 'is-info',
+        hasIcon: true,
+        onConfirm: () => this.approveEvent(eventUid),
+      });
+    },
+    approveEvent(eventUid) {
+      const loadingComponent = this.$buefy.loading.open();
+
+      axios.put(`events/approve/${eventUid}`)
+        .then((res) => {
+          loadingComponent.close();
+          this.events = res.data.events;
           this.$buefy.notification.open({
             duration: 5000,
             message: res.data.message,

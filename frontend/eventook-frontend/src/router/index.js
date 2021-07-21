@@ -170,8 +170,12 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.authRequired) {
     store.dispatch('getLoggedInuser').then((res) => {
-      if (res.data.user) next();
-      else next({ name: 'Login' });
+      if (res.data.user) {
+        if (to.meta.roles.includes(res.data.user.role)) return next();
+
+        return next({ name: 'NotAuthorized' });
+      }
+      return next({ name: 'Login' });
     }).catch(() => router.push({ name: 'Login' }));
   }
 
