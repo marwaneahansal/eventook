@@ -63,6 +63,22 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
       },
+      {
+        path: '/not-authorized',
+        name: 'NotAuthorized',
+        // route level code-splitting
+        // this generates a separate chunk (event.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "not-authorized" */ '../views/NotAuthorized.vue'),
+      },
+      {
+        path: '/not-found',
+        name: 'NotFound',
+        // route level code-splitting
+        // this generates a separate chunk (event.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "not-found" */ '../views/NotFound.vue'),
+      },
     ],
   },
   {
@@ -83,6 +99,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '../views/Dashboard/Home.vue'),
         meta: {
           authRequired: true,
+          roles: ['admin', 'eventOrganizer'],
         },
       },
       {
@@ -94,6 +111,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "dashboard-events" */ '../views/Dashboard/Events.vue'),
         meta: {
           authRequired: true,
+          roles: ['admin', 'eventOrganizer'],
         },
       },
       {
@@ -105,6 +123,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "new-event" */ '../views/Dashboard/NewEvent.vue'),
         meta: {
           authRequired: true,
+          roles: ['eventOrganizer'],
         },
       },
       {
@@ -116,6 +135,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "event-edit" */ '../views/Dashboard/EventEdit.vue'),
         meta: {
           authRequired: true,
+          roles: ['eventOrganizer'],
         },
       },
       {
@@ -127,9 +147,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "event-bookings" */ '../views/Dashboard/EventBookings.vue'),
         meta: {
           authRequired: true,
+          roles: ['admin', 'eventOrganizer'],
         },
       },
     ],
+  },
+  {
+    path: '*',
+    redirect: '/not-found',
   },
 ];
 
