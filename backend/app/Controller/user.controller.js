@@ -95,28 +95,63 @@ exports.logout = (req, res) => {
 
 exports.getDashboardStatistics = async (req, res) => {
   try {
-    const eventsApprovedCount = await Event.count({ where: { Organizer: req.session.user.uuid, approved: true }});
-    const eventsNotApprovedCount = await Event.count({ where: { Organizer: req.session.user.uuid, approved: false }});
-    const ticketsBooked = await EventBookings.sum('seats',{ include: {
-      model: Event,
-      where: {
-        Organizer: req.session.user.uuid,
-        approved: true
-      }
-    }});
-    const totalEvents = eventsApprovedCount + eventsNotApprovedCount;
+    let eventsApprovedCount, eventsNotApprovedCount, ticketsBooked, lastEvents;
 
-    const lastEvents = await Event.findAll(
-      {
-        where: { Organizer: req.session.user.uuid, approved: true },
-        order: [ ['eventDateStart', 'ASC' ] ],
-        attributes: ['title'],
-        include: {
-          model: EventBookings,
-          attributes: ['seats']
+    if(req.session.user.isEventOrganizer) {
+      eventsApprovedCount = await Event.count({ where: { Organizer: req.session.user.uuid, approved: true }});
+
+      eventsNotApprovedCount = await Event.count({ where: { Organizer: req.session.user.uuid, approved: false }});
+
+      ticketsBooked = await EventBookings.sum('seats',{ include: {
+        model: Event,
+        where: {
+          Organizer: req.session.user.uuid,
+          approved: true
         }
-      }
-    );
+      }});
+
+      lastEvents = await Event.findAll(
+        {
+          where: { Organizer: req.session.user.uuid, approved: true },
+          order: [ ['eventDateStart', 'ASC' ] ],
+          subQuery: false,
+          limit: 7,
+          attributes: ['title'],
+          include: {
+            model: EventBookings,
+            attributes: ['seats']
+          }
+        }
+      );
+    } else if (req.session.user.isAdmin) {
+
+      eventsApprovedCount = await Event.count({ where: { approved: true }});
+
+      eventsNotApprovedCount = await Event.count({ where: { approved: false }});
+
+      ticketsBooked = await EventBookings.sum('seats',{ include: {
+        model: Event,
+        where: {
+          approved: true
+        }
+      }});
+
+      lastEvents = await Event.findAll(
+        {
+          where: { approved: true },
+          order: [ ['eventDateStart', 'ASC' ] ],
+          subQuery: false,
+          limit: 7,
+          attributes: ['title'],
+          include: {
+            model: EventBookings,
+            attributes: ['seats']
+          }
+        }
+      );
+    }
+
+    const totalEvents = eventsApprovedCount + eventsNotApprovedCount;
 
     res.status(200).send({ success: true, statistics: { eventsApprovedCount, eventsNotApprovedCount, ticketsBooked, totalEvents, lastEvents } });
   } catch (err) {

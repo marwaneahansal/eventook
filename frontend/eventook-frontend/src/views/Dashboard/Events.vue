@@ -23,7 +23,7 @@
             <b-button icon-left="pencil-outline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="editEvent(event.uid)">Edit</b-button>
             <b-button icon-left="delete-outline" class="is-size-5 delete-button is-flex-grow-1" type="is-danger is-light" @click="deleteEventDialog(event.uid)">Delete</b-button>
           </div>
-          <div class="is-flex">
+          <div class="is-flex" v-if="userRole === 'admin'">
             <b-button icon-left="check-underline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="approveEventDialog(event.uid)">Approve Event</b-button>
           </div>
         </template>

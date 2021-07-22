@@ -6,7 +6,8 @@
       <statistic-card background="secondary" title="Tickets Booked" :statistic="statistics.ticketsBooked" icon="ticket-confirmation-outline"></statistic-card>
       <statistic-card background="info" title="Total Events" :statistic="statistics.totalEvents" icon="calendar-text-outline"></statistic-card>
     </div>
-    <div class="dashboard__home-chart" v-if="bookingsChartLabels && bookingsChartData">
+    <div class="dashboard__home-chart mb-6" v-if="bookingsChartLabels && bookingsChartData">
+      <h3 class="is-size-5 has-text-light mb-4">Bookings of last {{ bookingsChartData.length }} upcoming events:</h3>
       <bookings-chart :labels="bookingsChartLabels" :data="bookingsChartData"></bookings-chart>
     </div>
   </div>
