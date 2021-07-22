@@ -12,6 +12,7 @@
           {{ event.title }}
         </h1>
         <p class="is-size-6 has-text-weight-semibold">{{ eventPeriod }}</p>
+        <p class="mt-4 is-size-6 has-text-danger" v-if="isEventEnded">Sorry! this event is passed.</p>
       </div>
     </div>
 
@@ -228,6 +229,9 @@ export default {
 
       return 0;
     },
+    isEventEnded() {
+      return differenceInSeconds(parseISO(this.event.eventDateStart), new Date()) < 0;
+    },
   },
 
   methods: {
@@ -282,7 +286,7 @@ export default {
         });
     },
     runCountDown(eventStartDate) {
-      if (differenceInSeconds(parseISO(eventStartDate), new Date()) > 0) {
+      if (!this.isEventEnded) {
         setInterval(() => {
           let now = new Date();
           this.eventStartCountDown.days = differenceInDays(parseISO(eventStartDate), now);
@@ -300,6 +304,17 @@ export default {
     },
     bookTicket() {
       this.formErrors = {};
+
+      if (this.isEventEnded) {
+        this.$buefy.notification.open({
+          duration: 5000,
+          message: 'You can\'t book tickets for this event because it\'s passed!',
+          position: 'is-bottom-right',
+          type: 'is-danger',
+        });
+        return;
+      }
+
       this.validateForm();
 
       if (Object.keys(this.formErrors).length === 0) {

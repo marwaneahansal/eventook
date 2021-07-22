@@ -239,6 +239,9 @@ exports.bookTicket = async (req, res) => {
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 
+    if(new Date(event.eventDateStart).getTime() < new Date().getTime())
+      return res.status(200).send({ success: false, message: 'You can\'t book tickets for this event because it\'s passed!' });
+
     const eventTicket = await EventTickets.findOne({ where: { id: req.body.eventTicketId ,eventUid: event.uid } });
 
     if(eventTicket === null) return res.status(404).send({ success: false, message: 'Ticket does not belongs to this event!' });
