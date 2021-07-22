@@ -29,3 +29,20 @@
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .footer-nav {
+    flex-direction: column !important;
+    .footer-nav_logo {
+      margin-bottom: .75rem;
+    }
+  }
+
+  .footer-container {
+    width: 95% !important;
+  }
+
+  .footer-copy {
+    margin-bottom: 1rem !important;
+  }
+}
+

@@ -4,25 +4,25 @@
 					<template #brand>
 							<b-navbar-item
 							tag="router-link"
-							class="is-size-4 has-text-white has-text-weight-medium" :to="{ path: '/' }">
+							class="is-size-4-desktop is-size-6 has-text-white has-text-weight-medium" :to="{ path: '/' }">
 									EVENT <span class="has-text-primary">OOK</span>
 							</b-navbar-item>
 					</template>
 					<template #end>
-							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Home'}).catch(() => { })">
+							<b-navbar-item class="has-text-white has-text-weight-medium-desktop" @click="$router.push({ name: 'Home'}).catch(() => { })">
 									Home
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Events' }).catch(() => { })">
+							<b-navbar-item class="has-text-white has-text-weight-medium-desktop" @click="$router.push({ name: 'Events' }).catch(() => { })">
 									Events
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'About'}).catch(() => { })">
+							<b-navbar-item class="has-text-white has-text-weight-medium-desktop" @click="$router.push({ name: 'About'}).catch(() => { })">
 									About us
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium">
+							<b-navbar-item class="has-text-white has-text-weight-medium-desktop">
 									Contact
 							</b-navbar-item>
-							<div class="is-flex" v-if="!isLoggedIn">
-								<b-navbar-item @click="$router.push({ name: 'Login'}).catch(() => { })" class="has-text-white has-text-weight-medium">
+							<div class="is-flex-desktop" v-if="!isLoggedIn">
+								<b-navbar-item @click="$router.push({ name: 'Login'}).catch(() => { })" class="has-text-white has-text-weight-medium-desktop">
 										Login
 								</b-navbar-item>
 								<b-navbar-item @click="$router.push({ name: 'Register'}).catch(() => { })">
@@ -69,7 +69,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../assets/scss/_variables";
 
 .b-navbar {
@@ -79,6 +79,25 @@ export default {
     color: $main-color !important;
   }
 
+}
+
+.navbar-burger {
+	span {
+		background-color: $light !important;
+	}
+}
+
+@media only screen and (max-width: 1023px) {
+	.navbar-menu.is-active {
+		position: absolute;
+		width: 100%;
+		background-color: $light-background !important;
+		color: $light !important;
+	}
+	.navbar-menu {
+		background-color: $light-background !important;
+		color: $light !important;
+	}
 }
 
 </style>

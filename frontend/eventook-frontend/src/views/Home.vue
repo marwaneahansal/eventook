@@ -17,10 +17,10 @@
       <div class="events-showcase-header mb-6">
         <div class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between">
           <div>
-            <p class="is-size-4 has-text-light is-uppercase has-text-weight-semibold">Events:</p>
+            <p class="is-size-4 is-size-6-mobile has-text-light is-uppercase has-text-weight-semibold">Events:</p>
             <div class="primary-line has-background-primary"></div>
           </div>
-          <a href="/events" class="is-size-5 has-text-primary is-hover-light">View all</a>
+          <a href="/events" class="is-size-5 is-size-7-mobile has-text-primary is-hover-light">View all</a>
         </div>
         <div class="line has-background-grey"></div>
       </div>

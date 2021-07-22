@@ -32,8 +32,20 @@ export default {
     flex: 1;
   }
 }
+
 .container {
   width: 80%;
   margin: 0 auto;
+}
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+  .container {
+    width: 95% !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .container {
+    width: 100% !important;
+    padding: 0 1rem;
+  }
 }
 </style>
