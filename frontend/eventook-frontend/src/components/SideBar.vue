@@ -15,12 +15,14 @@
         type="is-dark"
       >
         <div class="p-3">
-          <h1
-            tag="router-link"
-            class="is-size-3 has-text-white has-text-weight-medium has-text-centered logo mb-4"
-          >
-            EVENT<span class="has-text-primary">OOK</span>
-          </h1>
+          <router-link to="/">
+            <h1
+              tag="router-link"
+              class="is-size-3 has-text-white has-text-weight-medium has-text-centered logo mb-4"
+            >
+              EVENT<span class="has-text-primary">OOK</span>
+            </h1>
+          </router-link>
           <b-menu>
             <b-menu-list label="Menu">
               <b-menu-item

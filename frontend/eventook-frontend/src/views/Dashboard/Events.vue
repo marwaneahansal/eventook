@@ -15,7 +15,9 @@
         </template>
 
         <template v-slot:view-bookings>
-          <button @click="$router.push({ name: 'DashboardEventBookings', params: { eventUid: event.uid } })" class="view-booking mb-2 px-3 button is-primary is-inverted is-outlined">View Bookings</button>
+          <router-link :to="`/dashboard/events/${event.uid}/bookings`">
+            <button class="view-booking mb-2 px-3 button is-primary is-inverted is-outlined">View Bookings</button>
+          </router-link>
         </template>
 
         <template v-slot:action-buttons>

@@ -14,7 +14,10 @@
       </div>
       <div class="event-title p-3 is-flex is-flex-direction-column">
         <p class="is-size-5 truncate">{{ event.title }}</p>
-        <slot name="approve-state"></slot>
+        <div class="event-tags is-flex">
+          <b-tag type="is-danger" class="mr-3" v-if="isEventEnded">Ended</b-tag>
+          <slot name="approve-state"></slot>
+        </div>
       </div>
     </div>
     <slot name="view-bookings"></slot>
@@ -23,7 +26,7 @@
 </template>
 
 <script>
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, differenceInSeconds } from 'date-fns';
 
 export default {
   props: {
@@ -38,6 +41,9 @@ export default {
         date: format(parseISO(this.event.eventDateStart), 'dd'),
         month: format(parseISO(this.event.eventDateStart), 'MMM'),
       };
+    },
+    isEventEnded() {
+      return differenceInSeconds(parseISO(this.event.eventDateStart), new Date()) < 0;
     },
   },
 };
