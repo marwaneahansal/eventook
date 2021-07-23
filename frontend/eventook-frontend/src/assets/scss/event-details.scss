@@ -56,8 +56,6 @@
 
 
   .event-description {
-    height: 90vh;
-
     .event-description-text {
       width: 40%;
 
@@ -71,12 +69,13 @@
 
 
     .event-description-thumbnail {
-      height: 100%;
-
+      .b-image-wrapper > img {
+        object-fit: contain !important;
+      }
       img {
-        height: 100% !important;
         max-width: 100%;
         transition: all .5s ease-in-out;
+        max-height: 450px;
 
         &:hover {
           transform: scale(1.05);
@@ -149,4 +148,114 @@
     }
   }
 
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+  .event-details {
+    .header-content {
+      .main-title {
+        font-size: 2em !important;
+      }
+    }
+
+    .days-left {
+      font-size: 3rem;
+    }
+
+    .event-stats {
+      padding: 40px 20px !important;
+      background-color: #032055;
+      border-radius: 10px;
+
+      display: grid;
+      grid-template-columns: repeat(2, 1fr) !important;
+      grid-auto-flow: 1fr;
+      column-gap: 40px;
+      row-gap: 20px;
+
+
+      .event-stats--card {
+        padding: 10px 15px;
+        background-color: #08378e;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 7px;
+
+        box-icon {
+          margin-right: 15px;
+        }
+      }
+    }
+
+    .cta {
+      margin-top: 4rem;
+    }
+
+  }
+}
+
+@media only screen and (max-width: 769px) {
+  .event-details {
+    .header-content {
+      .main-title {
+        font-size: 2em !important;
+      }
+    }
+
+    .days-left {
+      width: 80% !important;
+      font-size: 2rem;
+      padding-right: 2rem !important;
+      padding-left: 2rem !important;
+      margin: 0 auto;
+    }
+
+    .event-description {
+      padding-top: 1.5rem !important;
+      padding-bottom: 1.5rem !important;
+      flex-direction: column-reverse !important;
+
+      .event-description-text {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        width: 100% !important;
+      }
+    }
+
+    .statistics p {
+      width: 80% !important;
+    }
+
+    .event-stats {
+      padding: 20px 40px !important;
+      background-color: #032055;
+      border-radius: 10px;
+
+      display: grid;
+      grid-template-columns: 1fr !important;
+      grid-auto-flow: 1fr;
+      column-gap: 20px;
+      row-gap: 20px;
+
+
+      .event-stats--card {
+        padding: 10px 15px;
+        background-color: #08378e;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 7px;
+
+        box-icon {
+          margin-right: 15px;
+        }
+      }
+    }
+
+    .cta {
+      margin-top: 4rem;
+    }
+
+  }
 }

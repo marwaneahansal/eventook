@@ -1,56 +1,61 @@
 <template>
-  <div class="event-tickets" v-if="event">
-    <div class="event-tickets-banner">
-      <div class="event-tickets-banner-bg"></div>
+  <div>
+    <div class="container">
+      <b-message type="is-danger" has-icon style="margin-top: 4rem" v-if="isEventNotFound">
+        <p>This event does not exist on our database!</p>
+        <p>Check all <a href="/events">Events here</a></p>
+      </b-message>
     </div>
-
-    <div class="event-tickets-content container py-6">
-      <div
-        class="header-content is-flex is-flex-direction-column
-          is-justify-content-center is-align-items-center mt-6 pt-5">
-        <h1 class="is-uppercase is-size-1 has-text-weight-bold has-text-centered" style="width: 60%;">
-          {{ event.title }}
-        </h1>
-        <p class="is-size-6 has-text-weight-semibold">{{ eventPeriod }}</p>
-        <p class="mt-4 is-size-6 has-text-danger" v-if="isEventEnded">Sorry! this event is passed.</p>
+    <div class="event-tickets" v-if="event">
+      <div class="event-tickets-banner">
+        <div class="event-tickets-banner-bg"></div>
       </div>
-    </div>
 
-    <div class="event-info">
-      <div class="container">
-
-        <p class="is-flex is-align-items-center has-text-centered">{{ `${event.adresse}, ${event.city}, ${event.country}` }}</p>
-
-        <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center has-text-centered">
-          <p>NaN sold tickets</p>
-          <p class="has-text-primary has-text-weight-semibold">NaN left</p>
+      <div class="event-tickets-content container py-6">
+        <div
+          class="header-content is-flex is-flex-direction-column
+            is-justify-content-center is-align-items-center mt-6 pt-5">
+          <h1 class="is-uppercase is-size-1-desktop is-size-3 has-text-weight-bold has-text-centered" style="width: 60%;">
+            {{ event.title }}
+          </h1>
+          <p class="is-size-6 has-text-weight-semibold">{{ eventPeriod }}</p>
+          <p class="mt-4 is-size-6 has-text-danger" v-if="isEventEnded">Sorry! this event is passed.</p>
         </div>
+      </div>
+      <div class="event-info">
+        <div class="container">
 
-        <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
-          <div class="time-left is-flex is-align-items-center is-justify-content-flex-end">
-            <span class="ml-2">{{ eventStartCountDown.days }}d</span>
-            <span class="ml-2">{{ eventStartCountDown.hours }}h</span>
-            <span class="ml-2">{{ eventStartCountDown.minutes }}m</span>
-            <span class="ml-2">{{ eventStartCountDown.seconds }}s</span>
+          <p class="is-flex is-align-items-center has-text-centered">{{ `${event.adresse}, ${event.city}, ${event.country}` }}</p>
+
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center has-text-centered">
+            <p>NaN sold tickets</p>
+            <p class="has-text-primary has-text-weight-semibold">NaN left</p>
           </div>
-          <p class="has-text-primary has-text-weight-semibold">Left</p>
+
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
+            <div class="time-left is-flex is-align-items-center is-justify-content-flex-end">
+              <span class="ml-2">{{ eventStartCountDown.days }}d</span>
+              <span class="ml-2">{{ eventStartCountDown.hours }}h</span>
+              <span class="ml-2">{{ eventStartCountDown.minutes }}m</span>
+              <span class="ml-2">{{ eventStartCountDown.seconds }}s</span>
+            </div>
+            <p class="has-text-primary has-text-weight-semibold">Left</p>
+          </div>
+
         </div>
-
       </div>
-    </div>
 
-    <div class="event-checkout is-flex columns container mt-6">
-      <div class="checkout-info column p-0 is-three-fifths mr-4">
+      <div class="event-checkout is-flex columns container mt-6">
+        <div class="checkout-info p-0 is-three-fifths-desktop is-full mr-4">
 
-        <div class="checkout-info--tickets px-4 py-5 mb-4">
-          <h2 class="is-size-5 has-text-weight-bold mb-5">Choose Your Ticket</h2>
+          <div class="checkout-info--tickets px-4 py-5 mb-4">
+            <h2 class="is-size-5 has-text-weight-bold mb-5">Choose Your Ticket</h2>
 
-          <div class="event-cards is-flex is-align-items-center is-justify-content-space-between mb-6">
-            <div
-              v-for="ticket in tickets" :key="ticket.id"
-              :class="ticket.type"
-              class="event-card is-flex is-flex-direction-column is-align-items-center"
-            >
+            <div class="event-cards is-flex is-align-items-center is-justify-content-space-between mb-6">
+              <div
+                v-for="ticket in tickets" :key="ticket.id"
+                class="event-card is-flex is-flex-direction-column is-align-items-center" :class="ticket.type"
+              >
               <p class="ticket-title mb-4 is-size-5 has-text-white">{{ ticket.name }}</p>
               <p class="ticket-price is-size-4 has-text-weight-semibold">{{ ticket.price }}$</p>
               <div
@@ -60,108 +65,109 @@
               >
                 <box-icon :name="selectedTicket === ticket.id ? 'check'  : 'plus'" color="#001232"></box-icon>
               </div>
+              </div>
+            </div>
+
+            <div class="ticket-seats is-flex is-align-items-center mb-4">
+              <p class="is-size-5">Number of Seats:</p>
+              <div class="ticket-seats--input is-flex is-align-items-center mx-6">
+                <div class="ticket-seats-button ticket-seats-down" @click="substractSeatsNumber">-</div>
+                <input type="number" min="1" max="99" :value="seatsNumber">
+                <div class="ticket-seats-button ticket-seats-up" @click="addSeatsNumber">+</div>
+              </div>
             </div>
           </div>
 
-          <div class="ticket-seats is-flex is-align-items-center mb-4">
-            <p class="is-size-5">Number of Seats:</p>
-            <div class="ticket-seats--input is-flex is-align-items-center mx-6">
-              <div class="ticket-seats-button ticket-seats-down" @click="substractSeatsNumber">-</div>
-              <input type="number" min="1" max="99" :value="seatsNumber">
-              <div class="ticket-seats-button ticket-seats-up" @click="addSeatsNumber">+</div>
+          <div class="checkout-info--form px-4 py-5">
+            <h2 class="is-size-5 has-text-weight-bold mb-5">Share Your Contact Details</h2>
+
+            <div class="checkout-form-contact-details is-flex is-align-items-flex-start is-justify-content-space-between mb-4">
+              <div class="checkout-input mr-2 is-flex-grow-1">
+                <label for="full-name">Full Name</label>
+                <input class="input is-flex-grow-1 my-2" type="text" placeholder="John Doe" id="full-name" v-model="fullName">
+                <p class="has-text-danger" v-if="formErrors.fullName">{{ formErrors.fullName }}</p>
+              </div>
+              <div class="checkout-input ml-2 is-flex-grow-1">
+                <label for="email">Email</label>
+                <input class="input is-flex-grow-1 my-2" type="email" placeholder="johndoe@email.com" id="email" v-model="email">
+                <p class="has-text-danger" v-if="formErrors.email">{{ formErrors.email }}</p>
+              </div>
+            </div>
+
+            <div class="border my-5"></div>
+
+            <h2 class="is-size-5 has-text-weight-bold mb-5">Payement Details</h2>
+
+            <div class="payement-details mb-4">
+
+              <div class="payement-details--card-number mb-4">
+                <label for="card-number">Card Number</label>
+                <input class="payement-input my-2 input" type="text" placeholder="1234-5678-9012-3456" id="card-number" v-model="cardNumber">
+                <p class="has-text-danger" v-if="formErrors.cardNumber">{{ formErrors.cardNumber }}</p>
+              </div>
+
+              <div class="is-flex is-align-items-flex-start is-justify-content-space-between">
+                <div class="payement-details--expiry-date is-flex-grow-1 mr-2">
+                  <label for="expiry-date">Expiry Date</label>
+                  <input class="payement-input my-2 input" type="text" placeholder="01/22" id="expiry-date" v-model="expiryDate">
+                  <p class="has-text-danger" v-if="formErrors.expiryDate">{{ formErrors.expiryDate }}</p>
+                </div>
+
+                <div class="payement-details--cvv is-flex-grow-1 ml-2">
+                  <label for="cvv">CVV</label>
+                  <input class="payement-input my-2 input" type="text" placeholder="***" id="cvv" maxlength="3" v-model="cvv">
+                  <p class="has-text-danger" v-if="formErrors.cvv">{{ formErrors.cvv }}</p>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
 
-        <div class="checkout-info--form px-4 py-5">
-          <h2 class="is-size-5 has-text-weight-bold mb-5">Share Your Contact Details</h2>
+        <div class="event-checkout-amount px-4 py-5">
+          <h2 class="is-size-5 has-text-weight-bold mb-5">Booking Summary</h2>
 
-          <div class="checkout-form-contact-details is-flex is-align-items-flex-start is-justify-content-space-between mb-4">
-            <div class="checkout-input mr-2 is-flex-grow-1">
-              <label for="full-name">Full Name</label>
-              <input class="input is-flex-grow-1 my-2" type="text" placeholder="John Doe" id="full-name" v-model="fullName">
-              <p class="has-text-danger" v-if="formErrors.fullName">{{ formErrors.fullName }}</p>
+          <div class="is-flex is-align-items-center is-justify-content-space-between">
+            <div class="event-date">
+              <p style="color: #b8d4f7">{{ eventTime }}</p>
+              <p class="has-text-weight-semibold has-text-white is-uppercase">Time</p>
             </div>
-            <div class="checkout-input ml-2 is-flex-grow-1">
-              <label for="email">Email</label>
-              <input class="input is-flex-grow-1 my-2" type="email" placeholder="johndoe@email.com" id="email" v-model="email">
-              <p class="has-text-danger" v-if="formErrors.email">{{ formErrors.email }}</p>
+            <div class="event-ticket-sum">
+              <p style="color: #b8d4f7" class="has-text-right">{{ seatsNumber }}</p>
+              <p class="has-text-weight-semibold has-text-white is-uppercase has-text-right">Tickets</p>
             </div>
           </div>
 
           <div class="border my-5"></div>
 
-          <h2 class="is-size-5 has-text-weight-bold mb-5">Payement Details</h2>
-
-          <div class="payement-details mb-4">
-
-            <div class="payement-details--card-number mb-4">
-              <label for="card-number">Card Number</label>
-              <input class="payement-input my-2 input" type="text" placeholder="1234-5678-9012-3456" id="card-number" v-model="cardNumber">
-              <p class="has-text-danger" v-if="formErrors.cardNumber">{{ formErrors.cardNumber }}</p>
+          <div>
+            <div class="event-price is-flex is-align-items-center is-justify-content-space-between mb-3">
+              <p class="has-text-weight-semibold is-uppercase has-text-white">Price</p>
+              <p class="has-text-weight-bold is-size-5" style="color: #b8d4f7">{{ ticketsPriceTotal }}$</p>
             </div>
-
-            <div class="is-flex is-align-items-flex-start is-justify-content-space-between">
-              <div class="payement-details--expiry-date is-flex-grow-1 mr-2">
-                <label for="expiry-date">Expiry Date</label>
-                <input class="payement-input my-2 input" type="text" placeholder="01/22" id="expiry-date" v-model="expiryDate">
-                <p class="has-text-danger" v-if="formErrors.expiryDate">{{ formErrors.expiryDate }}</p>
-              </div>
-
-              <div class="payement-details--expiry-date is-flex-grow-1 ml-2">
-                <label for="cvv">CVV</label>
-                <input class="payement-input my-2 input" type="text" placeholder="***" id="cvv" maxlength="3" v-model="cvv">
-                <p class="has-text-danger" v-if="formErrors.cvv">{{ formErrors.cvv }}</p>
-              </div>
+            <div class="event-price is-flex is-align-items-center is-justify-content-space-between">
+              <p class="has-text-weight-semibold is-uppercase has-text-white">VAT</p>
+              <p class="has-text-weight-bold is-size-5" style="color: #b8d4f7">{{ vat }}$</p>
             </div>
           </div>
-        </div>
 
-      </div>
+          <div class="border my-5"></div>
 
-      <div class="column event-checkout-amount px-4 py-5">
-        <h2 class="is-size-5 has-text-weight-bold mb-5">Booking Summary</h2>
-
-        <div class="is-flex is-align-items-center is-justify-content-space-between">
-          <div class="event-date">
-            <p style="color: #b8d4f7">{{ eventTime }}</p>
-            <p class="has-text-weight-semibold has-text-white is-uppercase">Time</p>
+          <div class="event-total-price is-flex is-align-items-center is-justify-content-center">
+            <p class="has-text-weight-bold is-uppercase has-text-primary mr-4 is-size-5">Total Price:</p>
+            <p class="has-text-weight-bold has-text-primary is-size-5">{{ ticketsPriceTotal + vat }}$</p>
           </div>
-          <div class="event-ticket-sum">
-            <p style="color: #b8d4f7" class="has-text-right">{{ seatsNumber }}</p>
-            <p class="has-text-weight-semibold has-text-white is-uppercase has-text-right">Tickets</p>
+
+          <div class="is-flex is-justify-content-center my-5">
+            <button
+              @click="bookTicket"
+              class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold">
+              Proceed Now
+            </button>
           </div>
+
+          <p class="has-text-centred" v-if="formErrors.selectedTicket">{{ formErrors.selectedTicket }}</p>
         </div>
-
-        <div class="border my-5"></div>
-
-        <div>
-          <div class="event-price is-flex is-align-items-center is-justify-content-space-between mb-3">
-            <p class="has-text-weight-semibold is-uppercase has-text-white">Price</p>
-            <p class="has-text-weight-bold is-size-5" style="color: #b8d4f7">{{ ticketsPriceTotal }}$</p>
-          </div>
-          <div class="event-price is-flex is-align-items-center is-justify-content-space-between">
-            <p class="has-text-weight-semibold is-uppercase has-text-white">VAT</p>
-            <p class="has-text-weight-bold is-size-5" style="color: #b8d4f7">{{ vat }}$</p>
-          </div>
-        </div>
-
-        <div class="border my-5"></div>
-
-        <div class="event-total-price is-flex is-align-items-center is-justify-content-center">
-          <p class="has-text-weight-bold is-uppercase has-text-primary mr-4 is-size-5">Total Price:</p>
-          <p class="has-text-weight-bold has-text-primary is-size-5">{{ ticketsPriceTotal + vat }}$</p>
-        </div>
-
-        <div class="is-flex is-justify-content-center my-5">
-          <button
-            @click="bookTicket"
-            class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold">
-            Proceed Now
-          </button>
-        </div>
-
-        <p class="has-text-centred" v-if="formErrors.selectedTicket">{{ formErrors.selectedTicket }}</p>
       </div>
     </div>
   </div>
@@ -185,6 +191,8 @@ export default {
       expiryDate: null,
       cvv: null,
       seatsNumber: 1,
+
+      isEventNotFound: false,
 
       formErrors: {},
 
@@ -283,6 +291,7 @@ export default {
             position: 'is-bottom-right',
             type: 'is-danger',
           });
+          if (err.response.status === 404) this.isEventNotFound = true;
         });
     },
     runCountDown(eventStartDate) {

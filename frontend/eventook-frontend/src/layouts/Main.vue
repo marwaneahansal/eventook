@@ -39,7 +39,7 @@ export default {
 }
 @media only screen and (min-width: 769px) and (max-width: 1023px) {
   .container {
-    width: 95% !important;
+    width: 90% !important;
   }
 }
 @media only screen and (max-width: 768px) {

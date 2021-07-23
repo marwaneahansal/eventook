@@ -1,9 +1,9 @@
 .event-tickets {
-
   .event-tickets-banner {
+    height: 100vh;
     position: absolute;
     top: 0;
-    height: 70vh;
+    height: 100%;
     width: 100%;
     background-image: url('../assets/images/banner07.jpg');
     background-size: cover;
@@ -22,10 +22,12 @@
   }
 
   .event-tickets-content {
+    height: 90vh;
     z-index: 10;
   }
 
   .event-info {
+    margin-top: -2rem;
     background-color: #0a1e5e;
     width: 100%;
     padding: 20px 0;
@@ -46,6 +48,11 @@
     .event-checkout-amount {
       height: fit-content;
       padding-bottom: 5rem !important;
+      width: 40%;
+    }
+
+    .checkout-info {
+      width: 60%;
     }
 
     .event-checkout-amount, .checkout-info--tickets, .checkout-info--form {
@@ -57,6 +64,8 @@
       border-radius: 10px;
       width: 30%;
       padding: 4rem .5rem;
+      min-width: 190px !important;
+      max-width: 220px !important;
 
       &::before {
         content: "";
@@ -202,4 +211,88 @@
 
   }
 
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1216px) {
+.event-tickets {
+  .event-info {
+    padding: 20px 0;
+
+    .container {
+      display: grid;
+      column-gap: 5px !important;
+    }
+  }
+
+  .checkout-info {
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+
+  .event-checkout-amount {
+    width: 100% !important;
+  }
+
+  .event-checkout {
+    flex-direction: column !important;
+
+    .checkout-info--form {
+      margin-bottom: 1rem;
+    }
+  }
+}
+}
+
+@media only screen and (max-width: 768px) {
+  .event-tickets {
+    .event-info {
+      display: none;
+    }
+
+    .event-checkout {
+      flex-direction: column !important;
+
+      .checkout-info--form {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .event-cards {
+    flex-direction: column;
+
+    .event-card:nth-child(1), .event-card:nth-child(2) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .checkout-info {
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+
+  .event-checkout-amount {
+    width: 100% !important;
+  }
+
+  .checkout-form-contact-details {
+    flex-direction: column !important;
+    .checkout-input {
+      width: 100%;
+
+      &:nth-child(2) {
+        margin-left: 0 !important;
+      }
+    }
+  }
+
+  .payement-details {
+    &>div:nth-child(2) {
+      flex-direction: column !important;
+      .payement-details--expiry-date, .payement-details--cvv {
+        width: 100%;
+        margin-left: 0 !important;
+      }
+    }
+  }
 }

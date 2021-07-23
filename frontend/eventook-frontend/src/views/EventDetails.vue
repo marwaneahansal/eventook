@@ -11,42 +11,48 @@
       <div class="event-details-header container mb-6">
         <div
           class="header-content is-flex is-flex-direction-column
-            is-justify-content-center is-align-items-center">
+            is-justify-content-center is-align-items-center has-text-centered">
           <h1 class="is-uppercase main-title">
             {{ event.title }}
           </h1>
           <button
-            class="button is-primary is-large has-text-black mt-3 is-uppercase has-text-weight-semibold"
+            class="button is-primary has-text-black mt-3 is-uppercase has-text-weight-semibold-desktop"
             @click="bookTickets"
             :disabled="isEventEnded">
           Book tickets now</button>
           <p class="mt-4 is-size-6 has-text-danger" v-if="isEventEnded">Sorry! this event is passed.</p>
         </div>
-        <div class="days-left is-flex is-align-items-center is-justify-content-space-between">
-          <span>{{ eventStartCountDown.days }}d</span>
-          <span>{{ eventStartCountDown.hours }}h</span>
-          <span>{{ eventStartCountDown.minutes }}m</span>
-          <span>{{ eventStartCountDown.seconds }}s</span>
+        <div class="is-flex is-justify-content-center">
+          <div class="days-left is-flex is-align-items-center is-justify-content-space-between">
+            <span>{{ eventStartCountDown.days }}d</span>
+            <span>{{ eventStartCountDown.hours }}h</span>
+            <span>{{ eventStartCountDown.minutes }}m</span>
+            <span>{{ eventStartCountDown.seconds }}s</span>
+          </div>
         </div>
       </div>
 
       <div class="container event-description is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center py-6">
         <div class="event-description-text">
-          <h2 class="is-uppercase is-size-3 has-text-weight-bold has-text-primary">{{ event.title }}</h2>
-          <p class="is-size-5 ">
+          <h2 class="is-uppercase is-size-3-desktop is-size-5-tablet has-text-weight-bold has-text-primary">{{ event.title }}</h2>
+          <p class="is-size-5-desktop is-size-6">
             {{ event.description }}
           </p>
           <button class="button is-primary has-text-black mt-3 is-uppercase is-rounded" @click="bookTickets" :disabled="isEventEnded">Book tickets</button>
         </div>
         <div class="event-description-thumbnail">
-          <img src="../assets/images/event02.jpg" alt="event thumbnail">
+          <b-image
+            :src="`http://localhost:8000/api/events/images/${event.uid}`"
+            :src-fallback="require('@/assets/images/event02.jpg')"
+            :alt="event.title">
+          </b-image>
         </div>
       </div>
 
       <div class="statistics-wrapper">
         <div class="container statistics is-flex is-flex-direction-column is-align-items-center py-6">
-          <h3 class="is-uppercase is-size-2 mt-6 mb-3 has-text-weight-semibold has-text-primary">More info</h3>
-          <p class="has-text-centered mb-6 is-size-5">
+          <h3 class="is-uppercase is-size-2-desktop is-size-5-tablet mt-6 mb-3 has-text-weight-semibold has-text-primary">More info</h3>
+          <p class="has-text-centered mb-6-desktop mb-5 is-size-5-desktop is-size-6">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur magnam facilis non laboriosam modi necessitatibus itaque nihil sequi atque deleniti?
           </p>
         </div>
@@ -54,49 +60,49 @@
 
       <div class="container event-stats mb-6">
         <div class="event-stats--card event-stats--card-1">
-          <box-icon name='calendar-event' color="#009881" size="lg"></box-icon>
+          <box-icon name='calendar-event' color="#009881" :size="isDesktop ? 'lg' : 'md'"></box-icon>
           <div>
-            <p class="is-size-5">{{ eventDates.eventTotalDays }} Days</p>
+            <p class="is-size-5-desktop">{{ eventDates.eventTotalDays }} Days</p>
             <p class="has-text-primary">{{ eventDates.eventStartDay }}-{{ eventDates.eventEndDay }}</p>
           </div>
         </div>
 
         <div class="event-stats--card event-stats--card-1">
-          <box-icon name='map-pin' color="#009881" size="lg"></box-icon>
+          <box-icon name='map-pin' color="#009881" :size="isDesktop ? 'lg' : 'md'"></box-icon>
           <div>
-            <p class="is-size-5">{{ event.adresse }}</p>
+            <p class="is-size-5-desktop">{{ event.adresse }}</p>
             <p class="has-text-primary">{{ `${event.city}, ${event.country}` }}</p>
           </div>
         </div>
 
         <div class="event-stats--card event-stats--card-1">
-          <box-icon name='blanket' color="#009881" size="lg"></box-icon>
+          <box-icon name='blanket' color="#009881" :size="isDesktop ? 'lg' : 'md'"></box-icon>
           <div>
-            <p class="is-size-5">530</p>
+            <p class="is-size-5-desktop">530</p>
             <p class="has-text-primary">Tickets Booked</p>
           </div>
         </div>
 
         <div class="event-stats--card event-stats--card-1">
-          <box-icon name='carousel' color="#009881" size="lg"></box-icon>
+          <box-icon name='carousel' color="#009881" :size="isDesktop ? 'lg' : 'md'"></box-icon>
           <div>
-            <p class="is-size-5">500</p>
+            <p class="is-size-5-desktop">500</p>
             <p class="has-text-primary">Usefull Sessions</p>
           </div>
         </div>
 
         <div class="event-stats--card event-stats--card-1">
-          <box-icon name='user-voice' color="#009881" size="lg"></box-icon>
+          <box-icon name='user-voice' color="#009881" :size="isDesktop ? 'lg' : 'md'"></box-icon>
           <div>
-            <p class="is-size-5">15</p>
+            <p class="is-size-5-desktop">15</p>
             <p class="has-text-primary">Talented Speakers</p>
           </div>
         </div>
       </div>
 
       <div class="container cta" v-if="!isEventEnded">
-        <h1 class="is-size-3 is-uppercase has-text-primary has-text-centered has-text-weight-semibold">Are you ready to attend?</h1>
-        <button class="button is-primary has-text-black mt-3 is-medium is-uppercase is-rounded has-text-weight-semibold" @click="bookTickets">Book tickets</button>
+        <h1 class="is-size-3-desktop is-size-5-tablet is-uppercase has-text-primary has-text-centered has-text-weight-semibold">Are you ready to attend?</h1>
+        <button class="button is-primary has-text-black mt-3 is-medium-desktop is-uppercase is-rounded has-text-weight-semibold-desktop" @click="bookTickets">Book tickets</button>
       </div>
 
     </div>
@@ -123,6 +129,9 @@ export default {
         seconds: '00',
       },
       isEventNotFound: false,
+
+      windowWidth: window.innerWidth,
+      isDesktop: true,
     };
   },
 
@@ -185,6 +194,22 @@ export default {
     bookTickets() {
       this.$router.push({ name: 'EventTickets', params: { id: this.$route.params.id } });
     },
+    onResize() {
+      this.isDesktop = window.innerWidth > 1023;
+    },
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    });
+  },
+
+  beforeDestroy() {
+    this.$nextTick(() => {
+      window.removeEventListener('resize', this.onResize);
+      window.removeEventListener('scroll', this.onScrollFunction);
+    });
   },
 
   created() {
