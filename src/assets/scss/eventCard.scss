@@ -1,0 +1,68 @@
+@import "./variables";
+
+.event-wrapper {
+  cursor: pointer;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: $light-background;
+
+  .event-header {
+    position: relative;
+    overflow: hidden;
+    padding: 5px;
+    overflow: hidden;
+    flex: 1;
+    min-height: 85%;
+    max-height: 85%;
+
+    .b-image-wrapper {
+      height: 100%;
+    }
+
+    img {
+      height: 100%;
+      border-radius: 10px;
+      width: 100%;
+      display: block;
+      transition: transform .5s ease-in-out;
+    }
+  }
+
+  .event-title {
+    margin-top: 0px;
+    background-color: $light-background;
+    p {
+      transition: color .5s ease-in-out;
+    }
+  }
+
+  .event-wrapper_container {
+
+
+    &:hover .event-header img {
+      transform: scale(1.05);
+    }
+
+    &:hover .event-title p {
+      color: #209cee;
+    }
+  }
+
+  .event-date {
+    position: absolute;
+    top: 0;
+    text-align: center;
+    left: 10%;
+    padding: 10px;
+    background-color: rgb(12, 72, 179);
+    border-radius: 0 0 10px 10px;
+  }
+
+  .truncate {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
