@@ -3,7 +3,7 @@
     <div class="sidebar">
       <side-bar @logout="logout"></side-bar>
     </div>
-    <div class="full_page__content py-5" v-if="userName">
+    <div class="full_page__content py-5">
       <!-- <h1 class="is-size-4">Welcome <span class="has-text-weight-bold is-uppercase">{{ userName }}</span></h1> -->
       <router-view class="router-view"/>
     </div>
@@ -57,5 +57,11 @@ export default {
 .full_page__content {
   flex: 1;
   margin: 0 4rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .full_page__content {
+    margin: 0 .5rem !important;
+  }
 }
 </style>

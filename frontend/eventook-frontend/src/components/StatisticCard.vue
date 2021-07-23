@@ -6,7 +6,7 @@
     </b-icon>
     <div>
       <p class="statistic-card__title">{{ title }}</p>
-      <p class="has-text-dark has-text-weight-bold is-size-5">{{ statistic }}</p>
+      <p class="has-text-dark has-text-weight-bold is-size-5 is-size-6-mobile">{{ statistic }}</p>
     </div>
   </div>
 </template>
@@ -60,6 +60,18 @@ export default {
 
 .statistic-card.info {
   background-color: #dee0ef !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .statistic-card {
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: $grey-darker;
+
+    .statistic-card__title {
+      font-size: 1rem;
+    }
+  }
 }
 
 </style>

@@ -1,14 +1,16 @@
 <template>
   <div class="dashboard__home" v-if="statistics">
-    <div class="is-flex is-justify-content-space-between mt-4">
+    <div class="statistic-cards is-flex is-justify-content-space-between mt-4">
       <statistic-card background="primary" title="Events Approved" :statistic="statistics.eventsApprovedCount" icon="checkbox-marked-circle-outline"></statistic-card>
       <statistic-card background="danger" title="Events Not Approved" :statistic="statistics.eventsNotApprovedCount" icon="progress-alert"></statistic-card>
       <statistic-card background="secondary" title="Tickets Booked" :statistic="statistics.ticketsBooked" icon="ticket-confirmation-outline"></statistic-card>
       <statistic-card background="info" title="Total Events" :statistic="statistics.totalEvents" icon="calendar-text-outline"></statistic-card>
     </div>
     <div class="dashboard__home-chart mb-6" v-if="bookingsChartLabels && bookingsChartData">
-      <h3 class="is-size-5 has-text-light mb-4">Bookings of last {{ bookingsChartData.length }} upcoming events:</h3>
-      <bookings-chart :labels="bookingsChartLabels" :data="bookingsChartData"></bookings-chart>
+      <h3 class="is-size-5-desktop is-size-6 has-text-light mb-4">Bookings of last {{ bookingsChartData.length }} upcoming events:</h3>
+      <div style="position: relative;">
+        <bookings-chart :labels="bookingsChartLabels" :data="bookingsChartData"></bookings-chart>
+      </div>
     </div>
   </div>
 </template>
@@ -22,10 +24,15 @@ export default {
 
   data() {
     return {
-      statistics: null,
+      statistics: {
+        eventsApprovedCount: 6,
+        eventsNotApprovedCount: 1,
+        ticketsBooked: 11,
+        totalEvents: 7,
+      },
 
-      bookingsChartLabels: null,
-      bookingsChartData: null,
+      bookingsChartLabels: ['New Event created here', 'Best Web Technologies in 2021', 'Ethical Hacking', 'Get better at eating'],
+      bookingsChartData: [0, 8, 0, 0],
     };
   },
 
@@ -57,11 +64,12 @@ export default {
       });
       this.bookingsChartLabels = data.map((event) => event.title);
       this.bookingsChartData = data.map((event) => event.seats);
+      console.log(this.bookingsChartLabels, this.bookingsChartData);
     },
   },
 
   created() {
-    this.getStatistics();
+    // this.getStatistics();
   },
 
 };
@@ -69,7 +77,16 @@ export default {
 
 <style lang="scss">
 .statistic-card {
-  min-width: 210px;
+  width: 210px;
+}
+
+@media only screen and (max-width: 768px) {
+  .statistic-cards {
+    flex-wrap: wrap;
+    .statistic-card {
+      margin-bottom: 1rem !important;
+    }
+  }
 }
 
 .dashboard__home-chart {

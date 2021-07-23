@@ -17,14 +17,14 @@
       <div class="line has-background-grey mb-5"></div>
 
       <div class="footer-copy">
-        <div class="footer-nav is-flex is-align-items-center is-justify-content-space-between">
+        <div class="footer-nav is-flex is-align-items-center is-justify-content-center">
           <div class="is-flex is-align-items-center">
-            <p class="is-size-6-desktop is-size-7 has-text-white has-text-weight-medium mr-1">
+            <p class="is-size-7 has-text-white has-text-weight-medium mr-1">
               Made by
-              <a href="https://www.github.com/marwaneahansal" target="_blank" class="has-text-primary">marwane ahansal</a>
+              <a href="https://www.marwaneahansal.com" target="_blank" class="has-text-primary">marwane ahansal</a>
                with
             </p>
-            <box-icon type='solid' name='heart' color="red"></box-icon>
+            <box-icon type='solid' name='heart' color="red" size="17px"></box-icon>
           </div>
         </div>
       </div>

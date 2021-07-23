@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <div class="login-wrapper">
-      <div class="login--illustration is-flex is-justify-content-center">
+      <div class="login--illustration is-flex is-justify-content-center is-hidden-mobile">
         <img src="../assets/images/login.svg" alt="login illustration">
       </div>
       <div class="login--form px-4 py-5 is-flex is-flex-direction-column is-justify-content-center">
@@ -22,7 +22,7 @@
 
           <button class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold is-align-self-center mt-5" @click="login">Login</button>
 
-          <p class="mt-3">Don't have an account yet! <a @click="$router.push({ name: 'Register'})" class="has-text-info has-text-weight-semibold">Register Now</a> </p>
+          <p class="mt-3 has-text-centered">Don't have an account yet! <a @click="$router.push({ name: 'Register'})" class="has-text-info has-text-weight-semibold">Register Now</a> </p>
         </div>
       </div>
     </div>
@@ -157,6 +157,35 @@ export default {
       }
     }
 
+  }
+
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+  #login {
+    width: 90% !important;
+    padding-top: 2rem;
+
+    .login-wrapper {
+      width: 100% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #login {
+    width: 95% !important;
+    padding-top: 2rem !important;
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    .login-wrapper {
+      grid-template-columns: 1fr !important;
+      margin: 0 auto;
+    }
+    .login--form {
+      border-radius: 8px !important;
+    }
   }
 
 }

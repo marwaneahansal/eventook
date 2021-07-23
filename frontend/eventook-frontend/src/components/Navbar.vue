@@ -9,16 +9,16 @@
 							</b-navbar-item>
 					</template>
 					<template #end>
-							<b-navbar-item class="has-text-white has-text-weight-medium-desktop" @click="$router.push({ name: 'Home'}).catch(() => { })">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Home'}).catch(() => { })">
 									Home
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium-desktop" @click="$router.push({ name: 'Events' }).catch(() => { })">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'Events' }).catch(() => { })">
 									Events
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium-desktop" @click="$router.push({ name: 'About'}).catch(() => { })">
+							<b-navbar-item class="has-text-white has-text-weight-medium" @click="$router.push({ name: 'About'}).catch(() => { })">
 									About us
 							</b-navbar-item>
-							<b-navbar-item class="has-text-white has-text-weight-medium-desktop">
+							<b-navbar-item class="has-text-white has-text-weight-medium">
 									Contact
 							</b-navbar-item>
 							<div class="is-flex-desktop" v-if="!isLoggedIn">

@@ -18,7 +18,7 @@
           <router-link to="/">
             <h1
               tag="router-link"
-              class="is-size-3 has-text-white has-text-weight-medium has-text-centered logo mb-4"
+              class="is-size-3-desktop is-size-7 has-text-white has-text-weight-medium has-text-centered logo mb-4"
             >
               EVENT<span class="has-text-primary">OOK</span>
             </h1>
@@ -119,6 +119,7 @@ export default {
 @media screen and (max-width: 1023px) {
   .b-sidebar {
     .sidebar-content {
+      width: 80px !important;
       &.is-mini-mobile {
         &:not(.is-mini-expand),
         &.is-mini-expand:not(:hover):not(.is-mini-delayed) {
@@ -178,6 +179,7 @@ export default {
     }
   }
 }
+
 .is-mini-expand {
   .menu-list a {
     white-space: nowrap;
