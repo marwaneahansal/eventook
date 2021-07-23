@@ -1,7 +1,7 @@
 <template>
   <div v-if="event">
     <div class="edit-events__title  mb-5">
-      <h3 class="is-size-4 has-text-light">Edit: {{ event.title }}</h3>
+      <h3 class="is-size-4-desktop is-size-5 has-text-light">Edit: {{ event.title }}</h3>
     </div>
     <div class="edit-events__form is-flex is-flex-direction-column">
       <div class="is-flex is-align-items-center mb-4">
@@ -54,11 +54,11 @@
         </b-field>
       </div>
 
-      <div class="is-flex is-align-items-center mb-6">
-        <b-field label="Maximum Seats" class="mr-2" style="width: 50%;">
+      <div class="seats-image__control is-flex is-align-items-center mb-6">
+        <b-field label="Maximum Seats" class="mr-2">
           <b-numberinput type="is-info" v-model="editedEvent.maxSeats" placeholder="500" :min="1" controls-position="compact" controls-rounded></b-numberinput>
         </b-field>
-        <b-field class="file is-info is-align-self-flex-end"  :class="{'has-name': !!imageFile}" style="width: 50%;">
+        <b-field class="file is-info is-align-self-flex-end"  :class="{'has-name': !!imageFile}">
           <b-upload v-model="imageFile" class="file-label" rounded>
             <span class="file-cta">
               <b-icon class="file-icon" icon="upload"></b-icon>
@@ -90,7 +90,7 @@
       </div>
 
       <div class="is-flex is-flex-grow-1 is-align-items-center mt-5">
-        <b-button type="is-primary" class="mr-4 has-text-black" @click="updateEvent">Save Changes</b-button>
+        <b-button type="is-primary" class="mr-4 has-text-black EditSaveBtn" @click="updateEvent">Save Changes</b-button>
         <b-button type="is-warning" class="has-text-black" @click="resetEvent">Reset</b-button>
       </div>
     </div>
@@ -248,6 +248,12 @@ label {
     margin-bottom: 0 !important;
   }
 
+  .seats-image__control {
+    &>div {
+      width: 50%;
+    }
+  }
+
   .event-tickets-price {
     .ticket-price__dollar {
       height: 100%;
@@ -260,6 +266,52 @@ label {
       font-size: 1.2rem;
     }
   }
+}
 
+@media only screen and (max-width: 768px) {
+  .edit-events__form {
+    div.is-flex {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      .field {
+        width: 95%;
+        margin-right: 0 !important;
+        &:nth-child(1) {
+          margin-bottom: 1rem !important;
+        }
+      }
+    }
+
+    .seats-image__control {
+      &>div {
+        width: 100%;
+      }
+
+      &>div:nth-child(2) {
+        margin-right: 0 !important;
+        margin-top: 1.5rem;
+        margin-left: 0 !important;
+        align-self: flex-start !important;
+      }
+    }
+
+    .event-tickets-price {
+      .field-body {
+        margin-bottom: 1rem;
+      }
+
+      div.is-flex .field:nth-child(1) {
+        margin-bottom: 0 !important;
+      }
+
+      .ticket-price__dollar {
+        height: unset !important;
+      }
+    }
+
+    .EditSaveBtn {
+      margin-bottom: 1rem;
+    }
+  }
 }
 </style>

@@ -56,7 +56,7 @@
         </b-field>
       </div>
 
-      <div class="is-flex is-align-flex-start mb-6">
+      <div class="is-flex is-align-flex-start mb-6 seats-image__control">
         <b-field label="Maximum Seats" class="mr-2" style="width: 50%;">
           <b-numberinput type="is-info" v-model="maxSeats" placeholder="500" :min="1" controls-position="compact" controls-rounded required></b-numberinput>
         </b-field>
@@ -228,6 +228,53 @@ label {
       border: 1px solid rgba(30, 86, 190, .5) !important;
       border-left: none !important;
       font-size: 1.2rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .new-events__form {
+    div.is-flex {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      .field {
+        width: 95%;
+        margin-right: 0 !important;
+        &:nth-child(1) {
+          margin-bottom: 1rem !important;
+        }
+      }
+    }
+
+    .seats-image__control {
+      &>div {
+        width: 100%;
+      }
+
+      &>div:nth-child(2) {
+        margin-right: 0 !important;
+        margin-top: 1.5rem;
+        margin-left: 0 !important;
+        align-self: flex-start !important;
+      }
+    }
+
+    .event-tickets-price {
+      .field-body {
+        margin-bottom: 1rem;
+      }
+
+      div.is-flex .field:nth-child(1) {
+        margin-bottom: 0 !important;
+      }
+
+      .ticket-price__dollar {
+        height: unset !important;
+      }
+    }
+
+    .EditSaveBtn {
+      margin-bottom: 1rem;
     }
   }
 }

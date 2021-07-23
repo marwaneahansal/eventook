@@ -91,5 +91,13 @@
     grid-template-columns: 1fr !important;
     grid-template-rows: repeat(3, 1fr) !important;
     min-height: 500px;
+    width: 70% !important;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 541px) {
+  .coming-up-events {
+    width: 90% !important;
   }
 }

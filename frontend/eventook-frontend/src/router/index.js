@@ -97,10 +97,10 @@ const routes = [
         // this generates a separate chunk (event.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '../views/Dashboard/Home.vue'),
-        // meta: {
-        //   authRequired: true,
-        //   roles: ['admin', 'eventOrganizer'],
-        // },
+        meta: {
+          authRequired: true,
+          roles: ['admin', 'eventOrganizer'],
+        },
       },
       {
         path: '/dashboard/events',

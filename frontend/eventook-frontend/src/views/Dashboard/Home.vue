@@ -78,6 +78,12 @@ export default {
   position: relative;
 }
 
+@media only screen and (max-width: 1216px) {
+  .chart-wrapper {
+    width: 700px !important;
+  }
+}
+
 @media only screen and (min-width: 769px) and (max-width: 1023px) {
   .statistic-cards {
     flex-wrap: wrap;

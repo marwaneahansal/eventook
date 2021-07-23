@@ -120,6 +120,11 @@ export default {
   .b-sidebar {
     .sidebar-content {
       width: 80px !important;
+
+      .logo {
+        font-size: 0.75rem !important;
+      }
+
       &.is-mini-mobile {
         &:not(.is-mini-expand),
         &.is-mini-expand:not(:hover):not(.is-mini-delayed) {

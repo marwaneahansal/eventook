@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard-events" v-if="events" >
     <div class="dashboard-events__title mb-6 is-flex is-align-items-center is-justify-content-space-between">
-      <h3 class="is-size-4 has-text-light" v-if="userRole === 'eventOrganizer'">Events Organized by you:</h3>
-      <h3 class="is-size-4 has-text-light" v-if="userRole === 'admin'">All Events:</h3>
+      <h3 class="is-size-4-desktop is-size-5 has-text-light" v-if="userRole === 'eventOrganizer'">Events Organized by you:</h3>
+      <h3 class="is-size-4-desktop is-size-5 has-text-light" v-if="userRole === 'admin'">All Events:</h3>
       <b-button type="is-info" icon-left="plus" v-if="userRole === 'eventOrganizer'" @click="newEvent">New Event</b-button>
     </div>
 
@@ -211,5 +211,38 @@ export default {
   width: fit-content;
   background: transparent !important;
   height: auto !important;
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+  .dashboard-events__events {
+    column-gap: 3rem !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .dashboard-events__events {
+    column-gap: 3rem !important;
+    grid-template-columns: 1fr !important;
+    width: 70% !important;
+    margin: 0 auto;
+  }
+
+  .dashboard-events__title {
+    flex-direction: column !important;
+    h3 {
+      align-self: flex-start;
+    }
+    button {
+      margin-top: 1.5rem;
+      align-self: flex-end;
+    }
+  }
+}
+
+@media only screen and (max-width: 541px) {
+  .dashboard-events__events {
+    width: 90% !important;
+  }
 }
 </style>
