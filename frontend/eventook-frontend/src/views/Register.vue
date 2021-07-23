@@ -39,10 +39,10 @@
 
           <button class="button is-primary is-meduim has-text-black is-uppercase has-text-weight-semibold is-align-self-center mt-5" @click="register">Register</button>
 
-          <p class="mt-3">Already <span class="has-text-primary">EVENTOOK</span> memeber! <a @click="$router.push({ name: 'Login' })" class="has-text-info has-text-weight-semibold">Login to your account</a> </p>
+          <p class="mt-3 has-text-centered">Already <span class="has-text-primary">EVENTOOK</span> memeber! <a @click="$router.push({ name: 'Login' })" class="has-text-info has-text-weight-semibold">Login to your account</a> </p>
         </div>
       </div>
-      <div class="register--illustration is-flex is-justify-content-center">
+      <div class="register--illustration is-flex is-justify-content-center is-hidden-mobile is-hidden-tablet">
         <img src="../assets/images/register.svg" alt="register illustration">
       </div>
     </div>
@@ -191,6 +191,36 @@ export default {
 
   .b-checkbox.checkbox[disabled] {
     opacity: 0.9;
+  }
+
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+  #register {
+    width: 90% !important;
+    padding-top: 2rem;
+
+    .register-wrapper {
+      width: 100% !important;
+      grid-template-columns: 1fr !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #register {
+    width: 95% !important;
+    padding-top: 2rem !important;
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    .register-wrapper {
+      grid-template-columns: 1fr !important;
+      margin: 0 auto;
+    }
+    .register--form {
+      border-radius: 8px !important;
+    }
   }
 
 }
