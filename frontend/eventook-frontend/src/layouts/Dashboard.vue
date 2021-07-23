@@ -59,6 +59,12 @@ export default {
   margin: 0 4rem;
 }
 
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+  .full_page__content {
+    margin: 0 1.5rem !important;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .full_page__content {
     margin: 0 .5rem !important;

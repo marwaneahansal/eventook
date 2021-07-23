@@ -116,7 +116,7 @@ export default {
     height: 100%;
   }
 }
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1216px) {
   .b-sidebar {
     .sidebar-content {
       width: 80px !important;

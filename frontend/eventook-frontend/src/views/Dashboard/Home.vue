@@ -8,7 +8,7 @@
     </div>
     <div class="dashboard__home-chart mb-6" v-if="bookingsChartLabels && bookingsChartData">
       <h3 class="is-size-5-desktop is-size-6 has-text-light mb-4">Bookings of last {{ bookingsChartData.length }} upcoming events:</h3>
-      <div style="position: relative;">
+      <div class="chart-wrapper">
         <bookings-chart :labels="bookingsChartLabels" :data="bookingsChartData"></bookings-chart>
       </div>
     </div>
@@ -24,15 +24,10 @@ export default {
 
   data() {
     return {
-      statistics: {
-        eventsApprovedCount: 6,
-        eventsNotApprovedCount: 1,
-        ticketsBooked: 11,
-        totalEvents: 7,
-      },
+      statistics: null,
 
-      bookingsChartLabels: ['New Event created here', 'Best Web Technologies in 2021', 'Ethical Hacking', 'Get better at eating'],
-      bookingsChartData: [0, 8, 0, 0],
+      bookingsChartLabels: null,
+      bookingsChartData: null,
     };
   },
 
@@ -64,12 +59,11 @@ export default {
       });
       this.bookingsChartLabels = data.map((event) => event.title);
       this.bookingsChartData = data.map((event) => event.seats);
-      console.log(this.bookingsChartLabels, this.bookingsChartData);
     },
   },
 
   created() {
-    // this.getStatistics();
+    this.getStatistics();
   },
 
 };
@@ -80,12 +74,33 @@ export default {
   width: 210px;
 }
 
-@media only screen and (max-width: 768px) {
+.chart-wrapper {
+  position: relative;
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
   .statistic-cards {
     flex-wrap: wrap;
     .statistic-card {
       margin-bottom: 1rem !important;
     }
+  }
+
+  .chart-wrapper {
+    width: 500px !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .statistic-cards {
+    flex-wrap: wrap;
+    justify-content: space-around !important;
+    .statistic-card {
+      margin-bottom: 1rem !important;
+    }
+  }
+  .dashboard__home-chart {
+    display: none;
   }
 }
 
