@@ -118,9 +118,9 @@ exports.findOne = async (req, res) => {
 exports.findEventsByRole = async (req, res) => {
   try  {
     let Events;
-    if (req.session.user.isAdmin) Events = await Event.findAll({ order: [ ['eventDateStart', 'ASC' ] ] });
+    if (req.session.user.isAdmin) Events = await Event.findAll({ order: [ ['createdAt', 'DESC' ] ] });
 
-    else Events = await Event.findAll({ where: { Organizer: req.session.user.uuid }, order: [ ['eventDateStart', 'ASC' ] ] });
+    else Events = await Event.findAll({ where: { Organizer: req.session.user.uuid }, order: [ ['createdAt', 'DESC' ] ] });
 
     res.status(200).send({ success: true, Events });
   } catch (err) {

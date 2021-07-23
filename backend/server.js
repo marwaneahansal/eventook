@@ -1,7 +1,14 @@
 const express = require('express');
+const { Sequelize } = require('./app/models');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+
+const sequelizeSession = new Sequelize('eventook', 'root', 'root', {
+  dialect: 'mysql',
+})
 
 require('dotenv').config();
 
@@ -21,12 +28,17 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
+require('./app/models/session');
 app.use(
   session({
     key: "user_sid",
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized:false,
+    store: new SequelizeStore({
+      db: sequelizeSession,
+      // table: 'Session',
+    }),
     cookie: {
       expires: 1000 * 60 * 60 * 24,
     },
@@ -45,6 +57,7 @@ app.use((req, res, next) => {
 // Routes
 const userRoutes = require('./app/routes/user.routes');
 const eventRoutes = require('./app/routes/event.router');
+
 
 app.use('/api/users', userRoutes);
 
