@@ -7,7 +7,7 @@ import store from './store/index';
 
 import 'boxicons';
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 Vue.use(Buefy);
 
