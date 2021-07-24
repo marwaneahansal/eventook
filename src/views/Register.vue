@@ -5,6 +5,9 @@
         <h2 class="is-size-4 has-text-weight-bold has-text-centered">Welcome aboard 👨‍✈️!</h2>
         <p class="has-text-centered">Register to be able to create events</p>
         <p class="is-size-5 has-text-danger has-text-centered mt-2" v-if="registerError">{{ registerError }}</p>
+        <div class="mt-2" v-if="validationErrors">
+          <p v-for="(err, index) in validationErrors" :key="index" class="has-text-danger has-text-centered mb-2">{{ err }}</p>
+        </div>
 
         <div class="is-flex is-flex-direction-column is-align-items-center my-6 px-4">
           <div class="register-input">
@@ -63,6 +66,8 @@ export default {
       formErrors: {},
 
       registerError: null,
+
+      validationErrors: null,
     };
   },
 
@@ -83,6 +88,7 @@ export default {
       if (this.password && this.confirmPassword && this.password !== this.confirmPassword) this.formErrors.confirmPassword = 'Password and Password confirmation needs to be the same';
     },
     register() {
+      this.validationErrors = null;
       this.registerError = null;
       this.formErrors = {};
       this.validateForm();
@@ -121,6 +127,9 @@ export default {
               position: 'is-bottom-right',
               type: 'is-danger',
             });
+            if (err.response.status === 412) {
+              this.validationErrors = Object.keys(err.response.data.errors).map((error) => err.response.data.errors[error][0]);
+            }
           });
       }
     },
