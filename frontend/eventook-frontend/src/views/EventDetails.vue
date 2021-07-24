@@ -42,7 +42,7 @@
         </div>
         <div class="event-description-thumbnail">
           <b-image
-            :src="`http://localhost:8000/api/events/images/${event.uid}`"
+            :src="imageUrl"
             :src-fallback="require('@/assets/images/event02.jpg')"
             :alt="event.title">
           </b-image>
@@ -145,6 +145,9 @@ export default {
     },
     isEventEnded() {
       return differenceInSeconds(parseISO(this.event.eventDateStart), new Date()) < 0;
+    },
+    imageUrl() {
+      return process.env.NODE_ENV === 'production' ? `/api/events/images/${this.event.uid}` : `${process.env.VUE_APP_BACKEND_URL}/api/events/images/${this.event.uid}`;
     },
   },
 
