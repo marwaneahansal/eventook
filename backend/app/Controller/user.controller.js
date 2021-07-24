@@ -153,6 +153,8 @@ exports.getDashboardStatistics = async (req, res) => {
 
     const totalEvents = eventsApprovedCount + eventsNotApprovedCount;
 
+    ticketsBooked = ticketsBooked ? ticketsBooked : 0;
+
     res.status(200).send({ success: true, statistics: { eventsApprovedCount, eventsNotApprovedCount, ticketsBooked, totalEvents, lastEvents } });
   } catch (err) {
     res.status(500).send({success: false, message: err.message || "Ooops, some error occured. Please try again!"});

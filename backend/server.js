@@ -19,6 +19,7 @@ const app = express();
 let corsOptions = {
   origin: process.env.FRONTEND_URL,
   credentials: true,
+  exposedHeaders: ['set-cookie'],
 }
 
 app.use(cors(corsOptions));
@@ -29,21 +30,27 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-app.use(
-  session({
-    key: "user_sid",
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized:false,
-    store: new SequelizeStore({
-      db: sequelizeSession,
-    }),
-    cookie: {
-      expires: 1000 * 60 * 60 * 24,
-      secure: process.env.NODE_ENV == 'production'
-    },
-  })
-);
+
+let sessionObject = {
+  key: "user_sid",
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized:false,
+  store: new SequelizeStore({
+    db: sequelizeSession,
+  }),
+  cookie: {
+    expires: 1000 * 60 * 60 * 24,
+  },
+}
+
+if (process.env.NODE_ENV === 'production') {
+  app.set("trust proxy", 1);
+  session.cookie.secure = true;
+  session.cookie.sameSite = 'none';
+}
+
+app.use(session(sessionObject));
 
 
 // remove cookie if session is not valid
