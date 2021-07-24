@@ -46,8 +46,8 @@ let sessionObject = {
 
 if (process.env.NODE_ENV === 'production') {
   app.set("trust proxy", 1);
-  session.cookie.secure = true;
-  session.cookie.sameSite = 'none';
+  sessionObject.cookie.secure = true;
+  sessionObject.cookie.sameSite = 'none';
 }
 
 app.use(session(sessionObject));

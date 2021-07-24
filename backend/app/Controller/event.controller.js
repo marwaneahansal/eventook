@@ -1,5 +1,4 @@
 const db = require('../models');
-const jwt = require('jsonwebtoken');
 const { validationResult, body } = require('express-validator');
 const path = require("path");
 const { Op } = require('sequelize');
@@ -87,7 +86,7 @@ exports.findAll = async (req, res) => {
 
 exports.findLatestThree = async (req, res) => {
   try {
-    const events = await Event.findAll({ where: { approved: true }, limit: 3, order: [ ['eventDateStart', 'ASC']]});
+    const events = await Event.findAll({ where: { approved: true, eventDateStart: { [Op.gt]: new Date() }  }, limit: 3, order: [ ['eventDateStart', 'ASC']]});
 
     res.status(200).send({ success: true, events });
   } catch (err) {
@@ -189,11 +188,11 @@ exports.delete = async (req, res) => {
 
     if(!user.isEventOrganizer) return res.status(401).send({ success: false, message: 'Unauthorized' });
 
-    const event = await Event.findByPk(req.params.eventId);
+    const event = await Event.findOne({ where: { uid: req.params.eventId }, include: EventTickets });
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
 
-    if(event.approved) return res.status(401).send({ success: false, message: "You can't delete this event because it's approved!" });
+    if(event.approved && new Date(event.eventDateStart) > new Date()) return res.status(401).send({ success: false, message: "You can't delete this event because it's approved!" });
 
     if(event.Organizer !== userUuid) return res.status(401).send({ success: false, message: "You can't delete this event" });
 
@@ -221,6 +220,10 @@ exports.approveEvent = async (req, res) => {
     const event = await Event.findByPk(req.params.eventId);
 
     if(event === null) return res.status(404).send({ success: false, message: 'Event not found!' });
+
+    if(event.approved) return res.status(200).send({ success: false, message: 'Event Is Aleardy approved!' });
+
+    if(new Date(event.eventDateStart) < new Date()) return res.status(200).send({ success: false, message: 'Event Is Ended!' });
 
     await event.update({ approved: true });
 
