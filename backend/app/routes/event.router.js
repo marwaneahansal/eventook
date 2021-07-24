@@ -1,8 +1,8 @@
 
 const eventsController = require('../Controller/event.controller');
-const { body } = require('express-validator');
 const authenticationHandler = require('../middelwares/authentication.middelware');
 const imageUpload = require('../middelwares/imageUpload.middelware');
+const { createUpdateValidation, bookingValidation } = require('../middelwares/events-validation.middelware');
 
 
 let router = require('express').Router();
@@ -15,24 +15,15 @@ router.get('/:eventId', eventsController.findOne);
 
 router.get('/dashboard/events', authenticationHandler, eventsController.findEventsByRole);
 
-router.put('/:eventId', [authenticationHandler, imageUpload.single('mainImageFile')], eventsController.update);
+router.put(
+  '/:eventId',
+  [authenticationHandler, imageUpload.single('mainImageFile'), createUpdateValidation],
+  eventsController.update
+);
 
-
-
-// body('title').isString(),
-// body('country').isString(),
-// body('city').isString(),
-// body('adresse').isString(),
-// body('eventDateStart').isString(),
-// body('eventDateEnd').isString(),
-// body('maxSeats').isInt(),
-// body('description').isString(),
-// body('standardTicket').isNumeric(),
-// body('premiumTicket').isNumeric(),
-// body('vipTicket').isNumeric(),
 router.post(
   '/',
-  [authenticationHandler, imageUpload.single('mainImageFile')],
+  [authenticationHandler, imageUpload.single('mainImageFile'), createUpdateValidation],
   eventsController.create);
 
 router.delete('/:eventId', authenticationHandler, eventsController.delete);
@@ -41,10 +32,7 @@ router.put('/approve/:eventId', authenticationHandler, eventsController.approveE
 
 router.post(
   '/booking/:eventUid',
-  body('eventTicketId').isString(),
-  body('fullName').isString(),
-  body('email').isEmail(),
-  body('seats').isInt(),
+  bookingValidation,
   eventsController.bookTicket
 );
 

@@ -7,6 +7,9 @@
       <div class="login--form px-4 py-5 is-flex is-flex-direction-column is-justify-content-center">
         <h2 class="is-size-4 has-text-weight-bold has-text-centered">Welcome Back 👨‍✈️!</h2>
         <p class="is-size-5 has-text-danger has-text-centered mt-2" v-if="loginError">{{ loginError }}</p>
+        <div class="mt-2" v-if="validationErrors">
+          <p v-for="(err, index) in validationErrors" :key="index" class="has-text-danger has-text-centered mb-2">{{ err }}</p>
+        </div>
 
         <div class="is-flex is-flex-direction-column is-align-items-center my-6">
           <div class="login-input">
@@ -41,6 +44,8 @@ export default {
       formErrors: {},
 
       loginError: null,
+
+      validationErrors: null,
     };
   },
 
@@ -55,6 +60,7 @@ export default {
       if (!this.password) this.formErrors.password = 'Password is required';
     },
     login() {
+      this.validationErrors = null;
       this.loginError = null;
       this.formErrors = {};
       this.validateForm();
@@ -92,6 +98,9 @@ export default {
               position: 'is-bottom-right',
               type: 'is-danger',
             });
+            if (err.response.status === 412) {
+              this.validationErrors = Object.keys(err.response.data.errors).map((error) => err.response.data.errors[error][0]);
+            }
           });
       }
     },

@@ -167,6 +167,9 @@
           </div>
 
           <p class="has-text-centred" v-if="formErrors.selectedTicket">{{ formErrors.selectedTicket }}</p>
+          <div class="mt-2" v-if="validationErrors">
+            <p v-for="(err, index) in validationErrors" :key="index" class="has-text-danger has-text-centered mb-2">{{ err }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -220,6 +223,8 @@ export default {
       ],
       selectedTicket: 2,
       vat: 20,
+
+      validationErrors: null,
     };
   },
 
@@ -313,6 +318,7 @@ export default {
     },
     bookTicket() {
       this.formErrors = {};
+      this.validationErrors = null;
 
       if (this.isEventEnded) {
         this.$buefy.notification.open({
@@ -361,6 +367,9 @@ export default {
             position: 'is-bottom-right',
             type: 'is-danger',
           });
+          if (err.response.status === 412) {
+            this.validationErrors = Object.keys(err.response.data.errors).map((error) => err.response.data.errors[error][0]);
+          }
         });
       }
     },

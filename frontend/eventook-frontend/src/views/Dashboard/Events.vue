@@ -96,7 +96,7 @@ export default {
       axios.delete(`events/${eventUid}`)
         .then((res) => {
           loadingComponent.close();
-          this.events = res.data.Events;
+          this.getEvents();
           this.$buefy.notification.open({
             duration: 5000,
             message: res.data.message,
@@ -130,7 +130,7 @@ export default {
         .then((res) => {
           loadingComponent.close();
           if (res.data.success === true) {
-            this.events = res.data.events;
+            this.getEvents();
             this.$buefy.notification.open({
               duration: 5000,
               message: res.data.message,

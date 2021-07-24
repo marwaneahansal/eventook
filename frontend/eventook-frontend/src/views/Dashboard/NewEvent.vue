@@ -52,7 +52,7 @@
 
       <div class="is-flex is-align-flex-start">
         <b-field label="Description" class=" mr-4">
-          <b-input maxlength="300" type="textarea" v-model="description" required></b-input>
+          <b-input type="textarea" v-model="description" required></b-input>
         </b-field>
       </div>
 
@@ -95,6 +95,10 @@
     <div class="is-flex  is-align-items-center mt-5">
       <b-button type="is-primary" size="is-medium" class="mr-4 has-text-black" :disabled="!isFormValid" @click="addEvent">Create Event</b-button>
     </div>
+
+    <div class="mt-2" v-if="validationErrors">
+      <p v-for="(err, index) in validationErrors" :key="index" class="has-text-danger mb-2">{{ err }}</p>
+    </div>
   </div>
 </template>
 
@@ -120,6 +124,8 @@ export default {
       showWeekNumber: false,
       enableSeconds: false,
       hourFormat: '12',
+
+      validationErrors: null,
     };
   },
 
@@ -132,6 +138,7 @@ export default {
 
   methods: {
     addEvent() {
+      this.validationErrors = null;
       if (!this.isFormValid) {
         this.$buefy.notification.open({
           duration: 5000,
@@ -180,6 +187,10 @@ export default {
             position: 'is-bottom-right',
             type: 'is-danger',
           });
+
+          if (err.response.status === 412) {
+            this.validationErrors = Object.keys(err.response.data.errors).map((error) => err.response.data.errors[error][0]);
+          }
         });
     },
   },
