@@ -26,7 +26,7 @@
             <b-button icon-left="delete-outline" class="is-size-5 delete-button is-flex-grow-1" type="is-danger is-light" @click="deleteEventDialog(event.uid)">Delete</b-button>
           </div>
           <div class="is-flex" v-if="userRole === 'admin'">
-            <b-button icon-left="check-underline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="approveEventDialog(event.uid)">Approve Event</b-button>
+            <b-button icon-left="check-underline" class="is-size-5 edit-button is-flex-grow-1" type="is-info is-light" @click="approveEventDialog(event.uid)" :disabled="event.approved">Approve Event</b-button>
           </div>
         </template>
       </event-card>
@@ -129,13 +129,22 @@ export default {
       axios.put(`events/approve/${eventUid}`)
         .then((res) => {
           loadingComponent.close();
-          this.events = res.data.events;
-          this.$buefy.notification.open({
-            duration: 5000,
-            message: res.data.message,
-            position: 'is-bottom-right',
-            type: 'is-success',
-          });
+          if (res.data.success === true) {
+            this.events = res.data.events;
+            this.$buefy.notification.open({
+              duration: 5000,
+              message: res.data.message,
+              position: 'is-bottom-right',
+              type: 'is-success',
+            });
+          } else {
+            this.$buefy.notification.open({
+              duration: 5000,
+              message: res.data.message || 'Ooops Something bad happend!',
+              position: 'is-bottom-right',
+              type: 'is-warning',
+            });
+          }
         }).catch((err) => {
           loadingComponent.close();
           this.$buefy.notification.open({
