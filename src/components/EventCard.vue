@@ -3,7 +3,7 @@
     <div class="event-wrapper_container is-flex is-flex-direction-column is-flex-grow-1" @click="$router.push({ name: 'EventDetails', params: { id: event.uid }})">
       <div class="event-header">
         <b-image
-          :src="`http://localhost:8000/api/events/images/${event.uid}`"
+          :src="`${process.env.VUE_APP_BACKEND_URL}/api/events/images/${event.uid}`"
           :src-fallback="require('@/assets/images/event02.jpg')"
           :alt="event.title">
         </b-image>
