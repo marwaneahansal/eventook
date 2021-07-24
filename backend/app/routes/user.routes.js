@@ -1,6 +1,5 @@
 
 const usersController = require('../Controller/user.controller');
-const { body } = require('express-validator');
 const authenticationHandler = require('../middelwares/authentication.middelware');
 const { loginValidation, registerValidation } = require('../middelwares/users-validation.middelware');
 

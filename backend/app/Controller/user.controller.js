@@ -1,8 +1,6 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('../models');
 
-const { validationResult } = require('express-validator');
 
 
 const User = db.User;
@@ -13,11 +11,6 @@ const EventBookings = db.EventBookings;
 exports.register = async (req, res) => {
 
   try {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) return res.status(400).send({ success: false, errors: errors.mapped() });
-
-
-
     const tempUser = await User.findOne({ where: { email: req.body.email }});
 
     if(tempUser !== null) return res.status(200).send({ success: false, message: "Email already in use!" });
@@ -50,9 +43,6 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) res.status(400).send({ success: false, errors: errors.mapped() });
-
     const user = await User.findOne({ where: { email: req.body.email }});
 
     if(user === null) return res.status(200).send({ success: false, message: "Email OR password wrong!"});
