@@ -6,9 +6,10 @@ const session = require('express-session');
 
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
-const sequelizeSession = new Sequelize('eventook', 'root', 'root', {
-  dialect: 'mysql',
-})
+const sequelizeSession = new Sequelize(process.env.SESSIONS_DATABASE, process.env.SESSIONS_DB_USER, process.env.SESSIONS_DB_PASSWORD, {
+  host: process.env.SESSIONS_DB_HOST,
+  dialect: process.env.SESSIONS_DB_DIALECT,
+});
 
 require('dotenv').config();
 
@@ -16,7 +17,7 @@ const app = express();
 
 
 let corsOptions = {
-  origin: 'http://localhost:8080',
+  origin: process.env.FRONTEND_URL,
   credentials: true,
 }
 
@@ -28,7 +29,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-require('./app/models/session');
 app.use(
   session({
     key: "user_sid",
@@ -37,10 +37,10 @@ app.use(
     saveUninitialized:false,
     store: new SequelizeStore({
       db: sequelizeSession,
-      // table: 'Session',
     }),
     cookie: {
       expires: 1000 * 60 * 60 * 24,
+      secure: process.env.NODE_ENV == 'production'
     },
   })
 );
