@@ -6,12 +6,16 @@
       </div>
       <div class="login--form px-4 py-5 is-flex is-flex-direction-column is-justify-content-center">
         <h2 class="is-size-4 has-text-weight-bold has-text-centered">Welcome Back 👨‍✈️!</h2>
+
+        <p class="has-text-light mt-4">Admin Account: admin@eventook.com | password</p>
+        <p class="has-text-light mt-2">Event Organizer Account: macklemore@email.com | password</p>
+
         <p class="is-size-5 has-text-danger has-text-centered mt-2" v-if="loginError">{{ loginError }}</p>
         <div class="mt-2" v-if="validationErrors">
           <p v-for="(err, index) in validationErrors" :key="index" class="has-text-danger has-text-centered mb-2">{{ err }}</p>
         </div>
 
-        <div class="is-flex is-flex-direction-column is-align-items-center my-6">
+        <div class="is-flex is-flex-direction-column is-align-items-center mt-5 mb-6">
           <div class="login-input">
             <label for="email">Email</label>
             <input class="input my-2" type="email" placeholder="johndoe@email.com" id="email" v-model="email" :class="{'input-error': formErrors.email}">

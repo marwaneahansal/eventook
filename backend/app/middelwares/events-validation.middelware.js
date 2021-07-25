@@ -29,7 +29,7 @@ createUpdateValidation = (req, res, next) => {
 
 bookingValidation = (req, res, next) => {
   const validationsRules = {
-    'eventTicketId': 'required|string',
+    'eventTicketId': 'required|integer',
     'fullName': 'required|string',
     'email': 'required|email',
     'seats': 'required|integer'

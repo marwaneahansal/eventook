@@ -16,6 +16,7 @@ require('dotenv').config();
 
 const app = express();
 
+app.disable('etag');
 
 let corsOptions = {
   origin: process.env.FRONTEND_URL,
@@ -77,8 +78,6 @@ const eventRoutes = require('./app/routes/event.router');
 app.use('/api/users', userRoutes);
 
 app.use('/api/events', eventRoutes);
-
-
 
 app.get('/', (req, res) => {
   res.send('Welcome to EVENTOOK API!');

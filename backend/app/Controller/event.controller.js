@@ -11,10 +11,6 @@ const EventBookings = db.EventBookings;
 
 exports.create = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) res.status(400).send({ success: false, message: 'Validation Error',errors: errors.mapped() });
-
-
     const userUuid = req.session.user.uuid;
     const user = await User.findByPk(userUuid);
 
