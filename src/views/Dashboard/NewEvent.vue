@@ -52,7 +52,7 @@
 
       <div class="is-flex is-align-flex-start">
         <b-field label="Description" class=" mr-4">
-          <b-input type="textarea" v-model="description" required></b-input>
+          <b-input minlength="10" maxlength="300" type="textarea" v-model="description" required></b-input>
         </b-field>
       </div>
 
