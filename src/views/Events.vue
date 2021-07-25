@@ -59,7 +59,6 @@ export default {
           this.events.push(...res.data.events.filter((ev) => new Date(ev.eventDateStart) < new Date()));
           loadingComponent.close();
         }).catch((err) => {
-          console.log(err);
           loadingComponent.close();
           this.$buefy.notification.open({
             duration: 5000,
