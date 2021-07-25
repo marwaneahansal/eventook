@@ -55,7 +55,8 @@ export default {
       const loadingComponent = this.$buefy.loading.open();
       this.$store.dispatch('getAllEvents')
         .then((res) => {
-          this.events = res.data.events;
+          this.events = res.data.events.filter((ev) => new Date(ev.eventDateStart) > new Date());
+          this.events.push(...res.data.events.filter((ev) => new Date(ev.eventDateStart) < new Date()));
           loadingComponent.close();
         }).catch((err) => {
           loadingComponent.close();

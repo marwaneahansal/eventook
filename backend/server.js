@@ -3,6 +3,7 @@ const { Sequelize } = require('./app/models');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const rateLimit = require("express-rate-limit");
 
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
@@ -51,6 +52,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(session(sessionObject));
+
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 200
+});
+
+app.use(limiter);
 
 
 // remove cookie if session is not valid

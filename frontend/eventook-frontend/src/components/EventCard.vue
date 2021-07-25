@@ -16,6 +16,7 @@
         <p class="is-size-5 truncate">{{ event.title }}</p>
         <div class="event-tags is-flex">
           <b-tag type="is-danger" class="mr-3" v-if="isEventEnded">Ended</b-tag>
+          <b-tag type="is-success" class="mr-3" v-else style="visibility: hidden;">Coming Up</b-tag>
           <slot name="approve-state"></slot>
         </div>
       </div>
