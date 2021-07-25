@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+// eslint-disable-next-line
 import store from '@/store';
 
 Vue.use(VueRouter);
@@ -78,6 +79,14 @@ const routes = [
         // this generates a separate chunk (event.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "not-found" */ '../views/NotFound.vue'),
+      },
+      {
+        path: '/too-many-requests',
+        name: 'tooManyRequests',
+        // route level code-splitting
+        // this generates a separate chunk (event.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "too-many-requests" */ '../views/TooManyRequests.vue'),
       },
     ],
   },
