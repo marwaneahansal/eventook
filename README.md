@@ -1,6 +1,6 @@
 # EVENTOOK
 
-eventook is a system for booking tickets for events all around the world.
+A minimal web application for people to browse upcoming events and book tickets. It also allow events organizers to create their events and track bookings.
 
 [Live Demo](https://eventook.netlify.app/)
 
