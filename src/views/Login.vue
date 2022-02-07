@@ -7,8 +7,8 @@
       <div class="login--form px-4 py-5 is-flex is-flex-direction-column is-justify-content-center">
         <h2 class="is-size-4 has-text-weight-bold has-text-centered">Welcome Back 👨‍✈️!</h2>
 
-        <p class="has-text-light mt-4">Admin Account: admin@eventook.com | password</p>
-        <p class="has-text-light mt-2">Event Organizer Account: macklemore@email.com | password</p>
+        <!-- <p class="has-text-light mt-4">Admin Account: admin@eventook.com | password</p> -->
+        <!-- <p class="has-text-light mt-2">Event Organizer Account: macklemore@email.com | password</p> -->
 
         <p class="is-size-5 has-text-danger has-text-centered mt-2" v-if="loginError">{{ loginError }}</p>
         <div class="mt-2" v-if="validationErrors">
